@@ -23,6 +23,7 @@ firebaseFirestoreKtx = "25.1.4"
 firebaseCrashlyticsBuildtools = "3.0.3"
 
 glide = "4.16.0"
+circleimageview = "3.1.0"
 
 kotlinxCoroutinesAndroid = "1.7.3"
 kotlinxCoroutinesCoreVersion = "1.7.3"
@@ -52,6 +53,7 @@ firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-fires
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+circleimageview = { group = "de.hdodenhof", name = "circleimageview", version.ref = "circleimageview" }
 
 
 jetbrains-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCoreVersion" }
@@ -60,4 +62,3 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-

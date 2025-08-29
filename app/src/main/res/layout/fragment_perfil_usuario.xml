@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userProfileImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -28,7 +28,10 @@
         app:layout_constraintTop_toBottomOf="@id/textCadastroUsuarioTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="Foto de perfil"/>
+        android:contentDescription="Foto de perfil"
+        android:src="@drawable/ic_launcher_background" 
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"/>
 
 
     <EditText

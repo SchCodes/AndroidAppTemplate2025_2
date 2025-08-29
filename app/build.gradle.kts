@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.firebase.crashlytics.buildtools)
 
     implementation(libs.glide)
+    implementation(libs.circleimageview)
 
     implementation(libs.jetbrains.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
