@@ -1,6 +1,40 @@
 <resources>
-    <string name="app_name">AndroidAppTemplate</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">Lotofácil Stats</string>
+    
+    <!-- Títulos de navegação -->
+    <string name="title_home">Início</string>
+    <string name="title_estatisticas">Estatísticas</string>
+    <string name="title_historico">Histórico</string>
+    <string name="title_admin">Admin</string>
+    <string name="title_settings">Configurações</string>
+    <string name="title_about">Sobre</string>
+    
+    <!-- Menu drawer -->
+    <string name="menu_other">Outros</string>
+    <string name="nav_header_desc">Header do menu lateral</string>
+    <string name="nav_header_subtitle">Análise estatística da Lotofácil</string>
+    
+    <!-- Tela principal -->
+    <string name="ultimo_resultado">Último Resultado</string>
+    <string name="proximo_sorteio">Próximo Sorteio</string>
+    <string name="estatisticas_rapidas">Estatísticas Rápidas</string>
+    <string name="numeros_mais_sorteados">Números Mais Sorteados</string>
+    <string name="numeros_menos_sorteados">Números Menos Sorteados</string>
+    <string name="total_sorteios">Total Sorteios</string>
+    <string name="media">Média</string>
+    <string name="atualizar_dados">Atualizar Dados</string>
+    <string name="web_scraping">Web Scraping</string>
+    
+    <!-- Mensagens -->
+    <string name="erro_carregar_dados">Erro ao carregar dados</string>
+    <string name="erro_sincronizacao">Erro na sincronização</string>
+    <string name="erro_web_scraping">Erro no web scraping</string>
+    <string name="dados_atualizados">Dados atualizados com sucesso</string>
+    
+    <!-- Placeholders -->
+    <string name="concurso_placeholder">Concurso: --</string>
+    <string name="data_placeholder">Data: --</string>
+    <string name="proximo_sorteio_placeholder">--</string>
+    <string name="total_placeholder">--</string>
+    <string name="media_placeholder">--</string>
 </resources>

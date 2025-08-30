@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    id("com.chaquo.python") // Plugin para executar Python no Android
 }
 
 android {
@@ -16,6 +17,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        
+        // Configuração do Chaquopy para Python
+        ndk {
+            abiFilters("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+        }
     }
 
     buildTypes {
@@ -39,6 +45,21 @@ android {
 
     buildFeatures {
         viewBinding = true
+    }
+    
+    // Configuração do Chaquopy
+    chaquopy {
+        defaultConfig {
+            version = "3.11"
+            pip {
+                install("pandas")
+                install("numpy")
+                install("openpyxl")
+                install("selenium")
+                install("requests")
+                install("beautifulsoup4")
+            }
+        }
     }
 }
 
@@ -66,6 +87,24 @@ dependencies {
     // Kotlin Coroutines
     implementation(libs.jetbrains.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
+
+    // Room Database
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    
+    // MPAndroidChart para gráficos
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    
+    // Retrofit para comunicação com APIs (se necessário)
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    
+    // Gson para JSON
+    implementation("com.google.code.gson:gson:2.10.1")
+    
+    // WorkManager para tarefas em background
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 
     // Testes
     testImplementation(libs.junit)

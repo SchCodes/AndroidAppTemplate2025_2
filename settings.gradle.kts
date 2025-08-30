@@ -9,6 +9,8 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        // Repositório do Chaquopy
+        maven { url = uri("https://chaquo.com/maven") }
     }
 }
 dependencyResolutionManagement {
@@ -16,6 +18,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // Repositório do Chaquopy
+        maven { url = uri("https://chaquo.com/maven") }
+        // Repositório para MPAndroidChart
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
