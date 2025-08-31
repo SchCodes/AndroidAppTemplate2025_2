@@ -32,3 +32,14 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Kotlin cache
+.kotlin/
+
+# Module build directories
+app/build/
+probablidade_lotofacil/build/
+
+# Temporary files
+*.tmp
+*.temp

@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AndroidAppTemplate"
+rootProject.name = "LotoLab"
 include(":app")
  

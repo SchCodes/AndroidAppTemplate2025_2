@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    alias(libs.plugins.kotlin.ksp) // Adicionado plugin KSP
+    id("com.chaquo.python") // Adicionado plugin Chaquopy
 }
 
 android {
@@ -16,6 +18,21 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Configuração Chaquopy
+        ndk {
+            abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+        }
+        python {
+            pip {
+                install("pandas")
+                install("numpy")
+            }
+            // Se você tiver scripts Python na pasta src/main/python,
+            // o Chaquopy irá incluí-los automaticamente.
+            // Especifique o nome do arquivo Python principal aqui se necessário:
+            // startupScript = "main.py" 
+        }
     }
 
     buildTypes {
@@ -65,6 +82,11 @@ dependencies {
 
     implementation(libs.jetbrains.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
+
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx) // Opcional - Kotlin Extensions e suporte a Coroutines para Room
+    ksp(libs.androidx.room.compiler) // KSP para processamento de anotações do Room
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
