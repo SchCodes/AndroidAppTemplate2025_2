@@ -13,12 +13,12 @@ captures/
 .externalNativeBuild/
 .cxx/
 *.aab
-*.apk
+*.apk   
 output-metadata.json
 
 # IntelliJ
 *.iml
-.idea/
+.idea/  # ignore all files in the .idea folder
 misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml

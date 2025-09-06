@@ -1,6 +1,150 @@
 <resources>
-    <string name="app_name">AndroidAppTemplate</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">LotoLab</string>
+    
+    <!-- Navegação -->
+    <string name="navigation_home">Início</string>
+    <string name="navigation_calculator">Calculadora</string>
+    <string name="navigation_historic">Histórico</string>
+    <string name="navigation_charts">Gráficos</string>
+    <string name="navigation_profile">Perfil</string>
+    
+    <!-- Títulos de tela -->
+    <string name="title_home">Bem-vindo ao LotoLab!</string>
+    <string name="title_calculator">Calculadora de Probabilidades</string>
+    <string name="title_historic">Histórico de Cálculos</string>
+    <string name="title_charts">Gráficos e Estatísticas</string>
+    <string name="title_profile">Perfil do Usuário</string>
+    
+    <!-- Botões -->
+    <string name="btn_calcular">Realizar Cálculo</string>
+    <string name="btn_salvar">Salvar</string>
+    <string name="btn_compartilhar">Compartilhar</string>
+    <string name="btn_editar">Editar</string>
+    <string name="btn_excluir">Excluir</string>
+    <string name="btn_limpar">Limpar</string>
+    <string name="btn_tentar_novamente">Tentar Novamente</string>
+    <string name="btn_upgrade_premium">Fazer Upgrade</string>
+    <string name="btn_gerenciar_assinatura">Gerenciar Assinatura</string>
+    <string name="btn_configuracoes">Configurações</string>
+    <string name="btn_ajuda">Ajuda</string>
+    <string name="btn_sobre">Sobre</string>
+    <string name="btn_sair">Sair</string>
+    <string name="btn_atualizar">Atualizar</string>
+    <string name="btn_buscar">Buscar</string>
+    <string name="btn_filtrar">Filtrar</string>
+    <string name="btn_ordenar">Ordenar</string>
+    
+    <!-- Campos de entrada -->
+    <string name="hint_numeros">Digite os números (ex: 01, 05, 12, 18, 25)</string>
+    <string name="hint_busca">Buscar no histórico</string>
+    <string name="hint_tipo_calculo">Tipo de Cálculo</string>
+    <string name="hint_periodo">Período</string>
+    <string name="hint_tipo_grafico">Tipo de Gráfico</string>
+    
+    <!-- Labels -->
+    <string name="label_ultimo_concurso">Último Concurso</string>
+    <string name="label_estatisticas_gerais">Estatísticas Gerais</string>
+    <string name="label_estatisticas_pessoais">Estatísticas Pessoais</string>
+    <string name="label_configuracoes">Configurações</string>
+    <string name="label_acoes">Ações</string>
+    <string name="label_acoes_rapidas">Ações Rápidas</string>
+    <string name="label_numeros_analise">Números para Análise</string>
+    <string name="label_parametros_calculo">Parâmetros do Cálculo</string>
+    <string name="label_resultado_calculo">Resultado do Cálculo</string>
+    <string name="label_limite_calculos">Limite de Cálculos</string>
+    <string name="label_upgrade_premium">Upgrade para Premium</string>
+    <string name="label_estatisticas_resumidas">Estatísticas Resumidas</string>
+    <string name="label_frequencia_dezenas">Frequência de Dezenas</string>
+    <string name="label_padroes_sorteio">Padrões de Sorteio</string>
+    <string name="label_tendencias_temporais">Tendências Temporais</string>
+    <string name="label_distribuicao_valores">Distribuição de Valores</string>
+    
+    <!-- Valores padrão -->
+    <string name="default_tipo_calculo">Probabilidade Simples</string>
+    <string name="default_periodo">Últimos 30 dias</string>
+    <string name="default_tipo_grafico">Frequência</string>
+    <string name="default_periodo_analise">Últimos 100 concursos</string>
+    <string name="default_tipo_resultado">Probabilidade</string>
+    
+    <!-- Mensagens -->
+    <string name="msg_boas_vindas">Bem-vindo ao LotoLab!</string>
+    <string name="msg_status_premium">Status Premium</string>
+    <string name="msg_concurso">Concurso</string>
+    <string name="msg_data_sorteio">Data do Sorteio</string>
+    <string name="msg_premio">Prêmio</string>
+    <string name="msg_acumulado">Acumulado</string>
+    <string name="msg_total_concursos">Total Concursos</string>
+    <string name="msg_premio_medio">Prêmio Médio</string>
+    <string name="msg_percentual_acumulado">% Acumulado</string>
+    <string name="msg_total_calculos">Total Cálculos</string>
+    <string name="msg_calculos_hoje">Cálculos Hoje</string>
+    <string name="msg_dias_ativo">Dias Ativo</string>
+    <string name="msg_cadastro">Cadastro</string>
+    <string name="msg_atualizado">Atualizado</string>
+    <string name="msg_assinatura">Assinatura</string>
+    <string name="msg_limite">Limite</string>
+    <string name="msg_uid">UID</string>
+    
+    <!-- Estados -->
+    <string name="estado_vazio_historico">Nenhum cálculo realizado ainda</string>
+    <string name="estado_vazio_graficos">Nenhum dado disponível</string>
+    <string name="estado_vazio_home">Nenhum dado disponível</string>
+    <string name="estado_vazio_calculator">Nenhum cálculo realizado</string>
+    <string name="estado_vazio_descricao_historico">Seus cálculos aparecerão aqui</string>
+    <string name="estado_vazio_descricao_graficos">Os gráficos aparecerão aqui</string>
+    <string name="estado_vazio_descricao_home">Os dados aparecerão aqui</string>
+    <string name="estado_vazio_descricao_calculator">Digite os números e clique em calcular</string>
+    
+    <!-- Erros -->
+    <string name="erro_carregar_historico">Erro ao carregar histórico</string>
+    <string name="erro_carregar_graficos">Erro ao carregar gráficos</string>
+    <string name="erro_carregar_dados">Erro ao carregar dados</string>
+    <string name="erro_calculo">Erro no cálculo</string>
+    <string name="msg_erro_padrao">Tente novamente mais tarde</string>
+    <string name="msg_erro_calculo">Verifique os dados e tente novamente</string>
+    
+    <!-- Configurações -->
+    <string name="config_notificacoes">Notificações</string>
+    <string name="config_modo_escuro">Modo Escuro</string>
+    <string name="config_sincronizacao_automatica">Sincronização Automática</string>
+    
+    <!-- Premium -->
+    <string name="premium_descricao">Desbloqueie recursos avançados e análises ilimitadas</string>
+    <string name="premium_limite_calculos">Você pode realizar 3 cálculos por dia</string>
+    <string name="premium_calculos_restantes">Cálculos restantes hoje: 3</string>
+    
+    <!-- Ações -->
+    <string name="acao_novo_calculo">Novo Cálculo</string>
+    <string name="acao_ver_historico">Ver Histórico</string>
+    <string name="acao_ver_graficos">Ver Gráficos</string>
+    <string name="acao_atualizar_dados">Atualizar</string>
+    <string name="acao_gerar_aleatorios">Gerar Aleatórios</string>
+    <string name="acao_editar_perfil">Editar Perfil</string>
+    <string name="acao_gerenciar_assinatura">Gerenciar Assinatura</string>
+    <string name="acao_configuracoes">Configurações</string>
+    <string name="acao_ajuda">Ajuda</string>
+    <string name="acao_sobre">Sobre</string>
+    <string name="acao_logout">Sair</string>
+    
+    <!-- Filtros -->
+    <string name="filtro_todos">Todos</string>
+    <string name="filtro_tipo">Tipo</string>
+    <string name="filtro_periodo">Período</string>
+    <string name="filtro_buscar">Buscar</string>
+    
+    <!-- Resultados -->
+    <string name="resultado_padrao">Resultado será exibido aqui...</string>
+    <string name="detalhes_padrao">Detalhes adicionais...</string>
+    
+    <!-- Números de exemplo -->
+    <string name="numeros_exemplo">01 05 12 18 25 30 35 40 45 50 55 60 65 70 75</string>
+    <string name="data_exemplo">15/03/2024</string>
+    <string name="hora_exemplo">14:30</string>
+    <string name="premio_exemplo">R$ 1.500.000,00</string>
+    
+    <!-- Informações do usuário -->
+    <string name="usuario_padrao">Nome do Usuário</string>
+    <string name="email_padrao">email@exemplo.com</string>
+    <string name="uid_exemplo">abc123def456...</string>
+    
 </resources>

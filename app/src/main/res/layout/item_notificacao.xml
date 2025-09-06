@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardNotificacao"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/loteria_accent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <!-- Ícone do tipo de notificação -->
+        <ImageView
+            android:id="@+id/ivTipoNotificacao"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_notification"
+            android:contentDescription="Tipo de notificação"
+            android:layout_marginEnd="12dp"
+            android:tint="@color/white" />
+
+        <!-- Conteúdo da notificação -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Título e tipo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="4dp">
+
+                <TextView
+                    android:id="@+id/tvTituloNotificacao"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Título da Notificação"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
+                <TextView
+                    android:id="@+id/tvTipoNotificacao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sistema"
+                    android:textSize="10sp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/badge_background"
+                    android:padding="4dp"
+                    android:minWidth="16dp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <!-- Mensagem -->
+            <TextView
+                android:id="@+id/tvMensagemNotificacao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mensagem da notificação que pode ser longa e ocupar múltiplas linhas"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:alpha="0.9"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginBottom="4dp" />
+
+            <!-- Timestamp e status -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvTimestamp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="00/00 00:00"
+                    android:textSize="10sp"
+                    android:textColor="@color/white"
+                    android:alpha="0.7" />
+
+                <TextView
+                    android:id="@+id/tvStatusLeitura"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nova"
+                    android:textSize="10sp"
+                    android:textColor="@color/loteria_warning"
+                    android:background="@drawable/badge_background"
+                    android:padding="4dp"
+                    android:minWidth="16dp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Indicador de prioridade -->
+        <ImageView
+            android:id="@+id/ivPrioridade"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_priority_high"
+            android:contentDescription="Prioridade"
+            android:layout_marginStart="8dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:tint="@color/loteria_warning" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

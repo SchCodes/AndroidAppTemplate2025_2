@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardConfiguracao"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/loteria_accent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center_vertical">
+
+        <!-- Ícone da configuração -->
+        <ImageView
+            android:id="@+id/ivIconeConfiguracao"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_settings"
+            android:contentDescription="Ícone da configuração"
+            android:layout_marginEnd="12dp"
+            android:tint="@color/white" />
+
+        <!-- Conteúdo da configuração -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Nome da configuração -->
+            <TextView
+                android:id="@+id/tvNomeConfiguracao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nome da Configuração"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginBottom="4dp" />
+
+            <!-- Valor da configuração -->
+            <TextView
+                android:id="@+id/tvValorConfiguracao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Valor da configuração"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:alpha="0.9"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginBottom="4dp" />
+
+            <!-- Categoria e indicadores -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvCategoriaConfiguracao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Categoria"
+                    android:textSize="10sp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/badge_background"
+                    android:padding="4dp"
+                    android:minWidth="16dp"
+                    android:gravity="center"
+                    android:layout_marginEnd="8dp" />
+
+                <!-- Indicador de configuração avançada -->
+                <ImageView
+                    android:id="@+id/ivConfiguracaoAvancada"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_advanced"
+                    android:contentDescription="Configuração avançada"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:tint="@color/loteria_warning" />
+
+                <!-- Indicador de configuração premium -->
+                <ImageView
+                    android:id="@+id/ivConfiguracaoPremium"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_premium"
+                    android:contentDescription="Configuração premium"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:tint="@color/premium_gold" />
+
+                <!-- Indicador de configuração experimental -->
+                <ImageView
+                    android:id="@+id/ivConfiguracaoExperimental"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_experimental"
+                    android:contentDescription="Configuração experimental"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:tint="@color/loteria_error" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Botão de edição -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEditarConfiguracao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Editar"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/loteria_primary"
+            app:cornerRadius="8dp"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

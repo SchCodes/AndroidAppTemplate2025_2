@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <!-- Fragment Home -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.lotolab.app.ui.fragments.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        
+        <action
+            android:id="@+id/action_home_to_concursos"
+            app:destination="@id/concursosFragment" />
+        
+        <action
+            android:id="@+id/action_home_to_estatisticas"
+            app:destination="@id/estatisticasFragment" />
+        
+        <action
+            android:id="@+id/action_home_to_calculos"
+            app:destination="@id/calculosFragment" />
+        
+        <action
+            android:id="@+id/action_home_to_perfil"
+            app:destination="@id/perfilFragment" />
+    </fragment>
+
+    <!-- Fragment Concursos -->
+    <fragment
+        android:id="@+id/concursosFragment"
+        android:name="com.lotolab.app.ui.fragments.ConcursosFragment"
+        android:label="Concursos"
+        tools:layout="@layout/fragment_concursos">
+        
+        <action
+            android:id="@+id/action_concursos_to_concurso_detalhes"
+            app:destination="@id/concursoDetalhesFragment" />
+        
+        <action
+            android:id="@+id/action_concursos_to_estatisticas"
+            app:destination="@id/estatisticasFragment" />
+    </fragment>
+
+    <!-- Fragment Estatísticas -->
+    <fragment
+        android:id="@+id/estatisticasFragment"
+        android:name="com.lotolab.app.ui.fragments.EstatisticasFragment"
+        android:label="Estatísticas"
+        tools:layout="@layout/fragment_estatisticas">
+        
+        <action
+            android:id="@+id/action_estatisticas_to_grafico_detalhes"
+            app:destination="@id/graficoDetalhesFragment" />
+        
+        <action
+            android:id="@+id/action_estatisticas_to_relatorio"
+            app:destination="@id/relatorioFragment" />
+    </fragment>
+
+    <!-- Fragment Cálculos -->
+    <fragment
+        android:id="@+id/calculosFragment"
+        android:name="com.lotolab.app.ui.fragments.CalculosFragment"
+        android:label="Cálculos"
+        tools:layout="@layout/fragment_calculos">
+        
+        <action
+            android:id="@+id/action_calculos_to_calculo_detalhes"
+            app:destination="@id/calculoDetalhesFragment" />
+        
+        <action
+            android:id="@+id/action_calculos_to_historico"
+            app:destination="@id/historicoFragment" />
+    </fragment>
+
+    <!-- Fragment Perfil -->
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="com.lotolab.app.ui.fragments.PerfilFragment"
+        android:label="Perfil"
+        tools:layout="@layout/fragment_perfil">
+        
+        <action
+            android:id="@+id/action_perfil_to_editar_perfil"
+            app:destination="@id/editarPerfilFragment" />
+        
+        <action
+            android:id="@+id/action_perfil_to_configuracoes"
+            app:destination="@id/configuracoesFragment" />
+        
+        <action
+            android:id="@+id/action_perfil_to_premium"
+            app:destination="@id/premiumFragment" />
+    </fragment>
+
+    <!-- Fragment Detalhes do Concurso -->
+    <fragment
+        android:id="@+id/concursoDetalhesFragment"
+        android:name="com.lotolab.app.ui.fragments.ConcursoDetalhesFragment"
+        android:label="Detalhes do Concurso"
+        tools:layout="@layout/fragment_concurso_detalhes">
+        
+        <argument
+            android:name="concursoId"
+            app:argType="long" />
+    </fragment>
+
+    <!-- Fragment Detalhes do Gráfico -->
+    <fragment
+        android:id="@+id/graficoDetalhesFragment"
+        android:name="com.lotolab.app.ui.fragments.GraficoDetalhesFragment"
+        android:label="Detalhes do Gráfico"
+        tools:layout="@layout/fragment_grafico_detalhes">
+        
+        <argument
+            android:name="tipoGrafico"
+            app:argType="string" />
+        
+        <argument
+            android:name="dadosGrafico"
+            app:argType="string" />
+    </fragment>
+
+    <!-- Fragment Relatório -->
+    <fragment
+        android:id="@+id/relatorioFragment"
+        android:name="com.lotolab.app.ui.fragments.RelatorioFragment"
+        android:label="Relatório"
+        tools:layout="@layout/fragment_relatorio">
+        
+        <argument
+            android:name="tipoRelatorio"
+            app:argType="string" />
+        
+        <argument
+            android:name="periodoRelatorio"
+            app:argType="string" />
+    </fragment>
+
+    <!-- Fragment Detalhes do Cálculo -->
+    <fragment
+        android:id="@+id/calculoDetalhesFragment"
+        android:name="com.lotolab.app.ui.fragments.CalculoDetalhesFragment"
+        android:label="Detalhes do Cálculo"
+        tools:layout="@layout/fragment_calculo_detalhes">
+        
+        <argument
+            android:name="calculoId"
+            app:argType="long" />
+    </fragment>
+
+    <!-- Fragment Histórico -->
+    <fragment
+        android:id="@+id/historicoFragment"
+        android:name="com.lotolab.app.ui.fragments.HistoricoFragment"
+        android:label="Histórico"
+        tools:layout="@layout/fragment_historico">
+        
+        <action
+            android:id="@+id/action_historico_to_calculo_detalhes"
+            app:destination="@id/calculoDetalhesFragment" />
+    </fragment>
+
+    <!-- Fragment Editar Perfil -->
+    <fragment
+        android:id="@+id/editarPerfilFragment"
+        android:name="com.lotolab.app.ui.fragments.EditarPerfilFragment"
+        android:label="Editar Perfil"
+        tools:layout="@layout/fragment_editar_perfil" />
+
+    <!-- Fragment Configurações -->
+    <fragment
+        android:id="@+id/configuracoesFragment"
+        android:name="com.lotolab.app.ui.fragments.ConfiguracoesFragment"
+        android:label="Configurações"
+        tools:layout="@layout/fragment_configuracoes" />
+
+    <!-- Fragment Premium -->
+    <fragment
+        android:id="@+id/premiumFragment"
+        android:name="com.lotolab.app.ui.fragments.PremiumFragment"
+        android:label="Premium"
+        tools:layout="@layout/fragment_premium" />
+
+    <!-- Fragment Sobre -->
+    <fragment
+        android:id="@+id/sobreFragment"
+        android:name="com.lotolab.app.ui.fragments.SobreFragment"
+        android:label="Sobre"
+        tools:layout="@layout/fragment_sobre" />
+
+    <!-- Fragment Ajuda -->
+    <fragment
+        android:id="@+id/ajudaFragment"
+        android:name="com.lotolab.app.ui.fragments.AjudaFragment"
+        android:label="Ajuda"
+        tools:layout="@layout/fragment_ajuda" />
+
+    <!-- Fragment Política de Privacidade -->
+    <fragment
+        android:id="@+id/privacidadeFragment"
+        android:name="com.lotolab.app.ui.fragments.PrivacidadeFragment"
+        android:label="Política de Privacidade"
+        tools:layout="@layout/fragment_privacidade" />
+
+    <!-- Fragment Termos de Uso -->
+    <fragment
+        android:id="@+id/termosFragment"
+        android:name="com.lotolab.app.ui.fragments.TermosFragment"
+        android:label="Termos de Uso"
+        tools:layout="@layout/fragment_termos" />
+
+</navigation>

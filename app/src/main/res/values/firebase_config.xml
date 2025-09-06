@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Configurações do Firebase Cloud Messaging -->
+    <string name="default_notification_channel_id">lotolab_notifications</string>
+    <string name="default_notification_channel_name">LotoLab Notificações</string>
+    <string name="default_notification_channel_description">Notificações padrão do LotoLab</string>
+    
+    <!-- Tópicos FCM -->
+    <string name="fcm_topic_novos_concursos">novos_concursos</string>
+    <string name="fcm_topic_atualizacoes">atualizacoes</string>
+    <string name="fcm_topic_premium">premium</string>
+    <string name="fcm_topic_sistema">sistema</string>
+    
+    <!-- Configurações de notificação -->
+    <bool name="notifications_enabled">true</bool>
+    <bool name="notifications_sound_enabled">true</bool>
+    <bool name="notifications_vibration_enabled">true</bool>
+    <bool name="notifications_show_in_foreground">false</bool>
+    
+    <!-- Configurações específicas por tipo -->
+    <bool name="notifications_novo_concurso_enabled">true</bool>
+    <bool name="notifications_atualizacao_estatisticas_enabled">true</bool>
+    <bool name="notifications_premium_expirando_enabled">true</bool>
+    <bool name="notifications_manutencao_enabled">true</bool>
+    <bool name="notifications_limite_calculos_enabled">true</bool>
+    <bool name="notifications_sistema_enabled">true</bool>
+    
+    <!-- Configurações por prioridade -->
+    <bool name="notifications_prioridade_alta_enabled">true</bool>
+    <bool name="notifications_prioridade_media_enabled">true</bool>
+    <bool name="notifications_prioridade_baixa_enabled">false</bool>
+</resources>

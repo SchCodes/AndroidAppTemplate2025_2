@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardConcurso"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/loteria_secondary">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <!-- Cabeçalho com número e data -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/tvNumeroConcurso"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tvDataSorteio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00/00"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:alpha="0.8" />
+
+        </LinearLayout>
+
+        <!-- Dezenas sorteadas (compactas) -->
+        <TextView
+            android:id="@+id/tvDezenasCompactas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="01 02 03 04 05"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:fontFamily="monospace"
+            android:lineSpacingExtra="2dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Indicador de mais dezenas -->
+        <TextView
+            android:id="@+id/tvMaisDezenas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+10"
+            android:textSize="10sp"
+            android:textColor="@color/white"
+            android:alpha="0.7"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <!-- Status do concurso -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvStatusConcurso"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="✓"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/loteria_success" />
+
+            <!-- Prêmio (se disponível) -->
+            <TextView
+                android:id="@+id/tvPremiacao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="R$ 0,00"
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:alpha="0.8" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
