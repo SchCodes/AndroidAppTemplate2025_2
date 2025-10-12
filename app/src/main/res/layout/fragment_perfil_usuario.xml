@@ -143,6 +143,30 @@
                     android:maxLines="2" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/profilePhoneInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/profile_phone_hint"
+                app:boxBackgroundColor="@color/caixa_gelo"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="@color/caixa_azul"
+                app:hintTextColor="@color/caixa_oceano"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profileAddressInputLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/registerTelefoneEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:textColor="@android:color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/updateProfileButton"
                 android:layout_width="0dp"
@@ -156,7 +180,7 @@
                 app:iconTint="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profileAddressInputLayout" />
+                app:layout_constraintTop_toBottomOf="@id/profilePhoneInputLayout" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/logoutButton"

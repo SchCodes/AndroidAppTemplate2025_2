@@ -97,7 +97,8 @@ class PerfilUsuarioFragment : Fragment() {
                 if (snapshot.exists()) {
                     val usuario = snapshot.getValue(Usuario::class.java)
                     usuario?.let {
-                        _binding?.registerEnderecoEditText?.setText(it.endereco ?: "")
+                        binding.registerEnderecoEditText.setText(it.endereco ?: "")
+                        binding.registerTelefoneEditText.setText(it.telefone ?: "")
                     }
                 }
             }
@@ -111,6 +112,7 @@ class PerfilUsuarioFragment : Fragment() {
     private fun updateUser() {
         val name = binding.registerNameEditText.text.toString().trim()
         val endereco = binding.registerEnderecoEditText.text.toString().trim()
+        val telefone = binding.registerTelefoneEditText.text.toString().trim()
 
         if (name.isEmpty()) {
             Toast.makeText(context, "Informe o nome do usuario", Toast.LENGTH_SHORT).show()
@@ -120,13 +122,13 @@ class PerfilUsuarioFragment : Fragment() {
         val user = auth.currentUser
 
         if (user != null) {
-            updateProfile(user, name, endereco)
+            updateProfile(user, name, endereco, telefone)
         } else {
             Toast.makeText(context, "Nao foi possivel encontrar o usuario logado", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun updateProfile(user: FirebaseUser, displayName: String, endereco: String) {
+    private fun updateProfile(user: FirebaseUser, displayName: String, endereco: String, telefone: String) {
         val profileUpdates = UserProfileChangeRequest.Builder()
             .setDisplayName(displayName)
             .build()
@@ -134,7 +136,7 @@ class PerfilUsuarioFragment : Fragment() {
         user.updateProfile(profileUpdates)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    saveUserToDatabase(user, displayName, endereco)
+                    saveUserToDatabase(user, displayName, endereco, telefone)
                 } else {
                     Toast.makeText(
                         context,
@@ -145,7 +147,7 @@ class PerfilUsuarioFragment : Fragment() {
             }
     }
 
-    private fun saveUserToDatabase(user: FirebaseUser, displayName: String, endereco: String) {
+    private fun saveUserToDatabase(user: FirebaseUser, displayName: String, endereco: String, telefone: String) {
         val reference = usersReference ?: run {
             Toast.makeText(
                 context,
@@ -159,7 +161,8 @@ class PerfilUsuarioFragment : Fragment() {
             key = user.uid,
             nome = displayName,
             email = user.email,
-            endereco = endereco
+            endereco = endereco,
+            telefone = telefone
         )
 
         reference.child(user.uid).setValue(usuario)
