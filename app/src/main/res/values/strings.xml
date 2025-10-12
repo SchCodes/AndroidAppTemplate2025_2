@@ -1,7 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AndroidAppTemplate</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_profile">Profile</string>
+    <string name="title_account">Minha Conta</string>
+    <string name="profile_header_title">Perfil do Usuario</string>
+    <string name="profile_header_subtitle">Gerencie suas informacoes pessoais e mantenha seus dados sempre atualizados.</string>
+    <string name="profile_name_hint">Nome completo</string>
+    <string name="profile_email_hint">Email</string>
+    <string name="profile_save_action">Atualizar dados</string>
+    <string name="content_description_profile_photo">Foto do usuario</string>
 </resources>
