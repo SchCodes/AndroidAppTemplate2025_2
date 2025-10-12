@@ -119,6 +119,30 @@
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/profileAddressInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/profile_address_hint"
+                app:boxBackgroundColor="@color/caixa_gelo"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="@color/caixa_azul"
+                app:hintTextColor="@color/caixa_oceano"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profileEmailInputLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/registerEnderecoEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPostalAddress"
+                    android:textColor="@android:color/black"
+                    android:maxLines="2" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/updateProfileButton"
                 android:layout_width="0dp"
@@ -130,10 +154,27 @@
                 app:backgroundTint="@color/caixa_laranja"
                 app:cornerRadius="12dp"
                 app:iconTint="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profileAddressInputLayout" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/logoutButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/profile_logout_action"
+                android:textAllCaps="false"
+                android:textColor="@color/caixa_laranja"
+                app:backgroundTint="@android:color/white"
+                app:cornerRadius="12dp"
+                app:iconTint="@color/caixa_laranja"
+                app:strokeColor="@color/caixa_laranja"
+                app:strokeWidth="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profileEmailInputLayout" />
+                app:layout_constraintTop_toBottomOf="@id/updateProfileButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
