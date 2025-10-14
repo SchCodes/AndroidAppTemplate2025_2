@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">AndroidAppTemplate</string>
+    <string name="app_name">LotoAnalise</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -32,6 +32,21 @@
     <string name="button_select_image">Selecionar imagem</string>
     <string name="dashboard_save_action">Salvar item</string>
     <string name="dashboard_subtitle">Cadastre um novo item para compartilhar com a comunidade.</string>
+    <string name="dashboard_image_description">Visual da analise</string>
+    <string name="dashboard_title_hint">Nome da analise</string>
+    <string name="dashboard_numbers_hint">Dezenas (ex: 01,03,05,...)</string>
+    <string name="dashboard_category_hint">Estrategia aplicada</string>
+    <string name="dashboard_probability_hint">Probabilidade estimada (%)</string>
+    <string name="dashboard_concurso_hint">Concurso de referencia</string>
+    <string name="dashboard_notes_hint">Observacoes adicionais</string>
+    <string name="home_description">Acompanhe suas analises e insights para a Lotofacil.</string>
+    <string name="home_empty_state">Nenhuma analise cadastrada ainda. Comece adicionando uma no painel.</string>
+    <string name="item_title_placeholder">Analise sem nome</string>
+    <string name="item_category_placeholder">Categoria nao informada</string>
+    <string name="item_numbers_placeholder">Dezenas: --</string>
+    <string name="item_probability_placeholder">Probabilidade: n/d</string>
+    <string name="item_concurso_placeholder">Concurso: n/d</string>
+    <string name="item_notes_placeholder">Sem observacoes adicionais</string>
     <string name="notifications_subtitle">Fique por dentro das novidades e alertas importantes.</string>
     <string name="notifications_empty_state">Nenhuma notificacao no momento. Aproveite para explorar novos itens!</string>
     <string name="item_address_placeholder">Endereco nao informado</string>
