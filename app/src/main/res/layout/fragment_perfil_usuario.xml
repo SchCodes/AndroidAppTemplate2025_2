@@ -1,206 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_profile_gradient"
-    android:padding="24dp"
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    android:paddingStart="24dp"
+    android:paddingTop="96dp"
+    android:paddingEnd="24dp"
+    android:paddingBottom="140dp"
     tools:context=".ui.usuario.PerfilUsuarioFragment">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/userProfileImageView"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="12dp"
-        android:contentDescription="@string/content_description_profile_photo"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_profile_avatar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/AppShapeAppearanceCircle"
-        app:strokeColor="@color/caixa_turquesa"
-        app:strokeWidth="3dp" />
-
-    <TextView
-        android:id="@+id/textCadastroUsuarioTitle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/profile_header_title"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userProfileImageView" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/profileSubtitleTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/profile_header_subtitle"
-        android:textAlignment="center"
-        android:textColor="@color/profile_text_secondary"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textCadastroUsuarioTitle" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/userProfileImageView"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:contentDescription="@string/content_description_profile_photo"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_profile_avatar"
+            app:shapeAppearanceOverlay="@style/AppShapeAppearanceCircle"
+            app:strokeColor="@color/caixa_turquesa"
+            app:strokeWidth="3dp" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/profileFormCard"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:cardBackgroundColor="@color/profile_card_background"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="6dp"
-        app:cardUseCompatPadding="true"
-        app:strokeColor="@color/profile_card_stroke"
-        app:strokeWidth="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profileSubtitleTextView">
+        <TextView
+            android:id="@+id/textCadastroUsuarioTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/profile_header_title"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@android:color/white" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/profileSubtitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="20dp"
-            android:paddingTop="24dp"
-            android:paddingEnd="20dp"
-            android:paddingBottom="24dp">
+            android:layout_marginTop="8dp"
+            android:text="@string/profile_header_subtitle"
+            android:textAlignment="center"
+            android:textColor="@color/profile_text_secondary"
+            android:textSize="14sp" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/profileNameInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="0dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/profileFormCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            app:cardBackgroundColor="@color/profile_card_background"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="6dp"
+            app:cardUseCompatPadding="true"
+            app:strokeColor="@color/profile_card_stroke"
+            app:strokeWidth="1dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/profile_name_hint"
-                app:boxBackgroundColor="@color/caixa_gelo"
-                app:boxBackgroundMode="filled"
-                app:boxStrokeColor="@color/caixa_azul"
-                app:hintTextColor="@color/caixa_oceano"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:paddingStart="20dp"
+                android:paddingTop="24dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="24dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registerNameEditText"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/profileNameInputLayout"
+                    style="@style/Widget.LotoAnalise.TextInputLayout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:textColor="@android:color/black"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:hint="@string/profile_name_hint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/profileEmailInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="@string/profile_email_hint"
-                app:boxBackgroundColor="@color/caixa_gelo"
-                app:boxBackgroundMode="filled"
-                app:boxStrokeColor="@color/caixa_azul"
-                app:hintTextColor="@color/caixa_oceano"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profileNameInputLayout">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/registerNameEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:textColor="@android:color/black" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registerEmailEditText"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/profileEmailInputLayout"
+                    style="@style/Widget.LotoAnalise.TextInputLayout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@android:color/black"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="16dp"
+                    android:hint="@string/profile_email_hint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profileNameInputLayout">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/profileAddressInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="@string/profile_address_hint"
-                app:boxBackgroundColor="@color/caixa_gelo"
-                app:boxBackgroundMode="filled"
-                app:boxStrokeColor="@color/caixa_azul"
-                app:hintTextColor="@color/caixa_oceano"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profileEmailInputLayout">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/registerEmailEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:textColor="@android:color/black" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registerEnderecoEditText"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/profileAddressInputLayout"
+                    style="@style/Widget.LotoAnalise.TextInputLayout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:inputType="textPostalAddress"
-                    android:textColor="@android:color/black"
-                    android:maxLines="2" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="16dp"
+                    android:hint="@string/profile_address_hint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profileEmailInputLayout">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/profilePhoneInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="@string/profile_phone_hint"
-                app:boxBackgroundColor="@color/caixa_gelo"
-                app:boxBackgroundMode="filled"
-                app:boxStrokeColor="@color/caixa_azul"
-                app:hintTextColor="@color/caixa_oceano"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profileAddressInputLayout">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/registerEnderecoEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPostalAddress"
+                        android:maxLines="2"
+                        android:textColor="@android:color/black" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registerTelefoneEditText"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/profilePhoneInputLayout"
+                    style="@style/Widget.LotoAnalise.TextInputLayout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:inputType="phone"
-                    android:maxLines="1"
-                    android:textColor="@android:color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="16dp"
+                    android:hint="@string/profile_phone_hint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profileAddressInputLayout">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/updateProfileButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/profile_save_action"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
-                app:backgroundTint="@color/caixa_laranja"
-                app:cornerRadius="12dp"
-                app:iconTint="@android:color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profilePhoneInputLayout" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/registerTelefoneEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:maxLines="1"
+                        android:textColor="@android:color/black" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/logoutButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/profile_logout_action"
-                android:textAllCaps="false"
-                android:textColor="@color/caixa_laranja"
-                app:backgroundTint="@android:color/white"
-                app:cornerRadius="12dp"
-                app:iconTint="@color/caixa_laranja"
-                app:strokeColor="@color/caixa_laranja"
-                app:strokeWidth="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/updateProfileButton" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/updateProfileButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/profile_save_action"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    app:backgroundTint="@color/caixa_laranja"
+                    app:cornerRadius="12dp"
+                    app:iconTint="@android:color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profilePhoneInputLayout" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/logoutButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/profile_logout_action"
+                    android:textAllCaps="false"
+                    android:textColor="@color/caixa_laranja"
+                    app:backgroundTint="@android:color/white"
+                    app:cornerRadius="12dp"
+                    app:iconTint="@color/caixa_laranja"
+                    app:strokeColor="@color/caixa_laranja"
+                    app:strokeWidth="1dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/updateProfileButton" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
