@@ -11,10 +11,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.ifpr.androidapptemplate.R
+import com.ifpr.androidapptemplate.baseclasses.Usuario
 
-
-class CadastroUsuarioActivity  : AppCompatActivity() {
+class CadastroUsuarioActivity : AppCompatActivity() {
     private lateinit var textCadastroUsuarioTitle: TextView
     private lateinit var registerNameEditText: EditText
     private lateinit var registerEmailEditText: EditText
@@ -29,8 +30,8 @@ class CadastroUsuarioActivity  : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cadastro_usuario)
 
-        // Inicializa o Firebase Auth
         auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance().getReference("users")
 
         textCadastroUsuarioTitle = findViewById(R.id.textCadastroUsuarioTitle)
         registerNameEditText = findViewById(R.id.registerNameEditText)
@@ -40,16 +41,9 @@ class CadastroUsuarioActivity  : AppCompatActivity() {
         registerButton = findViewById(R.id.salvarButton)
         sairButton = findViewById(R.id.sairButton)
 
-        registerButton.setOnClickListener {
-            createAccount()
-        }
-
-        sairButton.setOnClickListener {
-            finish()
-        }
+        registerButton.setOnClickListener { createAccount() }
+        sairButton.setOnClickListener { finish() }
     }
-
-
 
     private fun createAccount() {
         val name = registerNameEditText.text.toString().trim()
@@ -58,13 +52,13 @@ class CadastroUsuarioActivity  : AppCompatActivity() {
         val confirmPassword = registerConfirmPasswordEditText.text.toString().trim()
 
         if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
             return
         }
 
         if (password.length < 6) {
-            Toast.makeText(this, "A senha deve ter no mínimo 6 caracteres", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "A senha deve ter no mínimo 6 caracteres", Toast.LENGTH_SHORT)
+                .show()
             return
         }
 
@@ -73,50 +67,56 @@ class CadastroUsuarioActivity  : AppCompatActivity() {
             return
         }
 
-        try {
-            auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(
-                            this,
-                            "Novo usuário cadastrado com sucesso!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        val user = auth.currentUser
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    if (user != null) {
+                        salvarUsuarioNoDatabase(user, name, email)
                         updateProfile(user, name)
                         sendEmailVerification(user)
-                    } else {
-                        val errorMessage = task.exception?.message ?: "Erro desconhecido"
-                        Log.e("FirebaseAuth", "Erro ao cadastrar usuário: $errorMessage")
-                        Toast.makeText(
-                            this,
-                            "Falha ao cadastrar novo usuário: $errorMessage",
-                            Toast.LENGTH_LONG
-                        ).show()
                     }
+                    Toast.makeText(
+                        this,
+                        "Novo usuário cadastrado com sucesso!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    val errorMessage = task.exception?.message ?: "Erro desconhecido"
+                    Log.e("FirebaseAuth", "Erro ao cadastrar usuário: $errorMessage")
+                    Toast.makeText(
+                        this,
+                        "Falha ao cadastrar novo usuário: $errorMessage",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
-        } catch (ex: Exception) {
-            Log.e("FirebaseAuth", "Erro ao conectar com o Firebase", ex)
-            Toast.makeText(
-                this,
-                "Falha ao conectar com o Firebase: ${ex.message}",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-
-
+            }
+            .addOnFailureListener { ex ->
+                Log.e("FirebaseAuth", "Erro ao conectar com o Firebase", ex)
+                Toast.makeText(
+                    this,
+                    "Falha ao conectar com o Firebase: ${ex.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
     }
 
     private fun sendEmailVerification(user: FirebaseUser?) {
         user?.sendEmailVerification()
             ?.addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(baseContext, "Verification email sent to ${user.email}.",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseContext,
+                        "Email de verificação enviado para ${user.email}.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     finish()
                 } else {
-                    Toast.makeText(baseContext, "Failed to send verification email.",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseContext,
+                        "Falha ao enviar o email de verificação.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
     }
@@ -129,12 +129,36 @@ class CadastroUsuarioActivity  : AppCompatActivity() {
         user?.updateProfile(profileUpdates)
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(baseContext, "Nome do usuario alterado com sucesso.",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseContext,
+                        "Nome do usuário alterado com sucesso.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
-                    Toast.makeText(baseContext, "Não foi possivel alterar o nome do usuario.",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseContext,
+                        "Não foi possível alterar o nome do usuário.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+            }
+    }
+
+    private fun salvarUsuarioNoDatabase(user: FirebaseUser, nome: String, email: String) {
+        val usuario = Usuario(
+            key = user.uid,
+            nome = nome,
+            email = email
+        )
+
+        database.child(user.uid).setValue(usuario)
+            .addOnFailureListener { error ->
+                Log.e("CadastroUsuario", "Erro ao salvar usuário no database", error)
+                Toast.makeText(
+                    baseContext,
+                    "Não foi possível registrar os dados no banco.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 }

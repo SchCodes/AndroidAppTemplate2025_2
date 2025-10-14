@@ -31,7 +31,7 @@
     <string name="title_itens">Itens</string>
     <string name="button_select_image">Selecionar imagem</string>
     <string name="dashboard_save_action">Salvar item</string>
-    <string name="dashboard_subtitle">Cadastre um novo item para compartilhar com a comunidade.</string>
+    <string name="dashboard_subtitle">Cadastre um novo item.</string>
     <string name="dashboard_image_description">Visual da analise</string>
     <string name="dashboard_title_hint">Nome da analise</string>
     <string name="dashboard_numbers_hint">Dezenas (ex: 01,03,05,...)</string>

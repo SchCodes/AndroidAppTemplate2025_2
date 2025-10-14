@@ -11,19 +11,24 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.android.material.imageview.ShapeableImageView
 import com.ifpr.androidapptemplate.R
 import com.ifpr.androidapptemplate.baseclasses.Item
 import com.ifpr.androidapptemplate.databinding.FragmentHomeBinding
-import com.google.android.material.imageview.ShapeableImageView
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var auth: FirebaseAuth
+    private lateinit var itensReference: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +36,10 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        carregarItensAnalise()
+
+        auth = FirebaseAuth.getInstance()
+        carregarAnalisesDoUsuario()
+
         return binding.root
     }
 
@@ -40,19 +48,32 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun carregarItensAnalise() {
-        val databaseRef = FirebaseDatabase.getInstance().getReference("itens")
+    private fun carregarAnalisesDoUsuario() {
+        val usuarioAtual = auth.currentUser
 
-        databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+        if (usuarioAtual == null) {
+            binding.homeEmptyStateText.visibility = View.VISIBLE
+            binding.homeEmptyStateText.text = getString(R.string.home_empty_state)
+            Toast.makeText(
+                requireContext(),
+                "Sessão expirada. Faça login novamente.",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        itensReference = FirebaseDatabase.getInstance()
+            .getReference("itens")
+            .child(usuarioAtual.uid)
+
+        itensReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val itens = mutableListOf<Item>()
 
-                for (userSnapshot in snapshot.children) {
-                    for (itemSnapshot in userSnapshot.children) {
-                        val item = itemSnapshot.getValue(Item::class.java)
-                        if (item != null) {
-                            itens += item
-                        }
+                for (itemSnapshot in snapshot.children) {
+                    val item = itemSnapshot.getValue(Item::class.java)
+                    if (item != null) {
+                        itens += item
                     }
                 }
 
@@ -61,7 +82,11 @@ class HomeFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Erro ao carregar dados", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Erro ao carregar análises.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
@@ -88,9 +113,10 @@ class HomeFragment : Fragment() {
             val concursoView = itemView.findViewById<TextView>(R.id.item_concurso)
             val notesView = itemView.findViewById<TextView>(R.id.item_notes)
 
-            val titulo = item.titulo.takeIf { it.isNotBlank() }
-                ?: getString(R.string.item_title_placeholder)
-            titleView.text = titulo
+            titleView.text = when {
+                item.titulo.isNotBlank() -> item.titulo
+                else -> getString(R.string.item_title_placeholder)
+            }
 
             categoryView.text = item.categoria?.takeIf { it.isNotBlank() }
                 ?: getString(R.string.item_category_placeholder)
@@ -101,26 +127,30 @@ class HomeFragment : Fragment() {
                 getString(R.string.item_numbers_placeholder)
             }
 
-            probabilityView.text = item.probabilidade?.let {
-                "Probabilidade: %.2f%%".format(it)
+            probabilityView.text = item.probabilidade?.let { prob ->
+                "Probabilidade: %.2f%%".format(prob)
             } ?: getString(R.string.item_probability_placeholder)
 
-            concursoView.text = item.concursoReferencia?.let {
-                "Concurso: $it"
+            concursoView.text = item.concursoReferencia?.let { numero ->
+                "Concurso: $numero"
             } ?: getString(R.string.item_concurso_placeholder)
 
             if (!item.observacoes.isNullOrBlank()) {
                 notesView.visibility = View.VISIBLE
-                notesView.text = "Observacoes: ${item.observacoes}".trim()
+                notesView.text = "Observações: ${item.observacoes}"
             } else {
                 notesView.visibility = View.GONE
             }
 
             when {
-                !item.imageUrl.isNullOrEmpty() ->
-                    Glide.with(this@HomeFragment).load(item.imageUrl).centerCrop().into(imageView)
+                !item.imageUrl.isNullOrEmpty() -> {
+                    Glide.with(this@HomeFragment)
+                        .load(item.imageUrl)
+                        .centerCrop()
+                        .into(imageView)
+                }
 
-                !item.base64Image.isNullOrEmpty() ->
+                !item.base64Image.isNullOrEmpty() -> {
                     try {
                         val bytes = Base64.decode(item.base64Image, Base64.DEFAULT)
                         val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
@@ -128,6 +158,7 @@ class HomeFragment : Fragment() {
                     } catch (_: Exception) {
                         imageView.setImageResource(R.drawable.ic_profile_avatar)
                     }
+                }
 
                 else -> imageView.setImageResource(R.drawable.ic_profile_avatar)
             }
