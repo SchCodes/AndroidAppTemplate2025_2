@@ -1,45 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:layout_marginBottom="16dp"
+    app:cardBackgroundColor="@color/profile_card_background"
+    app:cardCornerRadius="16dp"
+    app:cardUseCompatPadding="false"
+    app:strokeColor="@color/profile_card_stroke"
+    app:strokeWidth="1dp">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp">
 
         <ImageView
             android:id="@+id/item_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:scaleType="centerCrop"
-            android:layout_marginEnd="8dp" />
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:background="@drawable/bg_profile_gradient"
+            android:contentDescription="@string/content_description_profile_photo"
+            android:scaleType="centerCrop" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/item_endereco"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Endereço:"
+                android:text="@string/item_address_placeholder"
+                android:textColor="@color/caixa_oceano"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <!-- Campos futuros aqui -->
+            <TextView
+                android:id="@+id/item_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/item_details_placeholder"
+                android:textColor="@color/profile_text_secondary"
+                android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#CCCCCC"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"/>
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

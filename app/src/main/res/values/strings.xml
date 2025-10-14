@@ -15,5 +15,25 @@
     <string name="profile_save_action">Atualizar dados</string>
     <string name="profile_logout_action">Sair da conta</string>
     <string name="content_description_profile_photo">Foto do usuario</string>
+    <string name="login_title">Bem-vindo de volta</string>
+    <string name="login_subtitle">Acesse sua conta para continuar.</string>
+    <string name="login_password_hint">Senha</string>
+    <string name="login_action">Entrar</string>
+    <string name="login_register_action">Cadastre-se</string>
+    <string name="register_title">Crie sua conta</string>
+    <string name="register_subtitle">Informe seus dados para acessar todos os recursos.</string>
+    <string name="register_name_hint">Nome completo</string>
+    <string name="register_email_hint">Email</string>
+    <string name="register_password_hint">Senha</string>
+    <string name="register_confirm_password_hint">Confirmar senha</string>
+    <string name="register_action">Cadastrar</string>
+    <string name="register_cancel_action">Voltar</string>
     <string name="title_itens">Itens</string>
+    <string name="button_select_image">Selecionar imagem</string>
+    <string name="dashboard_save_action">Salvar item</string>
+    <string name="dashboard_subtitle">Cadastre um novo item para compartilhar com a comunidade.</string>
+    <string name="notifications_subtitle">Fique por dentro das novidades e alertas importantes.</string>
+    <string name="notifications_empty_state">Nenhuma notificacao no momento. Aproveite para explorar novos itens!</string>
+    <string name="item_address_placeholder">Endereco nao informado</string>
+    <string name="item_details_placeholder">Atualize para ver mais detalhes deste item.</string>
 </resources>
