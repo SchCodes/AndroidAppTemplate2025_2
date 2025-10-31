@@ -1,7 +1,9 @@
 package com.ifpr.androidapptemplate.ui.home
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -48,6 +50,7 @@ class HomeFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
+    private var lastLocation: Location? = null
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -68,6 +71,10 @@ class HomeFragment : Fragment() {
 
         val container = view.findViewById<LinearLayout>(R.id.itemContainer)
         carregarItensMarketplace(container)
+
+        view.findViewById<Button>(R.id.mapsButton).setOnClickListener {
+            openMap()
+        }
 
         return view
     }
@@ -135,6 +142,7 @@ class HomeFragment : Fragment() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.lastLocation?.let { location ->
+                    lastLocation = location
                     displayAddress(location)
                 }
             }
@@ -172,8 +180,18 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun openMap() {
+        lastLocation?.let {
+            val uri = "geo:${it.latitude},${it.longitude}?q=${it.latitude},${it.longitude}(Minha+Localização)"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            intent.setPackage("com.google.android.apps.maps")
+            startActivity(intent)
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        fusedLocationClient.removeLocationUpdates(locationCallback)
         _binding = null
     }
 
