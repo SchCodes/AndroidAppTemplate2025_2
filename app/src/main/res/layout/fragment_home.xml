@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_app_gradient"
+    android:fitsSystemWindows="true"
     tools:context=".ui.home.HomeFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -14,9 +15,10 @@
         android:clipToPadding="false"
         android:fillViewport="true"
         android:paddingStart="24dp"
-        android:paddingTop="96dp"
+        android:paddingTop="112dp"
         android:paddingEnd="24dp"
         android:paddingBottom="140dp"
+        android:fitsSystemWindows="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -142,7 +144,8 @@
         android:id="@+id/fab_ai"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="88dp"
         android:contentDescription="Abrir IA"
         android:src="@drawable/ic_ai"
         app:layout_constraintBottom_toBottomOf="parent"

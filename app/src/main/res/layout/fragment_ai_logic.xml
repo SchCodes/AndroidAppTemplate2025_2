@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ai_logic_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true">
+    android:background="@drawable/bg_app_gradient"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:paddingTop="48dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,45 +15,134 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <ImageView
-            android:id="@+id/bitmapImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="16dp"
-            android:layout_gravity="center"
-            android:scaleType="centerCrop"
-            android:src="@android:drawable/gallery_thumb"
-            android:contentDescription="Selecionar imagem" />
-
-        <Button
-            android:id="@+id/btn_select_image"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Selecionar Imagem" />
-
-        <EditText
-            android:id="@+id/prompt_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:gravity="top"
-            android:hint="Digite seu prompt"
-            android:inputType="textMultiLine"
-            android:minHeight="100dp" />
-
-        <Button
-            android:id="@+id/btn_generate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Gerar resposta" />
+            android:text="Assistente IA Loterias"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/result_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Resultado aparecera aqui"
-            android:textSize="16sp" />
+            android:layout_marginTop="4dp"
+            android:text="Use a imagem e um prompt curto para orientar o Gemini 2.0 Flash."
+            android:textColor="@color/profile_text_secondary"
+            android:textSize="14sp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@color/caixa_laranja"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Imagem de referencia"
+                    android:textColor="@color/caixa_azul"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/bitmapImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="12dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@android:drawable/gallery_thumb"
+                    android:background="@color/caixa_gelo"
+                    android:contentDescription="Selecionar imagem" />
+
+                <Button
+                    android:id="@+id/btn_select_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Selecionar imagem"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="@color/caixa_laranja" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@color/caixa_azul"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Prompt"
+                    android:textColor="@color/caixa_azul"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/prompt_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/caixa_gelo"
+                    android:gravity="top"
+                    android:hint="Descreva o que deseja analisar na imagem"
+                    android:inputType="textMultiLine"
+                    android:minHeight="120dp"
+                    android:padding="12dp" />
+
+                <Button
+                    android:id="@+id/btn_generate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Gerar com IA"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="@color/caixa_azul" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Resposta"
+                    android:textColor="@color/caixa_oceano"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/result_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/caixa_gelo"
+                    android:minHeight="96dp"
+                    android:padding="12dp"
+                    android:text="Resultado aparecera aqui"
+                    android:textColor="@color/caixa_oceano"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>
