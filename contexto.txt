@@ -1,0 +1,18 @@
+Atualize o seu fork com o conteúdo da branch feature_location.
+
+A classe HomeFragment.kt já está preparada para obter a localização em tempo real do usuário, exibindo o endereço atual no TextView com id currentAddressTextView, localizado no layout fragment_home.xml.
+
+O que devo entregar
+- Prints de tela mostrando sua nova funcionalidade sendo executada no app.
+- Link da branch com as modificações utilizando a localização em tempo real
+
+o que vamos fazer agora
+
+httpsgithub.comjailtoncoelhoAndroidAppTemplate2025_2
+este é o repositório base para o projeto
+
+httpsgithub.comSchCodesAndroidAppTemplate2025_2
+este é o fork que estou trabalhando.
+a ideia é ir colocando as novas funcionalidades do repositorio base e implementa-las no repositorio fork que será um app que exibirá calculos estatísticos baseados em um outro repositorio que fiz com as funções para as analises, que estão em python, o app deve ter uma conta de admin para conseguir utilizar algumas funções especificas como a atualização do banco de dados onde terá os numeros dos sorteios, esta função já existe no repositorio tbm fazendo um webscraping do site das loterias, o link para o repositorio que tera os codigos para calculo que devemos implementar no nosso app é httpsgithub.comSchCodesProbabilidade_LotoFacil}
+
+antes de codar, vamos conversar mais... eu disse tudo isto para contexto do trabalho, agora vamos trabalhar somente na funcionalidade de localização, onde devemos mostrar as lotéricas mais próximas do usuário
