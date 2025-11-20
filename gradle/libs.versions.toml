@@ -21,6 +21,7 @@ firebaseBom = "33.10.0"
 playServicesAuth = "21.3.0"
 firebaseFirestoreKtx = "25.1.4"
 firebaseCrashlyticsBuildtools = "3.0.3"
+firebaseAi = "17.5.0"
 
 glide = "4.16.0"
 
@@ -51,6 +52,8 @@ firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
+firebase-ai = { group = "com.google.firebase", name = "firebase-ai", version.ref = "firebaseAi" }
+google-firebase-ai = { group = "com.google.firebase", name = "firebase-ai", version.ref = "firebaseAi" }
 
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 
