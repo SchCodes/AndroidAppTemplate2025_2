@@ -1,3 +1,4 @@
+
 package com.ifpr.androidapptemplate.ui.ai
 
 import android.graphics.Bitmap
