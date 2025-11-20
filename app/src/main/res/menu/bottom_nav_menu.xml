@@ -17,6 +17,11 @@
         android:title="@string/title_notifications" />
 
     <item
+        android:id="@+id/navigation_ai"
+        android:icon="@drawable/ic_ai"
+        android:title="@string/title_ai" />
+
+    <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_profile_outline_24"
         android:title="@string/title_account" />
