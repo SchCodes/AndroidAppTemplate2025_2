@@ -7,4 +7,20 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Paleta Loterias CAIXA -->
+    <color name="caixa_azul">#005CA9</color>
+    <color name="caixa_oceano">#004B8B</color>
+    <color name="caixa_laranja">#F39200</color>
+    <color name="caixa_turquesa">#54BBAB</color>
+    <color name="caixa_gelo">#D0E0E3</color>
+
+    <!-- Aplicações específicas da tela de perfil -->
+    <color name="profile_gradient_start">#004B8B</color>
+    <color name="profile_gradient_center">#005CA9</color>
+    <color name="profile_gradient_end">#54BBAB</color>
+    <color name="profile_avatar_stroke">#FFFFFFFF</color>
+    <color name="profile_card_background">#FFFFFFFF</color>
+    <color name="profile_card_stroke">#54BBAB</color>
+    <color name="profile_text_secondary">#D0E0E3</color>
 </resources>

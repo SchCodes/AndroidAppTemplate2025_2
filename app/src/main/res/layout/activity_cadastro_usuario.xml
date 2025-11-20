@@ -5,77 +5,172 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    android:background="@android:color/transparent"
     android:fitsSystemWindows="true"
+    android:padding="24dp"
     tools:context=".ui.usuario.CadastroUsuarioActivity">
 
-    <TextView
-        android:id="@+id/textCadastroUsuarioTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Cadastro de Usuário"
-        android:textSize="24sp"
-        android:textStyle="bold"
+    <ImageView
+        android:id="@+id/registerLogo"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_profile_avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/registerNameEditText"
+    <ScrollView
+        android:id="@+id/registerScroll"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Nome"
-        android:layout_marginTop="16dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textCadastroUsuarioTitle"/>
+        app:layout_constraintTop_toBottomOf="@id/registerLogo">
 
-    <EditText
-        android:id="@+id/registerEmailEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintTop_toBottomOf="@id/registerNameEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="24dp">
 
-    <EditText
-        android:id="@+id/registerPasswordEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Senha"
-        android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@id/registerEmailEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="@color/profile_card_background"
+                app:cardCornerRadius="20dp"
+                app:cardUseCompatPadding="false"
+                app:strokeColor="@color/profile_card_stroke"
+                app:strokeWidth="1dp">
 
-    <EditText
-        android:id="@+id/registerConfirmPasswordEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Confirmar Senha"
-        android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@id/registerPasswordEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
 
-    <Button
-        android:id="@+id/salvarButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Cadastrar"
-        app:layout_constraintTop_toBottomOf="@id/registerConfirmPasswordEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+                    <TextView
+                        android:id="@+id/textCadastroUsuarioTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/register_title"
+                        android:textColor="@color/caixa_azul"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/sairButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Sair"
-        app:layout_constraintTop_toBottomOf="@id/salvarButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+                    <TextView
+                        android:id="@+id/registerSubtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/register_subtitle"
+                        android:textColor="@color/caixa_oceano"
+                        android:textSize="14sp" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/registerNameInputLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:hint="@string/register_name_hint"
+                        app:boxBackgroundColor="@color/caixa_gelo"
+                        app:boxStrokeColor="@color/caixa_azul"
+                        app:hintTextColor="@color/caixa_oceano">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/registerNameEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:textColor="@android:color/black" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/registerEmailInputLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="@string/register_email_hint"
+                        app:boxBackgroundColor="@color/caixa_gelo"
+                        app:boxStrokeColor="@color/caixa_azul"
+                        app:hintTextColor="@color/caixa_oceano">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/registerEmailEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:textColor="@android:color/black" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/registerPasswordInputLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="@string/register_password_hint"
+                        app:boxBackgroundColor="@color/caixa_gelo"
+                        app:boxStrokeColor="@color/caixa_azul"
+                        app:hintTextColor="@color/caixa_oceano">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/registerPasswordEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textColor="@android:color/black" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/registerConfirmPasswordInputLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="@string/register_confirm_password_hint"
+                        app:boxBackgroundColor="@color/caixa_gelo"
+                        app:boxStrokeColor="@color/caixa_azul"
+                        app:hintTextColor="@color/caixa_oceano">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/registerConfirmPasswordEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textColor="@android:color/black" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/salvarButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:background="@drawable/bg_primary_button"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp"
+                        android:text="@string/register_action"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white" />
+
+                    <Button
+                        android:id="@+id/sairButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/bg_outline_button"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp"
+                        android:text="@string/register_cancel_action"
+                        android:textAllCaps="false"
+                        android:textColor="@color/caixa_laranja" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
