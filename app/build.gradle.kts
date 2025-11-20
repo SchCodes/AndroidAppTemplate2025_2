@@ -59,6 +59,8 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.firebase.ai)
+    implementation(libs.google.firebase.ai)
 
     implementation(libs.glide)
 

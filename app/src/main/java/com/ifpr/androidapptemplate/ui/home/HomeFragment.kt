@@ -43,6 +43,7 @@ import com.google.firebase.database.ValueEventListener
 import com.ifpr.androidapptemplate.R
 import com.ifpr.androidapptemplate.baseclasses.Item
 import com.ifpr.androidapptemplate.databinding.FragmentHomeBinding
+import com.ifpr.androidapptemplate.ui.ai.AiLogicActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -87,6 +88,9 @@ class HomeFragment : Fragment() {
         inicializaGerenciamentoLocalizacao()
         carregarAnalisesDoUsuario()
         setupLotterySection()
+        binding.fabAi.setOnClickListener {
+            startActivity(Intent(requireContext(), AiLogicActivity::class.java))
+        }
 
         return binding.root
     }
