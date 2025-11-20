@@ -54,4 +54,8 @@
     <string name="location_permission_denied">Permission denied. Cannot access location.</string>
     <string name="address_not_found">Address not found</string>
     <string name="address_error">Error: %1$s</string>
+    <string name="loading_address">Obtendo endereço atual...</string>
+    <string name="current_coordinates">Lat: %.5f, Lon: %.5f</string>
+    <string name="waiting_gps_fix">Aguardando sinal de GPS...</string>
+    <string name="location_settings_disabled">Ative o GPS ou a localização nas configurações para continuar.</string>
 </resources>

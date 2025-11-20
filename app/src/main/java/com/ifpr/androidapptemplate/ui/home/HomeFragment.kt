@@ -1,6 +1,7 @@
 package com.ifpr.androidapptemplate.ui.home
 
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.location.Geocoder
@@ -14,14 +15,18 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.Priority
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.snackbar.Snackbar
@@ -50,6 +55,16 @@ class HomeFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var locationCallback: LocationCallback? = null
     private lateinit var locationRequest: LocationRequest
+    private lateinit var locationSettingsRequest: LocationSettingsRequest
+    private val locationSettingsLauncher = registerForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            startLocationUpdates()
+        } else {
+            _binding?.currentAddressTextView?.text = getString(R.string.location_settings_disabled)
+        }
+    }
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -71,6 +86,16 @@ class HomeFragment : Fragment() {
 
     private fun inicializaGerenciamentoLocalizacao() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10_000L)
+            .setMinUpdateIntervalMillis(5_000L)
+            .setWaitForAccurateLocation(true)
+            .build()
+
+        locationSettingsRequest = LocationSettingsRequest.Builder()
+            .addLocationRequest(locationRequest)
+            .setAlwaysShow(true)
+            .build()
 
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -127,6 +152,41 @@ class HomeFragment : Fragment() {
             return
         }
 
+        binding.currentAddressTextView.text = getString(R.string.loading_address)
+
+        val settingsClient = LocationServices.getSettingsClient(requireActivity())
+        settingsClient.checkLocationSettings(locationSettingsRequest)
+            .addOnSuccessListener {
+                startLocationUpdates()
+            }
+            .addOnFailureListener { exception ->
+                if (exception is ResolvableApiException) {
+                    try {
+                        val intent = IntentSenderRequest.Builder(exception.resolution).build()
+                        locationSettingsLauncher.launch(intent)
+                    } catch (_: Exception) {
+                        binding.currentAddressTextView.text = getString(R.string.location_settings_disabled)
+                    }
+                } else {
+                    binding.currentAddressTextView.text = getString(R.string.location_settings_disabled)
+                }
+            }
+    }
+
+    private fun startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+
+        locationCallback?.let { fusedLocationClient.removeLocationUpdates(it) }
+
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.lastLocation?.let { location ->
@@ -135,33 +195,53 @@ class HomeFragment : Fragment() {
             }
         }
 
-        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 30_000L)
-            .setMinUpdateIntervalMillis(30_000L)
-            .build()
-
         fusedLocationClient.requestLocationUpdates(
             locationRequest,
             locationCallback as LocationCallback,
             Looper.getMainLooper()
         )
+
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                if (location != null) {
+                    displayAddress(location)
+                } else {
+                    binding.currentAddressTextView.text = getString(R.string.waiting_gps_fix)
+                }
+            }
+            .addOnFailureListener {
+                binding.currentAddressTextView.text = getString(R.string.address_error, it.message ?: "")
+            }
     }
 
     private fun displayAddress(location: Location) {
-        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        if (!Geocoder.isPresent()) {
+            binding.currentAddressTextView.text = formatCoordinates(location)
+            return
+        }
+
+        val geocoder = Geocoder(requireContext(), Locale("pt", "BR"))
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                val address = addresses?.firstOrNull()?.getAddressLine(0) ?: getString(R.string.address_not_found)
+                val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 3)
+                val resolvedAddress = addresses
+                    ?.firstOrNull { !it.getAddressLine(0).isNullOrBlank() }
+                    ?.getAddressLine(0)
+
                 withContext(Dispatchers.Main) {
-                    binding.currentAddressTextView.text = address
+                    binding.currentAddressTextView.text = resolvedAddress ?: formatCoordinates(location)
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    binding.currentAddressTextView.text = getString(R.string.address_error, e.message ?: "")
+                    binding.currentAddressTextView.text = formatCoordinates(location)
                 }
             }
         }
+    }
+
+    private fun formatCoordinates(location: Location): String {
+        return getString(R.string.current_coordinates, location.latitude, location.longitude)
     }
 
     override fun onDestroyView() {
