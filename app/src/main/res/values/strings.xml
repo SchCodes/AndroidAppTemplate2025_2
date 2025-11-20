@@ -58,4 +58,14 @@
     <string name="current_coordinates">Lat: %.5f, Lon: %.5f</string>
     <string name="waiting_gps_fix">Aguardando sinal de GPS...</string>
     <string name="location_settings_disabled">Ative o GPS ou a localização nas configurações para continuar.</string>
+    <string name="lottery_section_title">Lotéricas próximas</string>
+    <string name="lottery_section_description">Encontre os pontos oficiais mais próximos para registrar suas apostas.</string>
+    <string name="lottery_search_button">Buscar lotéricas próximas</string>
+    <string name="lottery_loading">Buscando lotéricas...</string>
+    <string name="lottery_empty_state">Não encontramos lotéricas próximas.</string>
+    <string name="lottery_distance_format">Distância: %.2f km</string>
+    <string name="lottery_open_maps">Abrir no Maps</string>
+    <string name="lottery_error_no_location">Ative sua localização para buscar lotéricas.</string>
+    <string name="lottery_geocoder_error">Erro ao buscar lotéricas. Tente novamente.</string>
+    <string name="no_maps_app_found">Nenhum aplicativo de mapas disponível.</string>
 </resources>

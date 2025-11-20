@@ -66,5 +66,65 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:orientation="vertical" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="32dp"
+            android:background="@color/profile_text_secondary" />
+
+        <TextView
+            android:id="@+id/lotterySectionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/lottery_section_title"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/lotterySectionDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/lottery_section_description"
+            android:textColor="@color/profile_text_secondary"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/lotterySearchButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/lottery_search_button"
+            style="@style/Widget.MaterialComponents.Button"
+            android:textAllCaps="false" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/lotteryProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:indicatorColor="@android:color/white"
+            app:indicatorSize="36dp" />
+
+        <TextView
+            android:id="@+id/lotteryEmptyStateText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/lottery_empty_state"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/lotteryListContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
