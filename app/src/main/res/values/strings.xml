@@ -51,4 +51,7 @@
     <string name="notifications_empty_state">Nenhuma notificacao no momento. Aproveite para explorar novos itens!</string>
     <string name="item_address_placeholder">Endereco nao informado</string>
     <string name="item_details_placeholder">Atualize para ver mais detalhes deste item.</string>
+    <string name="location_permission_denied">Permission denied. Cannot access location.</string>
+    <string name="address_not_found">Address not found</string>
+    <string name="address_error">Error: %1$s</string>
 </resources>
