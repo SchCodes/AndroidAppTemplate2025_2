@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,177 +16,231 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text_dashboard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/title_dashboard"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/dashboardSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/dashboard_subtitle"
-            android:textColor="@color/profile_text_secondary"
-            android:textSize="14sp" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/dashboardCard"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:cardBackgroundColor="@color/profile_card_background"
-            app:cardCornerRadius="20dp"
-            app:cardUseCompatPadding="false"
-            app:strokeColor="@color/profile_card_stroke"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_dashboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resumo estatístico"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/dashboardSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Insights calculados a partir dos últimos concursos"
+                android:textColor="@color/profile_text_secondary"
+                android:textSize="14sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/refreshButton"
+                style="@style/Widget.LotoAnalise.SecondaryButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="12dp"
+                android:text="Atualizar"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/statsLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:indicatorColor="@android:color/white"
+            app:indicatorSize="36dp" />
+
+        <TextView
+            android:id="@+id/statsError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
+            android:visibility="gone"
+            tools:text="Erro ao carregar dados" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/statsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@color/caixa_azul"
             app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:padding="16dp">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/image_item"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_gravity="center_horizontal"
-                    android:contentDescription="@string/dashboard_image_description"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_profile_avatar"
-                    app:shapeAppearanceOverlay="@style/AppShapeAppearanceCircle"
-                    app:strokeColor="@color/caixa_turquesa"
-                    app:strokeWidth="2dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Principais números"
+                    android:textColor="@color/caixa_azul"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_select_image"
-                    style="@style/Widget.LotoAnalise.SecondaryButton"
+                <TextView
+                    android:id="@+id/topNumbersText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/button_select_image"
-                    android:textAllCaps="false" />
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/caixa_oceano"
+                    tools:text="01, 03, 05, 07, 09" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/titleInputLayout"
-                    style="@style/Widget.LotoAnalise.TextInputLayout"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Menos frequentes"
+                    android:textColor="@color/caixa_azul"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/leastNumbersText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:hint="@string/dashboard_title_hint">
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/caixa_oceano"
+                    tools:text="10, 12, 18, 22, 25" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/titleEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textCapWords"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
-                </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Pares x Ímpares"
+                    android:textColor="@color/caixa_azul"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/numbersInputLayout"
-                    style="@style/Widget.LotoAnalise.TextInputLayout"
+                <TextView
+                    android:id="@+id/pairOddText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="@string/dashboard_numbers_hint">
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/caixa_oceano"
+                    tools:text="7 pares / 8 ímpares" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/numbersEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textCapCharacters"
-                        android:maxLines="2"
-                        android:textColor="@android:color/black"
-                        android:text="" />
-                </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Soma média"
+                    android:textColor="@color/caixa_azul"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/categoryInputLayout"
-                    style="@style/Widget.LotoAnalise.TextInputLayout"
+                <TextView
+                    android:id="@+id/sumMeanText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="@string/dashboard_category_hint">
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/caixa_oceano"
+                    tools:text="182.4" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/categoryEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textCapWords"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
-                </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Maior sequência"
+                    android:textColor="@color/caixa_azul"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/probabilityInputLayout"
-                    style="@style/Widget.LotoAnalise.TextInputLayout"
+                <TextView
+                    android:id="@+id/streakMaxText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="@string/dashboard_probability_hint">
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/caixa_oceano"
+                    tools:text="4 em sequência" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/probabilityEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
-                </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Sugestão de aposta"
+                    android:textColor="@color/caixa_azul"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/concursoInputLayout"
-                    style="@style/Widget.LotoAnalise.TextInputLayout"
+                <TextView
+                    android:id="@+id/suggestedBetText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="@string/dashboard_concurso_hint">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/concursoEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/notesInputLayout"
-                    style="@style/Widget.LotoAnalise.TextInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="@string/dashboard_notes_hint">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/notesEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textMultiLine"
-                        android:minLines="3"
-                        android:maxLines="5"
-                        android:textColor="@android:color/black" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/salvarItemButton"
-                    style="@style/Widget.LotoAnalise.Button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/dashboard_save_action" />
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/caixa_oceano"
+                    tools:text="01,03,05,07,09,10,12,14,16,18,19,20,22,23,25" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/drawsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@color/caixa_turquesa"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Últimos concursos"
+                    android:textColor="@color/caixa_azul"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/drawsLoading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone"
+                    app:indicatorColor="@color/caixa_azul" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/drawsRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    tools:listitem="@layout/item_draw" />
+
+                <TextView
+                    android:id="@+id/drawsEmptyState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Sem concursos recentes"
+                    android:textAlignment="center"
+                    android:textColor="@color/caixa_oceano"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
