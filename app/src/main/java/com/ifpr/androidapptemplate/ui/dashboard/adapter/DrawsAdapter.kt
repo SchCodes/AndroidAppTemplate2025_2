@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ifpr.androidapptemplate.R
 import com.ifpr.androidapptemplate.data.lottery.LocalDraw
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 
 class DrawsAdapter : RecyclerView.Adapter<DrawsAdapter.DrawViewHolder>() {
 
@@ -32,12 +34,29 @@ class DrawsAdapter : RecyclerView.Adapter<DrawsAdapter.DrawViewHolder>() {
     class DrawViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val title: TextView = itemView.findViewById(R.id.drawTitle)
         private val date: TextView = itemView.findViewById(R.id.drawDate)
-        private val numbers: TextView = itemView.findViewById(R.id.drawNumbers)
+        private val numbersChips: ChipGroup = itemView.findViewById(R.id.drawNumbersChips)
 
         fun bind(draw: LocalDraw) {
             title.text = "Concurso ${draw.id}"
             date.text = draw.date
-            numbers.text = draw.numbers.joinToString(", ") { it.toString().padStart(2, '0') }
+            renderChips(draw.numbers)
+        }
+
+        private fun renderChips(nums: List<Int>) {
+            numbersChips.removeAllViews()
+            val res = itemView.resources
+            nums.forEach { n ->
+                val chip = Chip(itemView.context, null, com.google.android.material.R.style.Widget_MaterialComponents_Chip_Filter).apply {
+                    text = n.toString().padStart(2, '0')
+                    isCheckable = false
+                    isClickable = false
+                    setTextColor(res.getColor(R.color.caixa_oceano, null))
+                    setChipBackgroundColorResource(R.color.caixa_chip_bg)
+                    setChipStrokeColorResource(R.color.caixa_azul)
+                    chipStrokeWidth = res.getDimension(R.dimen.chip_stroke_width)
+                }
+                numbersChips.addView(chip)
+            }
         }
     }
 }

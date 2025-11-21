@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.SignInButton
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
@@ -18,6 +17,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.android.material.button.MaterialButton
 import com.ifpr.androidapptemplate.MainActivity
 import com.ifpr.androidapptemplate.R
 import com.ifpr.androidapptemplate.ui.usuario.CadastroUsuarioActivity
@@ -29,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginButton: Button
     private lateinit var registerLink: TextView
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var btnGoogleSignIn: SignInButton
+    private lateinit var btnGoogleSignIn: MaterialButton
     private lateinit var googleSignInClient: GoogleSignInClient
 
     companion object {
@@ -50,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
         passwordEditText = findViewById(R.id.edit_text_password)
         loginButton = findViewById(R.id.button_login)
         registerLink = findViewById(R.id.registerLink)
-        btnGoogleSignIn = findViewById<SignInButton>(R.id.btnGoogleSignIn)
+        btnGoogleSignIn = findViewById(R.id.btnGoogleSignIn)
 
         val registerLink: TextView = findViewById(R.id.registerLink)
         registerLink.setOnClickListener {

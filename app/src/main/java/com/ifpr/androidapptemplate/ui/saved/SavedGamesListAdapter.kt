@@ -56,7 +56,11 @@ class SavedGamesListAdapter(
             onSave: (List<Int>) -> Unit
         ) {
             renderChips(bet.numbers)
-            metaText.text = "Fonte: ${bet.source} • #${bet.id.takeLast(5)}"
+            metaText.text = if (bet.source == "usuario") {
+                "#${bet.id.takeLast(5)}"
+            } else {
+                "Fonte: ${bet.source} • #${bet.id.takeLast(5)}"
+            }
 
             deleteButton.setOnClickListener { onDelete(bet.id) }
             calcButton.setOnClickListener { onCalculate(SuggestionParams()) }

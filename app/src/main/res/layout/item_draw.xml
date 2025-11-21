@@ -1,37 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="12dp"
-    android:background="@android:color/white">
+    android:layout_marginBottom="10dp"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:strokeColor="@color/caixa_turquesa"
+    app:strokeWidth="1dp">
 
-    <TextView
-        android:id="@+id/drawTitle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/caixa_azul"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        tools:text="Concurso 3050" />
+        android:orientation="vertical"
+        android:padding="12dp">
 
-    <TextView
-        android:id="@+id/drawDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:textColor="@color/profile_text_secondary"
-        android:textSize="12sp"
-        tools:text="20/11/2025" />
+        <TextView
+            android:id="@+id/drawTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/caixa_azul"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            tools:text="Concurso 3050" />
 
-    <TextView
-        android:id="@+id/drawNumbers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:textColor="@color/caixa_oceano"
-        android:textSize="14sp"
-        tools:text="01, 03, 05, 07, 09, 10, 12, 14, 16, 18, 19, 20, 22, 23, 25" />
+        <TextView
+            android:id="@+id/drawDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/profile_text_secondary"
+            android:textSize="12sp"
+            tools:text="20/11/2025" />
 
-</LinearLayout>
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/drawNumbersChips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:chipSpacingHorizontal="6dp"
+            app:chipSpacingVertical="6dp"
+            app:singleLine="false"
+            tools:ignore="SpeakableTextPresentCheck">
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="01"
+                app:chipBackgroundColor="@color/caixa_chip_bg"
+                app:chipStrokeColor="@color/caixa_azul"
+                app:chipStrokeWidth="1dp" />
+        </com.google.android.material.chip.ChipGroup>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

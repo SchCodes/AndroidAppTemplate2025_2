@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
     android:fitsSystemWindows="true"
-    android:padding="24dp"
+    android:padding="28dp"
     tools:context=".ui.login.LoginActivity">
 
     <ImageView
@@ -135,13 +135,19 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.gms.common.SignInButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnGoogleSignIn"
+                style="@style/Widget.LotoAnalise.SecondaryButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_marginBottom="32dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp" />
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@android:color/white"
+                android:text="Entrar com Google"
+                android:textAllCaps="false"
+                android:textColor="@color/caixa_azul"
+                app:cornerRadius="32dp" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

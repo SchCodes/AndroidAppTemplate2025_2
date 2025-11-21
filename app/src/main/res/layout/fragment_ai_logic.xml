@@ -93,15 +93,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:gravity="end"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:orientation="horizontal">
 
                         <Button
                             android:id="@+id/btn_select_image"
                             android:layout_width="0dp"
-                            android:layout_height="48dp"
-                            android:layout_weight="1.2"
-                            android:text="Anexar imagem"
+                            android:layout_height="44dp"
+                            android:layout_weight="1"
+                            android:minWidth="0dp"
+                            android:text="Anexar"
                             android:textAllCaps="false"
                             android:textColor="@android:color/white"
                             android:backgroundTint="@color/caixa_laranja" />
@@ -113,8 +113,9 @@
                         <Button
                             android:id="@+id/btn_clear_image"
                             android:layout_width="0dp"
-                            android:layout_height="48dp"
-                            android:layout_weight="0.8"
+                            android:layout_height="44dp"
+                            android:layout_weight="1"
+                            android:minWidth="0dp"
                             android:text="Limpar"
                             android:textAllCaps="false"
                             android:textColor="@color/caixa_oceano"
