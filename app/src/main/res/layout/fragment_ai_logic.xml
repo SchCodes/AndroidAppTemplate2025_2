@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ai_logic_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,14 +9,17 @@
     android:fillViewport="true"
     android:fitsSystemWindows="true"
     android:clipToPadding="false"
-    android:paddingTop="48dp"
-    android:paddingBottom="140dp">
+    android:paddingStart="16dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="120dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:clipToPadding="false"
+        android:paddingBottom="24dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Use a imagem e um prompt curto para orientar o Gemini 2.0 Flash."
+            android:text="Converse com o Gemini para tirar duvidas sobre suas analises e apostas. Ele lembra do historico da conversa."
             android:textColor="@color/profile_text_secondary"
             android:textSize="14sp" />
 
@@ -38,56 +42,111 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="6dp"
             app:strokeColor="@color/caixa_laranja"
             app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Imagem de referencia"
-                    android:textColor="@color/caixa_azul"
-                    android:textStyle="bold" />
-
                 <ImageView
-                    android:id="@+id/bitmapImageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:layout_marginTop="12dp"
+                    android:id="@+id/selected_image_preview"
+                    android:layout_width="108dp"
+                    android:layout_height="108dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@android:drawable/gallery_thumb"
                     android:background="@color/caixa_gelo"
-                    android:contentDescription="Selecionar imagem" />
+                    android:contentDescription="Imagem selecionada"
+                    android:scaleType="centerCrop"
+                    android:src="@android:drawable/gallery_thumb" />
 
-                <Button
-                    android:id="@+id/btn_select_image"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Selecionar imagem"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/white"
-                    android:backgroundTint="@color/caixa_laranja" />
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Contexto visual (opcional)"
+                        android:textColor="@color/caixa_azul"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Anexe imagens de comprovantes, prints ou tabelas. Vamos usar como contexto junto da sua mensagem."
+                        android:textColor="@color/caixa_oceano"
+                        android:textSize="13sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="end"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <Button
+                            android:id="@+id/btn_select_image"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1.2"
+                            android:text="Anexar imagem"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            android:backgroundTint="@color/caixa_laranja" />
+
+                        <Space
+                            android:layout_width="8dp"
+                            android:layout_height="0dp" />
+
+                        <Button
+                            android:id="@+id/btn_clear_image"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="0.8"
+                            android:text="Limpar"
+                            android:textAllCaps="false"
+                            android:textColor="@color/caixa_oceano"
+                            android:backgroundTint="@color/caixa_gelo" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="12dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chat_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:nestedScrollingEnabled="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            tools:listitem="@layout/item_ai_message_bot" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="12dp"
             app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:strokeColor="@color/caixa_azul"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="10dp"
+            app:strokeColor="@color/caixa_oceano"
             app:strokeWidth="1dp">
 
             <LinearLayout
@@ -99,7 +158,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Prompt"
+                    android:text="Mensagem"
                     android:textColor="@color/caixa_azul"
                     android:textStyle="bold" />
 
@@ -110,41 +169,47 @@
                     android:layout_marginTop="8dp"
                     android:background="@color/caixa_gelo"
                     android:gravity="top"
-                    android:hint="Descreva o que deseja analisar na imagem"
+                    android:hint="Descreva sua pergunta para a IA"
                     android:inputType="textMultiLine"
-                    android:minHeight="120dp"
+                    android:minHeight="72dp"
                     android:padding="12dp" />
 
-                <Button
-                    android:id="@+id/btn_generate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Gerar com IA"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/white"
-                    android:backgroundTint="@color/caixa_azul" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Resposta"
-                    android:textColor="@color/caixa_oceano"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/result_text"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@color/caixa_gelo"
-                    android:minHeight="96dp"
-                    android:padding="12dp"
-                    android:text="Resultado aparecera aqui"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <ProgressBar
+                        android:id="@+id/loading_indicator"
+                        style="?android:attr/progressBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btn_send"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:minWidth="120dp"
+                        android:text="Enviar"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="@color/caixa_azul" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/helper_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Modelo: Gemini 2.0 Flash - Mantemos o historico da conversa e usamos imagem quando anexada."
                     android:textColor="@color/caixa_oceano"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

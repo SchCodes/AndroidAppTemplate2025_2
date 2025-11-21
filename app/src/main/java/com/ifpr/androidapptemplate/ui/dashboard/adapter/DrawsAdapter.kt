@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ifpr.androidapptemplate.R
-import com.ifpr.androidapptemplate.data.lottery.Draw
+import com.ifpr.androidapptemplate.data.lottery.LocalDraw
 
 class DrawsAdapter : RecyclerView.Adapter<DrawsAdapter.DrawViewHolder>() {
 
-    private val items = mutableListOf<Draw>()
+    private val items = mutableListOf<LocalDraw>()
 
-    fun submitList(newItems: List<Draw>) {
+    fun submitList(newItems: List<LocalDraw>) {
         items.clear()
         items.addAll(newItems)
         notifyDataSetChanged()
@@ -34,8 +34,8 @@ class DrawsAdapter : RecyclerView.Adapter<DrawsAdapter.DrawViewHolder>() {
         private val date: TextView = itemView.findViewById(R.id.drawDate)
         private val numbers: TextView = itemView.findViewById(R.id.drawNumbers)
 
-        fun bind(draw: Draw) {
-            title.text = "Concurso ${'$'}{draw.drawId}"
+        fun bind(draw: LocalDraw) {
+            title.text = "Concurso ${draw.id}"
             date.text = draw.date
             numbers.text = draw.numbers.joinToString(", ") { it.toString().padStart(2, '0') }
         }

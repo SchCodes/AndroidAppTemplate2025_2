@@ -33,3 +33,15 @@ google-services.json
 # Android Profiling
 *.hprof
 contexto.txt
+
+serviceAccountKey.json
+
+# Python tooling / local deps
+_pylib/
+pip_install.log
+__pycache__/
+
+# Local clones / generated bundles
+lotto_lib/
+processed/
+BD_full_lotoFacil.xlsx

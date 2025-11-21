@@ -37,8 +37,8 @@ class StatsRepository(
         return Stats(
             generatedAt = getLong("generatedAt") ?: 0L,
             sampleSize = getLong("sampleSize")?.toInt() ?: 0,
-            topNumbers = getList<Int>("topNumbers") ?: emptyList(),
-            leastNumbers = getList<Int>("leastNumbers") ?: emptyList(),
+            topNumbers = getIntList("topNumbers"),
+            leastNumbers = getIntList("leastNumbers"),
             sumMean = getDouble("sumMean") ?: 0.0,
             pairOdd = get("pairOdd")?.let { raw ->
                 val map = raw as? Map<*, *> ?: return@let null
@@ -58,7 +58,7 @@ class StatsRepository(
             } ?: emptyList(),
             pairCombos = extractComboList(get("pairCombos")),
             tripleCombos = extractComboList(get("tripleCombos")),
-            suggestedBet = getList<Int>("suggestedBet") ?: emptyList()
+            suggestedBet = getIntList("suggestedBet")
         )
     }
 
@@ -67,9 +67,14 @@ class StatsRepository(
         return Draw(
             drawId = (getLong("drawId") ?: 0L).toInt(),
             date = getString("date") ?: "",
-            numbers = getList<Int>("numbers") ?: emptyList(),
+            numbers = getIntList("numbers"),
             source = getString("source")
         )
+    }
+
+    private fun DocumentSnapshot.getIntList(field: String): List<Int> {
+        val raw = get(field) as? List<*> ?: return emptyList()
+        return raw.mapNotNull { (it as? Number)?.toInt() }
     }
 
     private fun extractComboList(raw: Any?): List<List<Int>> {

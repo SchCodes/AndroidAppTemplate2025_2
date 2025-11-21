@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -27,7 +27,7 @@
                 android:id="@+id/text_dashboard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Resumo estatístico"
+                android:text="Resumo estatistico"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Insights calculados a partir dos últimos concursos"
+                android:text="Insights calculados a partir dos ultimos concursos"
                 android:textColor="@color/profile_text_secondary"
                 android:textSize="14sp" />
 
@@ -80,7 +80,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
                 android:visibility="gone"
-                tools:text="Atualização em andamento..." />
+                tools:text="Atualizacao em andamento..." />
         </LinearLayout>
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -121,7 +121,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Principais números"
+                    android:text="Principais numeros"
                     android:textColor="@color/caixa_azul"
                     android:textStyle="bold"
                     android:textSize="16sp" />
@@ -155,7 +155,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Pares x Ímpares"
+                    android:text="Pares x impares"
                     android:textColor="@color/caixa_azul"
                     android:textStyle="bold"
                     android:textSize="16sp" />
@@ -166,13 +166,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/caixa_oceano"
-                    tools:text="7 pares / 8 ímpares" />
+                    tools:text="7 pares / 8 impares" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Soma média"
+                    android:text="Soma media"
                     android:textColor="@color/caixa_azul"
                     android:textStyle="bold"
                     android:textSize="16sp" />
@@ -189,7 +189,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Maior sequência"
+                    android:text="Maior sequencia"
                     android:textColor="@color/caixa_azul"
                     android:textStyle="bold"
                     android:textSize="16sp" />
@@ -200,13 +200,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/caixa_oceano"
-                    tools:text="4 em sequência" />
+                    tools:text="4 em sequencia" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Sugestão de aposta"
+                    android:text="Sugestao de aposta"
                     android:textColor="@color/caixa_azul"
                     android:textStyle="bold"
                     android:textSize="16sp" />
@@ -241,7 +241,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Últimos concursos"
+                    android:text="Ultimos concursos"
                     android:textColor="@color/caixa_azul"
                     android:textStyle="bold"
                     android:textSize="16sp" />
