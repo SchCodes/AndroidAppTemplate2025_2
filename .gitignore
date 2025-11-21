@@ -45,3 +45,4 @@ __pycache__/
 lotto_lib/
 processed/
 BD_full_lotoFacil.xlsx
+app/setAdmin.py
