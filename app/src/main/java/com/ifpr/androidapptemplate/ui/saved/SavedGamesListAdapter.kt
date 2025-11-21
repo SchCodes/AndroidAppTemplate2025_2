@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.ifpr.androidapptemplate.R
 
 class SavedGamesListAdapter(
@@ -41,7 +43,7 @@ class SavedGamesListAdapter(
     }
 
     class VH(itemView: View, private val onDelete: (String) -> Unit) : RecyclerView.ViewHolder(itemView) {
-        private val numbersText: TextView = itemView.findViewById(R.id.savedNumbers)
+        private val numbersChips: ChipGroup = itemView.findViewById(R.id.savedNumbersChips)
         private val metaText: TextView = itemView.findViewById(R.id.savedMeta)
         private val deleteButton: Button = itemView.findViewById(R.id.deleteBetButton)
         private val calcButton: Button = itemView.findViewById(R.id.calcBetButton)
@@ -53,16 +55,31 @@ class SavedGamesListAdapter(
             onCalculate: (SuggestionParams) -> Unit,
             onSave: (List<Int>) -> Unit
         ) {
-            numbersText.text = bet.numbers.joinToString(", ") { it.toString().padStart(2, '0') }
-            metaText.text = "Fonte: ${bet.source} • ${bet.id.takeLast(5)}"
+            renderChips(bet.numbers)
+            metaText.text = "Fonte: ${bet.source} • #${bet.id.takeLast(5)}"
 
             deleteButton.setOnClickListener { onDelete(bet.id) }
-            calcButton.setOnClickListener {
-                onCalculate(SuggestionParams())
-            }
+            calcButton.setOnClickListener { onCalculate(SuggestionParams()) }
             saveCalcButton.visibility = if (suggested.isNotEmpty()) View.VISIBLE else View.GONE
             saveCalcButton.setOnClickListener {
                 if (suggested.size == 15) onSave(suggested)
+            }
+        }
+
+        private fun renderChips(numbers: List<Int>) {
+            numbersChips.removeAllViews()
+            val res = itemView.resources
+            numbers.forEach { n ->
+                val chip = Chip(itemView.context, null, com.google.android.material.R.style.Widget_MaterialComponents_Chip_Filter).apply {
+                    text = n.toString().padStart(2, '0')
+                    isCheckable = false
+                    isClickable = false
+                    setTextColor(res.getColor(R.color.caixa_oceano, null))
+                    setChipBackgroundColorResource(R.color.caixa_chip_bg)
+                    setChipStrokeColorResource(R.color.caixa_azul)
+                    chipStrokeWidth = res.getDimension(R.dimen.chip_stroke_width)
+                }
+                numbersChips.addView(chip)
             }
         }
     }

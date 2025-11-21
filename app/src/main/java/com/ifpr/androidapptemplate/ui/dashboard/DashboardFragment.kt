@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.ifpr.androidapptemplate.data.lottery.LocalBundle
 import com.ifpr.androidapptemplate.data.lottery.LocalDraw
@@ -14,6 +16,7 @@ import com.ifpr.androidapptemplate.data.lottery.LotofacilSyncRepository
 import com.ifpr.androidapptemplate.data.lottery.RemoteMetadata
 import com.ifpr.androidapptemplate.databinding.FragmentDashboardBinding
 import com.ifpr.androidapptemplate.ui.dashboard.adapter.DrawsAdapter
+import com.ifpr.androidapptemplate.R
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -122,16 +125,16 @@ class DashboardFragment : Fragment() {
             return
         }
         binding.statsCard.visibility = View.VISIBLE
-        binding.topNumbersText.text = formatList(statsUi.topNumbers)
-        binding.leastNumbersText.text = formatList(statsUi.leastNumbers)
+        renderChips(binding.topNumbersChips, statsUi.topNumbers)
+        renderChips(binding.leastNumbersChips, statsUi.leastNumbers)
+        renderChips(binding.suggestedBetChips, statsUi.suggestedBet)
         val pairs = statsUi.pairsPercent?.let { "%.1f".format(it) } ?: "--"
         val odds = statsUi.oddsPercent?.let { "%.1f".format(it) } ?: "--"
-        binding.pairOddText.text = "$pairs% pares / $odds% impares"
+        binding.pairOddText.text = "$pairs% pares / $odds% ímpares"
         binding.sumMeanText.text = statsUi.meanSum?.let { "%.1f".format(it) } ?: "--"
         binding.streakMaxText.text = statsUi.maxSequence?.toString() ?: "--"
-        binding.meanRepeatText.text = statsUi.meanRepeat?.let { "%.1f numeros repetem em media".format(it) } ?: "--"
-        binding.suggestedBetText.text = formatList(statsUi.suggestedBet)
-        binding.dashboardSubtitle.text = "Ultima geracao: ${meta?.generatedAt ?: "--"}"
+        binding.meanRepeatText.text = statsUi.meanRepeat?.let { "%.1f números repetem em média".format(it) } ?: "--"
+        binding.dashboardSubtitle.text = "Última geração: ${meta?.generatedAt ?: "--"}"
         binding.analysisRangeText.text = statsUi.rangeLabel
     }
 
@@ -153,6 +156,24 @@ class DashboardFragment : Fragment() {
 
     private fun formatList(list: List<Int>): String =
         if (list.isEmpty()) "--" else list.joinToString(", ") { it.toString().padStart(2, '0') }
+
+    private fun renderChips(group: ChipGroup, numbers: List<Int>) {
+        group.removeAllViews()
+        if (numbers.isEmpty()) return
+        val res = resources
+        numbers.forEach { num ->
+            val chip = Chip(requireContext(), null, com.google.android.material.R.style.Widget_MaterialComponents_Chip_Filter).apply {
+                text = num.toString().padStart(2, '0')
+                isCheckable = false
+                isClickable = false
+                setTextColor(res.getColor(R.color.caixa_oceano, null))
+                setChipBackgroundColorResource(R.color.caixa_chip_bg)
+                setChipStrokeColorResource(R.color.caixa_azul)
+                chipStrokeWidth = res.getDimension(R.dimen.chip_stroke_width)
+            }
+            group.addView(chip)
+        }
+    }
 }
 
 private data class StatsUi(

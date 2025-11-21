@@ -19,123 +19,172 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
-        <TextView
-            android:id="@+id/text_dashboard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Resumo estatístico"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/dashboardSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Insights calculados a partir dos últimos concursos"
-            android:textColor="@color/profile_text_secondary"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/dashboardRangeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Base analisada"
-            android:textColor="@color/profile_text_secondary"
-            android:textSize="13sp" />
-
-        <LinearLayout
+        <!-- HERO -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_marginBottom="20dp"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="18dp"
+            app:cardUseCompatPadding="false"
+            app:strokeColor="@android:color/transparent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Últimos N concursos"
-                app:boxBackgroundMode="outline"
-                app:boxBackgroundColor="@android:color/white"
-                app:boxStrokeColor="@color/caixa_azul">
+                android:orientation="vertical"
+                android:padding="20dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/customRangeInput"
+                <TextView
+                    android:id="@+id/text_dashboard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:text="10" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:text="Resumo estatístico"
+                    android:textColor="@android:color/white"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/applyCustomRange"
-                style="@style/Widget.LotoAnalise.SecondaryButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Aplicar"
-                android:textAllCaps="false" />
+                <TextView
+                    android:id="@+id/dashboardSubtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Insights rápidos sobre os concursos mais recentes."
+                    android:textColor="@color/profile_text_secondary"
+                    android:textSize="14sp" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/rangeAll"
-                style="@style/Widget.LotoAnalise.SecondaryButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Todos"
-                android:textAllCaps="false" />
-        </LinearLayout>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/rangeCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#FFFFFFFF">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/refreshButton"
-            style="@style/Widget.LotoAnalise.SecondaryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="12dp"
-            android:text="Atualizar"
-            android:textAllCaps="false" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/updateDataButton"
-            style="@style/Widget.LotoAnalise.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="8dp"
-            android:text="Atualizar base (admin)"
-            android:textAllCaps="false"
-            android:visibility="gone" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/updateLoading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            app:indicatorColor="@android:color/white"
-            app:indicatorSize="32dp" />
+                            <TextView
+                                android:id="@+id/dashboardRangeLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Base analisada"
+                                android:textColor="@color/caixa_azul"
+                                android:textStyle="bold"
+                                android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/updateStatusText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@android:color/white"
-            android:textSize="13sp"
-            android:visibility="gone"
-            tools:text="Atualizacao em andamento..." />
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:hint="Últimos N concursos"
+                                app:boxBackgroundMode="outline"
+                                app:boxBackgroundColor="@android:color/white"
+                                app:boxStrokeColor="@color/caixa_azul">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/customRangeInput"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:text="10" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:orientation="vertical"
+                            android:gravity="center_horizontal">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/applyCustomRange"
+                                style="@style/Widget.LotoAnalise.SecondaryButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Aplicar"
+                                android:textAllCaps="false" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/rangeAll"
+                                style="@style/Widget.LotoAnalise.SecondaryButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Todos"
+                                android:textAllCaps="false" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/refreshButton"
+                        style="@style/Widget.LotoAnalise.SecondaryButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Atualizar"
+                        android:textAllCaps="false" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/updateDataButton"
+                        style="@style/Widget.LotoAnalise.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="Atualizar base (admin)"
+                        android:textAllCaps="false"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/updateLoading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone"
+                    app:indicatorColor="@android:color/white"
+                    app:indicatorSize="32dp" />
+
+                <TextView
+                    android:id="@+id/updateStatusText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp"
+                    android:visibility="gone"
+                    tools:text="Atualizacao em andamento..." />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/statsLoading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:visibility="gone"
             app:indicatorColor="@android:color/white"
             app:indicatorSize="36dp" />
@@ -149,14 +198,15 @@
             android:visibility="gone"
             tools:text="Erro ao carregar dados" />
 
+        <!-- METRICS PANEL (hero style) -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/statsCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="6dp"
             app:strokeColor="@color/caixa_azul"
             app:strokeWidth="1dp">
 
@@ -164,7 +214,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="18dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -183,13 +233,27 @@
                     android:textSize="13sp"
                     tools:text="Últimos 10 concursos (de 3339 a 3348)" />
 
-                <TextView
-                    android:id="@+id/topNumbersText"
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/topNumbersChips"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="@color/caixa_oceano"
-                    tools:text="01, 03, 05, 07, 09" />
+                    app:singleLine="false"
+                    app:chipSpacingVertical="6dp"
+                    app:chipSpacingHorizontal="6dp"
+                    tools:ignore="SpeakableTextPresentCheck">
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="01"
+                        android:enabled="false"
+                        app:chipBackgroundColor="@color/caixa_chip_bg"
+                        app:chipStrokeColor="@color/caixa_azul"
+                        app:chipStrokeWidth="1dp"
+                        app:chipIconVisible="false" />
+                </com.google.android.material.chip.ChipGroup>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -200,19 +264,33 @@
                     android:textStyle="bold"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/leastNumbersText"
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/leastNumbersChips"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="@color/caixa_oceano"
-                    tools:text="10, 12, 18, 22, 25" />
+                    app:singleLine="false"
+                    app:chipSpacingVertical="6dp"
+                    app:chipSpacingHorizontal="6dp"
+                    tools:ignore="SpeakableTextPresentCheck">
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:enabled="false"
+                        app:chipBackgroundColor="@color/caixa_chip_bg"
+                        app:chipStrokeColor="@color/caixa_azul"
+                        app:chipStrokeWidth="1dp"
+                        app:chipIconVisible="false" />
+                </com.google.android.material.chip.ChipGroup>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Pares x impares"
+                    android:text="Pares x ímpares"
                     android:textColor="@color/caixa_azul"
                     android:textStyle="bold"
                     android:textSize="16sp" />
@@ -223,7 +301,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/caixa_oceano"
-                    tools:text="47% pares / 53% impares" />
+                    tools:text="47% pares / 53% ímpares" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -285,13 +363,27 @@
                     android:textStyle="bold"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/suggestedBetText"
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/suggestedBetChips"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="@color/caixa_oceano"
-                    tools:text="01,03,05,07,09,10,12,14,16,18,19,20,22,23,25" />
+                    app:singleLine="false"
+                    app:chipSpacingVertical="6dp"
+                    app:chipSpacingHorizontal="6dp"
+                    tools:ignore="SpeakableTextPresentCheck">
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="01"
+                        android:enabled="false"
+                        app:chipBackgroundColor="@color/caixa_chip_bg"
+                        app:chipStrokeColor="@color/caixa_azul"
+                        app:chipStrokeWidth="1dp"
+                        app:chipIconVisible="false" />
+                </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

@@ -15,13 +15,26 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/savedNumbers"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/savedNumbersChips"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/caixa_oceano"
-            android:textSize="15sp"
-            tools:text="01,02,03,04,05,06,07,08,09,10,11,12,13,14,15" />
+            android:layout_marginBottom="6dp"
+            app:chipSpacingHorizontal="6dp"
+            app:chipSpacingVertical="6dp"
+            app:singleLine="false"
+            tools:ignore="SpeakableTextPresentCheck">
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="01"
+                app:chipBackgroundColor="@color/caixa_chip_bg"
+                app:chipStrokeColor="@color/caixa_azul"
+                app:chipStrokeWidth="1dp" />
+        </com.google.android.material.chip.ChipGroup>
 
         <TextView
             android:id="@+id/savedMeta"

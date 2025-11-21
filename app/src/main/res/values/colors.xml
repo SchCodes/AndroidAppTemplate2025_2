@@ -14,6 +14,7 @@
     <color name="caixa_laranja">#F39200</color>
     <color name="caixa_turquesa">#54BBAB</color>
     <color name="caixa_gelo">#D0E0E3</color>
+    <color name="caixa_chip_bg">#E7F1FA</color>
 
     <!-- Aplicações específicas da tela de perfil -->
     <color name="profile_gradient_start">#004B8B</color>
