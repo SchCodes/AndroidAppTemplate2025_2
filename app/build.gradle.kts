@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.firebase.crashlytics.buildtools)
     implementation(libs.firebase.ai)
     implementation(libs.google.firebase.ai)
+    implementation("com.google.firebase:firebase-messaging")
 
     implementation(libs.glide)
 

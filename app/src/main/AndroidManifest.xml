@@ -29,6 +29,14 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".ui.usuario.CadastroUsuarioActivity" />
         <activity android:name=".ui.ai.AiLogicActivity" />
+
+        <service
+            android:name=".notification.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
