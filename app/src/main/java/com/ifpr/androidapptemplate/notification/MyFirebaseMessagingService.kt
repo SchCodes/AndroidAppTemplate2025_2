@@ -20,6 +20,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             ?: remoteMessage.data["message"]
             ?: remoteMessage.notification?.body
             ?: "em preparo"
+        NotificationRepository.addNotification(applicationContext, status)
         sendStatusNotification(status)
     }
 

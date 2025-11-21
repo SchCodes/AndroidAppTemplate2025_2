@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
+    android:background="@drawable/bg_app_gradient"
     android:padding="24dp"
     tools:context=".ui.notifications.NotificationsFragment">
 
@@ -13,10 +13,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title_notifications"
-        android:textColor="@color/white"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,50 +27,43 @@
         android:text="@string/notifications_subtitle"
         android:textColor="@color/profile_text_secondary"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/text_notifications"
         app:layout_constraintTop_toBottomOf="@id/text_notifications" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/notificationsCard"
-        android:layout_width="0dp"
+    <Button
+        android:id="@+id/clearNotificationsButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:cardBackgroundColor="@color/profile_card_background"
-        app:cardCornerRadius="20dp"
-        app:cardUseCompatPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="12dp"
+        android:text="Limpar notificações"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/caixa_laranja"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_notifications" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/notificationsRecycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/clearNotificationsButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notificationsSubtitle"
-        app:strokeColor="@color/profile_card_stroke"
-        app:strokeWidth="1dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/item_notification" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="24dp">
-
-            <ImageView
-                android:id="@+id/notificationsIllustration"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:contentDescription="@string/title_notifications"
-                android:tint="@color/caixa_turquesa"
-                android:src="@drawable/ic_notifications_black_24dp" />
-
-            <TextView
-                android:id="@+id/notificationsEmptyState"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="@string/notifications_empty_state"
-                android:textColor="@color/caixa_oceano"
-                android:textSize="16sp" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    <TextView
+        android:id="@+id/notificationsEmptyState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/notifications_empty_state"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/clearNotificationsButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
