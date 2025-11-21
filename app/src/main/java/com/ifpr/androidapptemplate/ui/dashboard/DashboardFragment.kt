@@ -16,7 +16,6 @@ import com.ifpr.androidapptemplate.databinding.FragmentDashboardBinding
 import com.ifpr.androidapptemplate.ui.dashboard.adapter.DrawsAdapter
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.tasks.await
 
 class DashboardFragment : Fragment() {
 
@@ -26,6 +25,9 @@ class DashboardFragment : Fragment() {
     private val drawsAdapter = DrawsAdapter()
     private val auth by lazy { FirebaseAuth.getInstance() }
     private val syncRepo by lazy { LotofacilSyncRepository(requireContext()) }
+    private var lastBundle: LocalBundle? = null
+    private var lastMeta: RemoteMetadata? = null
+    private var windowSize: Int? = 10 // padrão: últimos 10 concursos
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +41,9 @@ class DashboardFragment : Fragment() {
 
         binding.refreshButton.setOnClickListener { carregarDados() }
         binding.updateDataButton.setOnClickListener { dispararAtualizacaoAdmin() }
+        binding.rangeAll.setOnClickListener { windowSize = null; updateStatsUI() }
+        binding.applyCustomRange.setOnClickListener { aplicarJanelaCustom() }
+        binding.customRangeInput.setText(windowSize?.toString() ?: "")
 
         verificarAdmin()
         carregarDados()
@@ -47,8 +52,22 @@ class DashboardFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
+        super.onDestroyView()
+    }
+
+    private fun aplicarJanelaCustom() {
+        val raw = binding.customRangeInput.text?.toString()?.trim()
+        val parsed = raw?.toIntOrNull()
+        if (parsed == null || parsed <= 0) {
+            binding.updateStatusText.visibility = View.VISIBLE
+            binding.updateStatusText.text = "Informe um numero positivo para a janela."
+            return
+        }
+        windowSize = parsed
+        updateStatsUI()
+        binding.updateStatusText.visibility = View.VISIBLE
+        binding.updateStatusText.text = "Usando ultimos $parsed concursos."
     }
 
     private fun verificarAdmin() {
@@ -71,16 +90,12 @@ class DashboardFragment : Fragment() {
         mostrarLoading(true)
         lifecycleScope.launch {
             try {
-                val remoteMeta = syncRepo.fetchRemoteMetadata()
+                lastMeta = syncRepo.fetchRemoteMetadata()
                 val updated = syncRepo.syncIfNeeded()
-                val bundle = syncRepo.readLocalBundle()
-                if (bundle == null) {
-                    mostrarErro("Não encontrei o arquivo local. Tente novamente.")
-                } else {
-                    mostrarStats(bundle, remoteMeta)
-                    mostrarDraws(bundle.draws.take(10))
-                    mostrarErro(null)
-                }
+                lastBundle = syncRepo.readLocalBundle()
+                updateStatsUI()
+                updateDrawsUI()
+                mostrarErro(null)
                 if (updated) binding.updateStatusText.apply {
                     visibility = View.VISIBLE
                     text = "Base atualizada com sucesso."
@@ -94,13 +109,14 @@ class DashboardFragment : Fragment() {
     }
 
     private fun dispararAtualizacaoAdmin() {
-        // Placeholder: atualização de dados é feita via script ou futura Function.
         binding.updateStatusText.visibility = View.VISIBLE
         binding.updateStatusText.text = "Atualize via script ou Function (admin)."
     }
 
-    private fun mostrarStats(bundle: LocalBundle, remoteMeta: RemoteMetadata?) {
-        val statsUi = bundle.rawStats.toUiStats()
+    private fun updateStatsUI() {
+        val bundle = lastBundle ?: return
+        val meta = lastMeta
+        val statsUi = computeStats(bundle.draws, windowSize)
         if (statsUi == null) {
             binding.statsCard.visibility = View.GONE
             return
@@ -110,14 +126,17 @@ class DashboardFragment : Fragment() {
         binding.leastNumbersText.text = formatList(statsUi.leastNumbers)
         val pairs = statsUi.pairsPercent?.let { "%.1f".format(it) } ?: "--"
         val odds = statsUi.oddsPercent?.let { "%.1f".format(it) } ?: "--"
-        binding.pairOddText.text = "$pairs% pares / $odds% ímpares"
+        binding.pairOddText.text = "$pairs% pares / $odds% impares"
         binding.sumMeanText.text = statsUi.meanSum?.let { "%.1f".format(it) } ?: "--"
         binding.streakMaxText.text = statsUi.maxSequence?.toString() ?: "--"
+        binding.meanRepeatText.text = statsUi.meanRepeat?.let { "%.1f numeros repetem em media".format(it) } ?: "--"
         binding.suggestedBetText.text = formatList(statsUi.suggestedBet)
-        binding.dashboardSubtitle.text = "Última geração: ${remoteMeta?.generatedAt ?: "--"}"
+        binding.dashboardSubtitle.text = "Ultima geracao: ${meta?.generatedAt ?: "--"}"
+        binding.analysisRangeText.text = statsUi.rangeLabel
     }
 
-    private fun mostrarDraws(draws: List<LocalDraw>) {
+    private fun updateDrawsUI() {
+        val draws = lastBundle?.draws?.take(10).orEmpty()
         drawsAdapter.submitList(draws)
         binding.drawsEmptyState.visibility = if (draws.isEmpty()) View.VISIBLE else View.GONE
     }
@@ -143,36 +162,67 @@ private data class StatsUi(
     val oddsPercent: Double?,
     val meanSum: Double?,
     val maxSequence: Int?,
-    val suggestedBet: List<Int>
+    val meanRepeat: Double?,
+    val suggestedBet: List<Int>,
+    val rangeLabel: String
 )
 
-private fun Map<String, Any?>.toUiStats(): StatsUi? {
-    val freqRaw = this["frequencia_absoluta"] as? Map<*, *> ?: return null
-    val freq = freqRaw.entries.mapNotNull { (k, v) ->
-        val num = (k as? String)?.toIntOrNull() ?: (k as? Number)?.toInt()
-        val count = (v as? Number)?.toInt()
-        if (num != null && count != null) num to count else null
-    }.toMap()
+private fun computeStats(draws: List<LocalDraw>, windowSize: Int?): StatsUi? {
+    if (draws.isEmpty()) return null
+    val subset = windowSize?.let { draws.take(it) } ?: draws
+    if (subset.isEmpty()) return null
+
+    val freq = mutableMapOf<Int, Int>()
+    subset.forEach { draw ->
+        draw.numbers.forEach { n -> freq[n] = (freq[n] ?: 0) + 1 }
+    }
     if (freq.isEmpty()) return null
 
     val top = freq.entries.sortedByDescending { it.value }.take(5).map { it.key }
     val least = freq.entries.sortedBy { it.value }.take(5).map { it.key }
-    val distrib = this["distribuicao_pares"] as? Map<*, *>
-    val pairs = (distrib?.get("pares") as? Number)?.toDouble()
-    val odds = (distrib?.get("impares") as? Number)?.toDouble()
-    val meanSum = (this["media_soma"] as? Number)?.toDouble()
-    val maxSeq = (this["maximo_sequencia"] as? Number)?.toInt()
+    val totalNumbers = subset.size * 15.0
+    val pairCount = subset.sumOf { draw -> draw.numbers.count { it % 2 == 0 } }
+    val pairsPercent = if (totalNumbers > 0) (pairCount / totalNumbers) * 100 else null
+    val oddsPercent = pairsPercent?.let { 100 - it }
+    val meanSum = subset.map { it.numbers.sum() }.average()
+    val maxSeq = subset.maxOfOrNull { longestConsecutive(it.numbers) }
 
-    // Sugestão simples: top 15 mais frequentes
+    val repeats = subset.zipWithNext { a, b ->
+        a.numbers.toSet().intersect(b.numbers.toSet()).size
+    }
+    val meanRepeat = if (repeats.isNotEmpty()) repeats.average() else null
+
     val suggested = freq.entries.sortedByDescending { it.value }.take(15).map { it.key }
+    val maxId = subset.maxOf { it.id }
+    val minId = subset.minOf { it.id }
+    val rangeLabel = windowSize?.let { "Ultimos $it concursos (de $minId a $maxId)" }
+        ?: "Todos os concursos (de $minId a $maxId)"
 
     return StatsUi(
         topNumbers = top,
         leastNumbers = least,
-        pairsPercent = pairs,
-        oddsPercent = odds,
+        pairsPercent = pairsPercent,
+        oddsPercent = oddsPercent,
         meanSum = meanSum,
         maxSequence = maxSeq,
-        suggestedBet = suggested
+        meanRepeat = meanRepeat,
+        suggestedBet = suggested,
+        rangeLabel = rangeLabel
     )
+}
+
+private fun longestConsecutive(nums: List<Int>): Int {
+    if (nums.isEmpty()) return 0
+    val sorted = nums.sorted()
+    var best = 1
+    var cur = 1
+    for (i in 1 until sorted.size) {
+        if (sorted[i] == sorted[i - 1] + 1) {
+            cur += 1
+            best = maxOf(best, cur)
+        } else if (sorted[i] != sorted[i - 1]) {
+            cur = 1
+        }
+    }
+    return best
 }

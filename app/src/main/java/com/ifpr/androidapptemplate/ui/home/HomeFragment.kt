@@ -4,26 +4,21 @@ import android.Manifest
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
+import android.content.IntentSender
 import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
-import android.util.Base64
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
+import androidx.lifecycle.lifecycleScope
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -32,8 +27,9 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.Priority
-import com.google.android.material.imageview.ShapeableImageView
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -41,21 +37,32 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.ifpr.androidapptemplate.R
-import com.ifpr.androidapptemplate.baseclasses.Item
+import com.ifpr.androidapptemplate.data.lottery.LocalDraw
+import com.ifpr.androidapptemplate.data.lottery.LotofacilSyncRepository
 import com.ifpr.androidapptemplate.databinding.FragmentHomeBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.Instant
 import java.util.Locale
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private val safeBinding get() = _binding
 
-    private lateinit var auth: FirebaseAuth
-    private lateinit var itensReference: DatabaseReference
+    private val auth by lazy { FirebaseAuth.getInstance() }
+    private val syncRepo by lazy { LotofacilSyncRepository(requireContext()) }
+    private val dbRef: DatabaseReference by lazy { FirebaseDatabase.getInstance().getReference("bets") }
+    private var betsListener: ValueEventListener? = null
+    private var betsRefForUser: DatabaseReference? = null
+
+    private var suggestedBet: List<Int> = emptyList()
+    private var savedBets: List<SavedBet> = emptyList()
+
+    // localização
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var locationCallback: LocationCallback? = null
     private lateinit var locationRequest: LocationRequest
@@ -65,15 +72,12 @@ class HomeFragment : Fragment() {
     private val locationSettingsLauncher = registerForActivityResult(
         ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            startLocationUpdates()
-        } else {
-            _binding?.currentAddressTextView?.text = getString(R.string.location_settings_disabled)
-        }
+        if (result.resultCode == Activity.RESULT_OK) startLocationUpdates()
+        else binding.currentAddressTextView.text = getString(R.string.location_settings_disabled)
     }
 
     companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 101
     }
 
     override fun onCreateView(
@@ -83,41 +87,237 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        auth = FirebaseAuth.getInstance()
-        inicializaGerenciamentoLocalizacao()
-        carregarAnalisesDoUsuario()
-        setupLotterySection()
+        binding.refreshButton.visibility = View.GONE
+        binding.useSuggestionButton.visibility = View.GONE
+        binding.saveBetButton.setOnClickListener { salvarJogoDigitado() }
+        binding.saveSuggestedButton.visibility = View.GONE
+        binding.lotterySearchButton.setOnClickListener { buscarLotericasProximas() }
+
+        inicializaLocalizacao()
+        carregarDados()
+        carregarBets()
+
         return binding.root
     }
 
-    private fun inicializaGerenciamentoLocalizacao() {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+    override fun onDestroyView() {
+        locationCallback?.let { fusedLocationClient.removeLocationUpdates(it) }
+        betsListener?.let { listener ->
+            betsRefForUser?.removeEventListener(listener)
+        }
+        betsListener = null
+        betsRefForUser = null
+        _binding = null
+        super.onDestroyView()
+    }
 
+    private fun carregarDados() {
+        mostrarLoading(true)
+        lifecycleScope.launch {
+            try {
+                syncRepo.syncIfNeeded()
+                val bundle = syncRepo.readLocalBundle()
+                if (bundle == null) {
+                    showError("Não encontrei os dados locais. Tente novamente.")
+                    return@launch
+                }
+                val lastDraw = bundle.draws.firstOrNull()
+                suggestedBet = bundle.rawStats.toSuggestedBet()
+                renderLastDraw(lastDraw)
+                renderSugestao()
+                renderSavedBets(savedBets)
+                binding.errorText.visibility = View.GONE
+            } catch (e: Exception) {
+                showError("Erro ao carregar dados: ${e.message}")
+            } finally {
+                mostrarLoading(false)
+            }
+        }
+    }
+
+    private fun carregarBets() {
+        betsListener?.let { listener ->
+            betsRefForUser?.removeEventListener(listener)
+        }
+        val user = auth.currentUser ?: run {
+            renderSavedBets(emptyList())
+            return
+        }
+        val node = dbRef.child(user.uid)
+        betsRefForUser = node
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list = mutableListOf<SavedBet>()
+                snapshot.children.forEach { child ->
+                    val numbers = child.child("numbers").children.mapNotNull { it.getValue(Int::class.java) }
+                    if (numbers.size != 15) return@forEach
+                    val createdAt = child.child("createdAt").getValue(Long::class.java) ?: 0L
+                    val source = child.child("source").getValue(String::class.java) ?: "usuario"
+                    list += SavedBet(
+                        id = child.key ?: "",
+                        numbers = numbers.sorted(),
+                        createdAt = createdAt,
+                        source = source
+                    )
+                }
+                savedBets = list.sortedByDescending { it.createdAt }
+                renderSavedBets(savedBets)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                renderSavedBets(emptyList())
+            }
+        }
+        betsListener = listener
+        node.addValueEventListener(listener)
+    }
+
+    private fun renderLastDraw(draw: LocalDraw?) {
+        if (draw == null) {
+            binding.lastDrawCard.visibility = View.GONE
+            return
+        }
+        binding.lastDrawCard.visibility = View.VISIBLE
+        binding.lastDrawTitle.text = "Concurso ${draw.id}"
+        binding.lastDrawSubtitle.text = draw.date
+        preencherChips(binding.lastDrawChipGroup, draw.numbers)
+    }
+
+    private fun renderSugestao() {
+        if (suggestedBet.isEmpty()) {
+            binding.suggestionText.text = getString(R.string.home_no_suggestion)
+            return
+        }
+        binding.suggestionText.text = suggestedBet.joinToString(", ") { it.toString().padStart(2, '0') }
+    }
+
+    private fun renderSavedBets(bets: List<SavedBet>) {
+        val binding = safeBinding ?: return
+        val last = bets.firstOrNull()
+        if (last == null) {
+            binding.savedBetsCard.visibility = View.GONE
+            return
+        }
+        binding.savedBetsCard.visibility = View.VISIBLE
+        binding.savedBetsContainer.removeAllViews()
+        val spacing = (8 * resources.displayMetrics.density).toInt()
+        val chipGroup = ChipGroup(requireContext()).apply {
+            isSingleLine = false
+            chipSpacingHorizontal = spacing
+            chipSpacingVertical = spacing
+        }
+        last.numbers.forEach { n ->
+            val chip = Chip(requireContext(), null, com.google.android.material.R.style.Widget_MaterialComponents_Chip_Entry).apply {
+                text = n.toString().padStart(2, '0')
+                isCheckable = false
+                isClickable = false
+            }
+            chipGroup.addView(chip)
+        }
+        binding.savedBetsContainer.addView(chipGroup)
+    }
+
+    private fun preencherSugestao() {
+        if (suggestedBet.isEmpty()) return
+        binding.betInput.setText(suggestedBet.joinToString(",") { it.toString().padStart(2, '0') })
+        binding.saveStatus.text = "Sugestão preenchida. Edite se quiser e salve."
+        binding.saveStatus.visibility = View.VISIBLE
+    }
+
+    private fun salvarJogoDigitado() {
+        val numeros = parseEntrada(binding.betInput)
+        if (numeros == null) {
+            showErrorEntrada()
+            return
+        }
+        salvarJogo(numeros, "usuario")
+    }
+
+    private fun salvarSugestao() {
+        if (suggestedBet.isEmpty()) {
+            Toast.makeText(requireContext(), "Não há sugestão disponível.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        salvarJogo(suggestedBet, "sugestao_app")
+    }
+
+    private fun salvarJogo(numeros: List<Int>, origem: String) {
+        val user = auth.currentUser
+        if (user == null) {
+            Toast.makeText(requireContext(), "Faça login para salvar jogos.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val betId = dbRef.child(user.uid).push().key ?: Instant.now().toString()
+        val payload = mapOf(
+            "numbers" to numeros,
+            "createdAt" to System.currentTimeMillis(),
+            "source" to origem
+        )
+        dbRef.child(user.uid).child(betId).setValue(payload)
+            .addOnSuccessListener {
+                binding.saveStatus.visibility = View.VISIBLE
+                binding.saveStatus.text = "Jogo salvo!"
+            }
+            .addOnFailureListener {
+                binding.saveStatus.visibility = View.VISIBLE
+                binding.saveStatus.text = "Falha ao salvar: ${it.message}"
+            }
+    }
+
+    private fun parseEntrada(input: TextInputEditText): List<Int>? {
+        val raw = input.text?.toString() ?: return null
+        val numeros = raw.split(",", " ", ";")
+            .mapNotNull { it.trim().takeIf { t -> t.isNotEmpty() }?.toIntOrNull() }
+        if (numeros.size != 15) return null
+        if (numeros.any { it !in 1..25 }) return null
+        if (numeros.distinct().size != numeros.size) return null
+        return numeros.sorted()
+    }
+
+    private fun showErrorEntrada() {
+        binding.saveStatus.visibility = View.VISIBLE
+        binding.saveStatus.text = "Informe 15 números entre 1 e 25, separados por vírgula ou espaço."
+    }
+
+    private fun mostrarLoading(isLoading: Boolean) {
+        binding.heroLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.refreshButton.isEnabled = !isLoading
+        binding.saveBetButton.isEnabled = !isLoading
+        binding.saveSuggestedButton.isEnabled = !isLoading
+    }
+
+    private fun showError(msg: String) {
+        binding.errorText.visibility = View.VISIBLE
+        binding.errorText.text = msg
+    }
+
+    private fun preencherChips(group: ChipGroup, numeros: List<Int>) {
+        group.removeAllViews()
+        numeros.forEach { n ->
+            val chip = Chip(requireContext(), null, com.google.android.material.R.style.Widget_MaterialComponents_Chip_Entry).apply {
+                text = n.toString().padStart(2, '0')
+                isCheckable = false
+                isClickable = false
+            }
+            group.addView(chip)
+        }
+    }
+
+    // --- localização e lotéricas ---
+    private fun inicializaLocalizacao() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10_000L)
             .setMinUpdateIntervalMillis(5_000L)
             .setWaitForAccurateLocation(true)
             .build()
-
         locationSettingsRequest = LocationSettingsRequest.Builder()
             .addLocationRequest(locationRequest)
             .setAlwaysShow(true)
             .build()
-
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            requestLocationPermission()
-        } else {
-            getCurrentLocation()
-        }
+        solicitarPermissaoLocalizacao()
     }
 
-    private fun requestLocationPermission() {
+    private fun solicitarPermissaoLocalizacao() {
         requestPermissions(
             arrayOf(
                 Manifest.permission.ACCESS_FINE_LOCATION,
@@ -134,37 +334,17 @@ class HomeFragment : Fragment() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getCurrentLocation()
-            } else {
-                Snackbar.make(
-                    requireView(),
-                    R.string.location_permission_denied,
-                    Snackbar.LENGTH_LONG
-                ).show()
-            }
+            val granted = grantResults.isNotEmpty() && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED
+            if (granted) getCurrentLocation() else binding.currentAddressTextView.text = getString(R.string.location_permission_denied)
         }
     }
 
     private fun getCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-
+        if (!hasLocationPermission()) return
         binding.currentAddressTextView.text = getString(R.string.loading_address)
-
         val settingsClient = LocationServices.getSettingsClient(requireActivity())
         settingsClient.checkLocationSettings(locationSettingsRequest)
-            .addOnSuccessListener {
-                startLocationUpdates()
-            }
+            .addOnSuccessListener { startLocationUpdates() }
             .addOnFailureListener { exception ->
                 if (exception is ResolvableApiException) {
                     try {
@@ -179,44 +359,26 @@ class HomeFragment : Fragment() {
             }
     }
 
+    private fun hasLocationPermission(): Boolean {
+        val ctx = requireContext()
+        val fine = androidx.core.content.ContextCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_FINE_LOCATION)
+        val coarse = androidx.core.content.ContextCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_COARSE_LOCATION)
+        return fine == android.content.pm.PackageManager.PERMISSION_GRANTED || coarse == android.content.pm.PackageManager.PERMISSION_GRANTED
+    }
+
     private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-
+        if (!hasLocationPermission()) return
         locationCallback?.let { fusedLocationClient.removeLocationUpdates(it) }
-
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
-                locationResult.lastLocation?.let { location ->
-                    displayAddress(location)
-                }
+                locationResult.lastLocation?.let { displayAddress(it) }
             }
         }
-
-        fusedLocationClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback as LocationCallback,
-            Looper.getMainLooper()
-        )
-
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback as LocationCallback, Looper.getMainLooper())
         fusedLocationClient.lastLocation
-            .addOnSuccessListener { location ->
-                if (location != null) {
-                    displayAddress(location)
-                } else {
-                    binding.currentAddressTextView.text = getString(R.string.waiting_gps_fix)
-                }
-            }
+            .addOnSuccessListener { loc -> loc?.let { displayAddress(it) } }
             .addOnFailureListener {
-                binding.currentAddressTextView.text = getString(R.string.address_error, it.message ?: "")
+                binding.currentAddressTextView.text = getString(R.string.location_unavailable)
             }
     }
 
@@ -226,22 +388,17 @@ class HomeFragment : Fragment() {
             binding.currentAddressTextView.text = formatCoordinates(location)
             return
         }
-
         val geocoder = Geocoder(requireContext(), Locale("pt", "BR"))
-
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 3)
-                val firstAddress = addresses?.firstOrNull { !it.getAddressLine(0).isNullOrBlank() }
-                val resolvedAddress = firstAddress?.getAddressLine(0)
-                lastKnownLocality = firstAddress?.locality
-                    ?: firstAddress?.subAdminArea
-                    ?: firstAddress?.subLocality
-
+                val first = addresses?.firstOrNull { !it.getAddressLine(0).isNullOrBlank() }
+                val resolved = first?.getAddressLine(0)
+                lastKnownLocality = first?.locality ?: first?.subAdminArea ?: first?.subLocality
                 withContext(Dispatchers.Main) {
-                    binding.currentAddressTextView.text = resolvedAddress ?: formatCoordinates(location)
+                    binding.currentAddressTextView.text = resolved ?: formatCoordinates(location)
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 withContext(Dispatchers.Main) {
                     binding.currentAddressTextView.text = formatCoordinates(location)
                 }
@@ -249,64 +406,42 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun formatCoordinates(location: Location): String {
-        return getString(R.string.current_coordinates, location.latitude, location.longitude)
-    }
-
-    private fun setupLotterySection() {
-        binding.lotterySearchButton.setOnClickListener {
-            buscarLotericasProximas()
-        }
-    }
+    private fun formatCoordinates(location: Location): String =
+        getString(R.string.current_coordinates, location.latitude, location.longitude)
 
     private fun buscarLotericasProximas() {
-        if (!Geocoder.isPresent()) {
-            Snackbar.make(binding.root, R.string.lottery_geocoder_error, Snackbar.LENGTH_LONG).show()
-            return
-        }
-
         val currentLocation = lastKnownLocation
         if (currentLocation == null) {
-            Snackbar.make(binding.root, R.string.lottery_error_no_location, Snackbar.LENGTH_LONG).show()
+            binding.currentAddressTextView.text = getString(R.string.location_unavailable)
             return
         }
-
         showLotteryLoading(true)
         binding.lotteryEmptyStateText.visibility = View.GONE
         binding.lotteryListContainer.removeAllViews()
-
         val geocoder = Geocoder(requireContext(), Locale("pt", "BR"))
-        val baseKeywords = listOf(
+        val keywords = listOf(
             "Lotérica",
             "Lotérica Caixa",
-            "Loterica",
-            "Loterias",
             "Casa Lotérica",
-            "Caixa Lotérica",
+            "Loterias Caixa",
             "Unidade Lotérica"
-        )
-        val dynamicKeywords = mutableSetOf<String>().apply {
-            addAll(baseKeywords)
-            lastKnownLocality?.let { city ->
-                add("Lotérica $city")
-                add("Casa Lotérica $city")
-                add("Loteria Caixa $city")
-            }
+        ).toMutableSet()
+        lastKnownLocality?.let { city ->
+            keywords.add("Lotérica $city")
+            keywords.add("Casa Lotérica $city")
         }
-        val radiusStepsKm = listOf(5.0, 10.0, 20.0, 40.0, 80.0, 150.0, 250.0)
+        val radiusStepsKm = listOf(5.0, 10.0, 20.0, 40.0, 80.0)
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val seenCoordinates = mutableSetOf<String>()
+                val seen = mutableSetOf<String>()
                 var lotteries: List<NearbyLottery> = emptyList()
-
                 run breaking@{
                     radiusStepsKm.forEach { radiusKm ->
-                        val foundForRadius = mutableListOf<NearbyLottery>()
+                        val found = mutableListOf<NearbyLottery>()
                         val delta = radiusKm / 111.0
-                        val maxAllowedDistanceKm = radiusKm + 5
-
-                        dynamicKeywords.forEach { keyword ->
+                        val maxAllowed = radiusKm + 5
+                        keywords.forEach { keyword ->
                             val addresses = geocoder.getFromLocationName(
                                 keyword,
                                 5,
@@ -315,42 +450,29 @@ class HomeFragment : Fragment() {
                                 currentLocation.latitude + delta,
                                 currentLocation.longitude + delta
                             )
-
-                            addresses?.forEach { address ->
-                                val lat = address.latitude
-                                val lon = address.longitude
+                            addresses?.forEach { addr ->
+                                val lat = addr.latitude
+                                val lon = addr.longitude
                                 if (lat == 0.0 && lon == 0.0) return@forEach
-
                                 val key = "%.5f|%.5f".format(lat, lon)
-                                if (!seenCoordinates.add(key)) return@forEach
-
-                                val loteriaLocation = Location("geocoder").apply {
+                                if (!seen.add(key)) return@forEach
+                                val lotLoc = Location("geo").apply {
                                     latitude = lat
                                     longitude = lon
                                 }
-
-                                val distanceKm = currentLocation.distanceTo(loteriaLocation) / 1000f
-                                if (distanceKm > maxAllowedDistanceKm) return@forEach
-                                val name = address.featureName?.takeIf { it.isNotBlank() } ?: "Lotérica"
-                                val formattedAddress = address.getAddressLine(0) ?: getString(R.string.item_address_placeholder)
-
-                                foundForRadius += NearbyLottery(
-                                    name = name,
-                                    address = formattedAddress,
-                                    latitude = lat,
-                                    longitude = lon,
-                                    distanceKm = distanceKm.toDouble()
-                                )
+                                val distKm = currentLocation.distanceTo(lotLoc) / 1000f
+                                if (distKm > maxAllowed) return@forEach
+                                val name = addr.featureName?.takeIf { it.isNotBlank() } ?: "Lotérica"
+                                val formatted = addr.getAddressLine(0) ?: getString(R.string.item_address_placeholder)
+                                found += NearbyLottery(name, formatted, lat, lon, distKm.toDouble())
                             }
                         }
-
-                        if (foundForRadius.isNotEmpty()) {
-                            lotteries = foundForRadius.sortedBy { it.distanceKm }
+                        if (found.isNotEmpty()) {
+                            lotteries = found.sortedBy { it.distanceKm }
                             return@breaking
                         }
                     }
                 }
-
                 withContext(Dispatchers.Main) {
                     showLotteryLoading(false)
                     renderLotteryResults(lotteries)
@@ -358,7 +480,6 @@ class HomeFragment : Fragment() {
             } catch (_: Exception) {
                 withContext(Dispatchers.Main) {
                     showLotteryLoading(false)
-                    Snackbar.make(binding.root, R.string.lottery_geocoder_error, Snackbar.LENGTH_LONG).show()
                     renderLotteryResults(emptyList())
                 }
             }
@@ -373,27 +494,21 @@ class HomeFragment : Fragment() {
     private fun renderLotteryResults(lotteries: List<NearbyLottery>) {
         val container = binding.lotteryListContainer
         container.removeAllViews()
-
         if (lotteries.isEmpty()) {
             binding.lotteryEmptyStateText.visibility = View.VISIBLE
             return
         }
-
         binding.lotteryEmptyStateText.visibility = View.GONE
-
-        lotteries.forEach { lottery ->
+        lotteries.take(5).forEach { lot ->
             val itemView = layoutInflater.inflate(R.layout.item_nearby_lottery, container, false)
-            val nameView = itemView.findViewById<TextView>(R.id.lotteryNameTextView)
-            val addressView = itemView.findViewById<TextView>(R.id.lotteryAddressTextView)
-            val distanceView = itemView.findViewById<TextView>(R.id.lotteryDistanceTextView)
-            val openMapsButton = itemView.findViewById<Button>(R.id.openInMapsButton)
-
-            nameView.text = lottery.name
-            addressView.text = lottery.address
-            distanceView.text = getString(R.string.lottery_distance_format, lottery.distanceKm)
-            openMapsButton.text = getString(R.string.lottery_open_maps)
-            openMapsButton.setOnClickListener { openInMaps(lottery) }
-
+            val nameView = itemView.findViewById<android.widget.TextView>(R.id.lotteryNameTextView)
+            val addressView = itemView.findViewById<android.widget.TextView>(R.id.lotteryAddressTextView)
+            val distanceView = itemView.findViewById<android.widget.TextView>(R.id.lotteryDistanceTextView)
+            val openMapsButton = itemView.findViewById<android.widget.Button>(R.id.openInMapsButton)
+            nameView.text = lot.name
+            addressView.text = lot.address
+            distanceView.text = getString(R.string.lottery_distance_format, lot.distanceKm)
+            openMapsButton.setOnClickListener { openInMaps(lot) }
             container.addView(itemView)
         }
     }
@@ -402,156 +517,44 @@ class HomeFragment : Fragment() {
         val chooserTitle = getString(R.string.lottery_open_maps)
         val geoUri = Uri.parse("geo:${lottery.latitude},${lottery.longitude}?q=${lottery.latitude},${lottery.longitude}(${Uri.encode(lottery.name)})")
         val geoIntent = Intent(Intent.ACTION_VIEW, geoUri)
-
         try {
             startActivity(Intent.createChooser(geoIntent, chooserTitle))
             return
         } catch (_: ActivityNotFoundException) {
         }
-
         val httpsQuery = Uri.encode("${lottery.latitude},${lottery.longitude} (${lottery.name})")
         val httpsUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=$httpsQuery")
-        val httpsIntent = Intent(Intent.ACTION_VIEW, httpsUri).apply {
-            addCategory(Intent.CATEGORY_BROWSABLE)
-        }
-
+        val httpsIntent = Intent(Intent.ACTION_VIEW, httpsUri).apply { addCategory(Intent.CATEGORY_BROWSABLE) }
         try {
             startActivity(Intent.createChooser(httpsIntent, chooserTitle))
         } catch (_: ActivityNotFoundException) {
             Toast.makeText(requireContext(), R.string.no_maps_app_found, Toast.LENGTH_SHORT).show()
         }
     }
-
-    private data class NearbyLottery(
-        val name: String,
-        val address: String,
-        val latitude: Double,
-        val longitude: Double,
-        val distanceKm: Double
-    )
-
-    override fun onDestroyView() {
-        locationCallback?.let { fusedLocationClient.removeLocationUpdates(it) }
-        _binding = null
-        super.onDestroyView()
-    }
-
-    private fun carregarAnalisesDoUsuario() {
-        val usuarioAtual = auth.currentUser
-
-        if (usuarioAtual == null) {
-            binding.homeEmptyStateText.visibility = View.VISIBLE
-            binding.homeEmptyStateText.text = getString(R.string.home_empty_state)
-            Toast.makeText(
-                requireContext(),
-                "Sessão expirada. Faça login novamente.",
-                Toast.LENGTH_SHORT
-            ).show()
-            return
-        }
-
-        itensReference = FirebaseDatabase.getInstance()
-            .getReference("itens")
-            .child(usuarioAtual.uid)
-
-        itensReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val itens = mutableListOf<Item>()
-
-                for (itemSnapshot in snapshot.children) {
-                    val item = itemSnapshot.getValue(Item::class.java)
-                    if (item != null) {
-                        itens += item
-                    }
-                }
-
-                itens.sortByDescending { it.createdAt }
-                exibirItens(itens)
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(
-                    requireContext(),
-                    "Erro ao carregar análises.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
-    }
-
-    private fun exibirItens(itens: List<Item>) {
-        val container: LinearLayout = binding.itemContainer
-        container.removeAllViews()
-
-        if (itens.isEmpty()) {
-            binding.homeEmptyStateText.visibility = View.VISIBLE
-            return
-        }
-
-        binding.homeEmptyStateText.visibility = View.GONE
-
-        itens.forEach { item ->
-            val itemView = layoutInflater.inflate(R.layout.item_template, container, false)
-
-            val imageView = itemView.findViewById<ShapeableImageView>(R.id.item_image)
-            val titleView = itemView.findViewById<TextView>(R.id.item_title)
-            val categoryView = itemView.findViewById<TextView>(R.id.item_category)
-            val numbersView = itemView.findViewById<TextView>(R.id.item_numbers)
-            val probabilityView = itemView.findViewById<TextView>(R.id.item_probability)
-            val concursoView = itemView.findViewById<TextView>(R.id.item_concurso)
-            val notesView = itemView.findViewById<TextView>(R.id.item_notes)
-
-            titleView.text = when {
-                item.titulo.isNotBlank() -> item.titulo
-                else -> getString(R.string.item_title_placeholder)
-            }
-
-            categoryView.text = item.categoria?.takeIf { it.isNotBlank() }
-                ?: getString(R.string.item_category_placeholder)
-
-            numbersView.text = if (item.dezenas.isNotBlank()) {
-                "Dezenas: ${item.dezenas}"
-            } else {
-                getString(R.string.item_numbers_placeholder)
-            }
-
-            probabilityView.text = item.probabilidade?.let { prob ->
-                "Probabilidade: %.2f%%".format(prob)
-            } ?: getString(R.string.item_probability_placeholder)
-
-            concursoView.text = item.concursoReferencia?.let { numero ->
-                "Concurso: $numero"
-            } ?: getString(R.string.item_concurso_placeholder)
-
-            if (!item.observacoes.isNullOrBlank()) {
-                notesView.visibility = View.VISIBLE
-                notesView.text = "Observações: ${item.observacoes}"
-            } else {
-                notesView.visibility = View.GONE
-            }
-
-            when {
-                !item.imageUrl.isNullOrEmpty() -> {
-                    Glide.with(this@HomeFragment)
-                        .load(item.imageUrl)
-                        .centerCrop()
-                        .into(imageView)
-                }
-
-                !item.base64Image.isNullOrEmpty() -> {
-                    try {
-                        val bytes = Base64.decode(item.base64Image, Base64.DEFAULT)
-                        val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                        imageView.setImageBitmap(bitmap)
-                    } catch (_: Exception) {
-                        imageView.setImageResource(R.drawable.ic_profile_avatar)
-                    }
-                }
-
-                else -> imageView.setImageResource(R.drawable.ic_profile_avatar)
-            }
-
-            container.addView(itemView)
-        }
-    }
 }
+
+private fun Map<String, Any?>.toSuggestedBet(): List<Int> {
+    val freqRaw = this["frequencia_absoluta"]
+    val freq = (freqRaw as? Map<*, *>)?.entries?.mapNotNull { (k, v) ->
+        val num = (k as? String)?.toIntOrNull() ?: (k as? Number)?.toInt()
+        val count = (v as? Number)?.toInt()
+        if (num != null && count != null) num to count else null
+    }?.toMap() ?: emptyMap()
+    if (freq.isEmpty()) return emptyList()
+    return freq.entries.sortedByDescending { it.value }.take(15).map { it.key }
+}
+
+private data class SavedBet(
+    val id: String,
+    val numbers: List<Int>,
+    val createdAt: Long,
+    val source: String
+)
+
+private data class NearbyLottery(
+    val name: String,
+    val address: String,
+    val latitude: Double,
+    val longitude: Double,
+    val distanceKm: Double
+)

@@ -3,6 +3,7 @@
     <string name="app_name">LotoAnalise</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
+    <string name="title_saved_games">Jogos salvos</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_profile">Profile</string>
     <string name="title_ai">Chat IA</string>
@@ -40,6 +41,7 @@
     <string name="dashboard_probability_hint">Probabilidade estimada (%)</string>
     <string name="dashboard_concurso_hint">Concurso de referencia</string>
     <string name="dashboard_notes_hint">Observacoes adicionais</string>
+    <string name="home_no_suggestion">Nenhuma sugestao disponivel no momento.</string>
     <string name="home_description">Acompanhe suas analises e insights para a Lotofacil.</string>
     <string name="home_empty_state">Nenhuma analise cadastrada ainda. Comece adicionando uma no painel.</string>
     <string name="item_title_placeholder">Analise sem nome</string>
@@ -56,7 +58,7 @@
     <string name="address_not_found">Address not found</string>
     <string name="address_error">Error: %1$s</string>
     <string name="loading_address">Obtendo endereço atual...</string>
-    <string name="current_coordinates">Lat: %.5f, Lon: %.5f</string>
+    <string name="current_coordinates">Lat: %1$.5f, Lon: %2$.5f</string>
     <string name="waiting_gps_fix">Aguardando sinal de GPS...</string>
     <string name="location_settings_disabled">Ative o GPS ou a localização nas configurações para continuar.</string>
     <string name="lottery_section_title">Lotéricas próximas</string>

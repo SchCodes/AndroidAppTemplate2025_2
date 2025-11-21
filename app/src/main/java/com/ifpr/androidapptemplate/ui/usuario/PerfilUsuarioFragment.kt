@@ -27,6 +27,7 @@ class PerfilUsuarioFragment : Fragment() {
 
     private var usersReference: DatabaseReference? = null
     private lateinit var auth: FirebaseAuth
+    private var userListener: ValueEventListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,19 +85,24 @@ class PerfilUsuarioFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        userListener?.let { listener ->
+            auth.currentUser?.uid?.let { uid -> usersReference?.child(uid)?.removeEventListener(listener) }
+        }
+        userListener = null
         super.onDestroyView()
         _binding = null
     }
 
     private fun recuperarDadosUsuario(usuarioKey: String) {
         val reference = usersReference ?: return
-
-        reference.child(usuarioKey).addListenerForSingleValueEvent(object :
-            ValueEventListener {
+        userListener?.let { reference.child(usuarioKey).removeEventListener(it) }
+        val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     val usuario = snapshot.getValue(Usuario::class.java)
                     usuario?.let {
+                        if (!it.nome.isNullOrBlank()) binding.registerNameEditText.setText(it.nome)
+                        if (!it.email.isNullOrBlank()) binding.registerEmailEditText.setText(it.email)
                         binding.registerEnderecoEditText.setText(it.endereco ?: "")
                         binding.registerTelefoneEditText.setText(it.telefone ?: "")
                     }
@@ -106,7 +112,9 @@ class PerfilUsuarioFragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
                 Log.e("FirebaseError", "Erro ao recuperar dados: ${error.message}")
             }
-        })
+        }
+        userListener = listener
+        reference.child(usuarioKey).addValueEventListener(listener)
     }
 
     private fun updateUser() {

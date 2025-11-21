@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.ifpr.androidapptemplate.databinding.FragmentNotificationsBinding
 import com.ifpr.androidapptemplate.notification.NotificationEntry
 import com.ifpr.androidapptemplate.notification.NotificationRepository
@@ -28,7 +29,12 @@ class NotificationsFragment : Fragment() {
         binding.notificationsRecycler.adapter = adapter
 
         binding.clearNotificationsButton.setOnClickListener {
-            NotificationRepository.clearNotifications(requireContext())
+            val uid = FirebaseAuth.getInstance().currentUser?.uid
+            if (uid == null) {
+                renderNotifications(emptyList())
+                return@setOnClickListener
+            }
+            NotificationRepository.clearNotifications(requireContext(), uid)
             renderNotifications(emptyList())
         }
 
@@ -37,7 +43,8 @@ class NotificationsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val items = NotificationRepository.getNotifications(requireContext())
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val items = NotificationRepository.getNotifications(requireContext(), uid)
         renderNotifications(items)
     }
 

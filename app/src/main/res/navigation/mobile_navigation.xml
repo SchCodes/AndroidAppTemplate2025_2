@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
+        android:id="@+id/navigation_saved_games"
+        android:name="com.ifpr.androidapptemplate.ui.saved.SavedGamesFragment"
+        android:label="@string/title_saved_games"
+        tools:layout="@layout/fragment_saved_games" />
+
+    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.ifpr.androidapptemplate.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"

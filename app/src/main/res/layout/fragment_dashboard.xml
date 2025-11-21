@@ -16,72 +16,120 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/text_dashboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Resumo estatístico"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dashboardSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Insights calculados a partir dos últimos concursos"
+            android:textColor="@color/profile_text_secondary"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/dashboardRangeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Base analisada"
+            android:textColor="@color/profile_text_secondary"
+            android:textSize="13sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/text_dashboard"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Resumo estatistico"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:layout_weight="1"
+                android:hint="Últimos N concursos"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeColor="@color/caixa_azul">
 
-            <TextView
-                android:id="@+id/dashboardSubtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Insights calculados a partir dos ultimos concursos"
-                android:textColor="@color/profile_text_secondary"
-                android:textSize="14sp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/customRangeInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="10" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/refreshButton"
+                android:id="@+id/applyCustomRange"
                 style="@style/Widget.LotoAnalise.SecondaryButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="12dp"
-                android:text="Atualizar"
+                android:layout_marginStart="8dp"
+                android:text="Aplicar"
                 android:textAllCaps="false" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/updateDataButton"
-                style="@style/Widget.LotoAnalise.Button"
+                android:id="@+id/rangeAll"
+                style="@style/Widget.LotoAnalise.SecondaryButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="8dp"
-                android:text="Atualizar base (admin)"
-                android:textAllCaps="false"
-                android:visibility="gone" />
-
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/updateLoading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="8dp"
-                android:visibility="gone"
-                app:indicatorColor="@android:color/white"
-                app:indicatorSize="32dp" />
-
-            <TextView
-                android:id="@+id/updateStatusText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@android:color/white"
-                android:textSize="13sp"
-                android:visibility="gone"
-                tools:text="Atualizacao em andamento..." />
+                android:layout_marginStart="8dp"
+                android:text="Todos"
+                android:textAllCaps="false" />
         </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/refreshButton"
+            style="@style/Widget.LotoAnalise.SecondaryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="12dp"
+            android:text="Atualizar"
+            android:textAllCaps="false" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/updateDataButton"
+            style="@style/Widget.LotoAnalise.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp"
+            android:text="Atualizar base (admin)"
+            android:textAllCaps="false"
+            android:visibility="gone" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/updateLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:indicatorColor="@android:color/white"
+            app:indicatorSize="32dp" />
+
+        <TextView
+            android:id="@+id/updateStatusText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@android:color/white"
+            android:textSize="13sp"
+            android:visibility="gone"
+            tools:text="Atualizacao em andamento..." />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/statsLoading"
@@ -121,10 +169,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Principais numeros"
+                    android:text="Principais números"
                     android:textColor="@color/caixa_azul"
                     android:textStyle="bold"
                     android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/analysisRangeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/profile_text_secondary"
+                    android:textSize="13sp"
+                    tools:text="Últimos 10 concursos (de 3339 a 3348)" />
 
                 <TextView
                     android:id="@+id/topNumbersText"
@@ -166,13 +223,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/caixa_oceano"
-                    tools:text="7 pares / 8 impares" />
+                    tools:text="47% pares / 53% impares" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Soma media"
+                    android:text="Soma média"
                     android:textColor="@color/caixa_azul"
                     android:textStyle="bold"
                     android:textSize="16sp" />
@@ -183,13 +240,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/caixa_oceano"
-                    tools:text="182.4" />
+                    tools:text="196.5" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Maior sequencia"
+                    android:text="Maior sequência"
                     android:textColor="@color/caixa_azul"
                     android:textStyle="bold"
                     android:textSize="16sp" />
@@ -200,13 +257,30 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/caixa_oceano"
-                    tools:text="4 em sequencia" />
+                    tools:text="6" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Sugestao de aposta"
+                    android:text="Repetição média (concursos consecutivos)"
+                    android:textColor="@color/caixa_azul"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/meanRepeatText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/caixa_oceano"
+                    tools:text="7.2 números repetem em média" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Sugestão de aposta"
                     android:textColor="@color/caixa_azul"
                     android:textStyle="bold"
                     android:textSize="16sp" />
@@ -241,7 +315,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ultimos concursos"
+                    android:text="Últimos concursos"
                     android:textColor="@color/caixa_azul"
                     android:textStyle="bold"
                     android:textSize="16sp" />
