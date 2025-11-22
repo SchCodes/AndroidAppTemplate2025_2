@@ -95,6 +95,21 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/caixa_gelo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Meus jogos"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
         <TextView
             android:id="@+id/emptyState"
             android:layout_width="match_parent"
@@ -109,7 +124,7 @@
             android:id="@+id/savedRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             tools:listitem="@layout/item_saved_bet" />
 
     </LinearLayout>

@@ -9,6 +9,8 @@ import com.ifpr.androidapptemplate.R
 import com.ifpr.androidapptemplate.data.lottery.LocalDraw
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class DrawsAdapter : RecyclerView.Adapter<DrawsAdapter.DrawViewHolder>() {
 
@@ -35,11 +37,22 @@ class DrawsAdapter : RecyclerView.Adapter<DrawsAdapter.DrawViewHolder>() {
         private val title: TextView = itemView.findViewById(R.id.drawTitle)
         private val date: TextView = itemView.findViewById(R.id.drawDate)
         private val numbersChips: ChipGroup = itemView.findViewById(R.id.drawNumbersChips)
+        private val inFormatter = DateTimeFormatter.ISO_DATE
+        private val outFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
         fun bind(draw: LocalDraw) {
             title.text = "Concurso ${draw.id}"
-            date.text = draw.date
+            date.text = formatDate(draw.date)
             renderChips(draw.numbers)
+        }
+
+        private fun formatDate(raw: String?): String {
+            return try {
+                val parsed = LocalDate.parse(raw, inFormatter)
+                parsed.format(outFormatter)
+            } catch (_: Exception) {
+                raw ?: "--"
+            }
         }
 
         private fun renderChips(nums: List<Int>) {

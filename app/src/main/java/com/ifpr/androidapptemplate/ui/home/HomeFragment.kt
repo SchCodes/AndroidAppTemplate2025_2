@@ -44,6 +44,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.time.Instant
 import java.util.Locale
 
@@ -179,7 +181,7 @@ class HomeFragment : Fragment() {
         }
         binding.lastDrawCard.visibility = View.VISIBLE
         binding.lastDrawTitle.text = "Concurso ${draw.id}"
-        binding.lastDrawSubtitle.text = draw.date
+        binding.lastDrawSubtitle.text = formatDateBR(draw.date)
         preencherChips(binding.lastDrawChipGroup, draw.numbers)
     }
 
@@ -211,6 +213,9 @@ class HomeFragment : Fragment() {
                 text = n.toString().padStart(2, '0')
                 isCheckable = false
                 isClickable = false
+                setChipBackgroundColorResource(R.color.caixa_chip_bg)
+                setChipStrokeColorResource(R.color.caixa_azul)
+                chipStrokeWidth = resources.getDimension(R.dimen.chip_stroke_width)
             }
             chipGroup.addView(chip)
         }
@@ -298,8 +303,19 @@ class HomeFragment : Fragment() {
                 text = n.toString().padStart(2, '0')
                 isCheckable = false
                 isClickable = false
+                setChipStrokeColorResource(R.color.caixa_azul)
+                chipStrokeWidth = resources.getDimension(R.dimen.chip_stroke_width)
             }
             group.addView(chip)
+        }
+    }
+
+    private fun formatDateBR(raw: String?): String {
+        return try {
+            val parsed = LocalDate.parse(raw, DateTimeFormatter.ISO_DATE)
+            parsed.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+        } catch (_: Exception) {
+            raw ?: "--"
         }
     }
 

@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import android.widget.LinearLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.ifpr.androidapptemplate.data.lottery.LocalBundle
 import com.ifpr.androidapptemplate.data.lottery.LocalDraw
@@ -17,6 +18,7 @@ import com.ifpr.androidapptemplate.data.lottery.RemoteMetadata
 import com.ifpr.androidapptemplate.databinding.FragmentDashboardBinding
 import com.ifpr.androidapptemplate.ui.dashboard.adapter.DrawsAdapter
 import com.ifpr.androidapptemplate.R
+import kotlin.math.roundToInt
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -118,7 +120,6 @@ class DashboardFragment : Fragment() {
 
     private fun updateStatsUI() {
         val bundle = lastBundle ?: return
-        val meta = lastMeta
         val statsUi = computeStats(bundle.draws, windowSize)
         if (statsUi == null) {
             binding.statsCard.visibility = View.GONE
@@ -131,10 +132,10 @@ class DashboardFragment : Fragment() {
         val pairs = statsUi.pairsPercent?.let { "%.1f".format(it) } ?: "--"
         val odds = statsUi.oddsPercent?.let { "%.1f".format(it) } ?: "--"
         binding.pairOddText.text = "$pairs% pares / $odds% ímpares"
+        updatePairOddBar(statsUi.pairsPercent ?: 0.0)
         binding.sumMeanText.text = statsUi.meanSum?.let { "%.1f".format(it) } ?: "--"
         binding.streakMaxText.text = statsUi.maxSequence?.toString() ?: "--"
         binding.meanRepeatText.text = statsUi.meanRepeat?.let { "%.1f números repetem em média".format(it) } ?: "--"
-        binding.dashboardSubtitle.text = "Última geração: ${meta?.generatedAt ?: "--"}"
         binding.analysisRangeText.text = statsUi.rangeLabel
     }
 
@@ -173,6 +174,17 @@ class DashboardFragment : Fragment() {
             }
             group.addView(chip)
         }
+    }
+
+    private fun updatePairOddBar(pairsPercent: Double) {
+        val evenWeight = pairsPercent.coerceIn(0.0, 100.0) / 100.0
+        val oddWeight = 1.0 - evenWeight
+        val evenParams = binding.pairBarEven.layoutParams as LinearLayout.LayoutParams
+        val oddParams = binding.pairBarOdd.layoutParams as LinearLayout.LayoutParams
+        evenParams.weight = evenWeight.toFloat().coerceAtLeast(0.01f)
+        oddParams.weight = oddWeight.toFloat().coerceAtLeast(0.01f)
+        binding.pairBarEven.layoutParams = evenParams
+        binding.pairBarOdd.layoutParams = oddParams
     }
 }
 

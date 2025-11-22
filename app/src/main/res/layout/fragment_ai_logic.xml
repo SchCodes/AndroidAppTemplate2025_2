@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Converse com o Gemini para tirar duvidas sobre suas analises e apostas. Ele lembra do historico da conversa."
+            android:text="Converse com o Gemini para tirar dúvidas de análise e apostas. O histórico não é mantido entre sessões."
             android:textColor="@color/profile_text_secondary"
             android:textSize="14sp" />
 
@@ -206,7 +206,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="Modelo: Gemini 2.0 Flash - Mantemos o historico da conversa e usamos imagem quando anexada."
+                    android:text="Modelo: Gemini 2.0 Flash - Uso apenas o contexto dessa sessão. Anexar imagem é opcional."
                     android:textColor="@color/caixa_oceano"
                     android:textSize="12sp" />
             </LinearLayout>

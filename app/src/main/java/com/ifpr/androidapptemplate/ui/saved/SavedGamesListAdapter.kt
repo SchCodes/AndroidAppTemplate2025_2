@@ -56,10 +56,11 @@ class SavedGamesListAdapter(
             onSave: (List<Int>) -> Unit
         ) {
             renderChips(bet.numbers)
-            metaText.text = if (bet.source == "usuario") {
-                "#${bet.id.takeLast(5)}"
+            if (bet.source == "usuario") {
+                metaText.visibility = View.GONE
             } else {
-                "Fonte: ${bet.source} • #${bet.id.takeLast(5)}"
+                metaText.visibility = View.VISIBLE
+                metaText.text = "Fonte: ${bet.source} • #${bet.id.takeLast(5)}"
             }
 
             deleteButton.setOnClickListener { onDelete(bet.id) }
