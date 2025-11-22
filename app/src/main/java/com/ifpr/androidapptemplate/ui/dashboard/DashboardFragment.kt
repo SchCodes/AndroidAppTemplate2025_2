@@ -72,7 +72,7 @@ class DashboardFragment : Fragment() {
 
     private fun carregarDados() {
         mostrarLoading(true)
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 lastMeta = syncRepo.fetchRemoteMetadata()
                 val updated = syncRepo.syncIfNeeded()
