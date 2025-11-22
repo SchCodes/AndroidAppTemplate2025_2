@@ -1,0 +1,20 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // JSON usado pelo app
+    match /processed/{allPaths=**} {
+      allow read: if request.auth != null; // qualquer usuário autenticado
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    // Upload do Excel (apenas admin)
+    match /uploads/{allPaths=**} {
+      allow read, write: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    // Bloqueia o resto
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
