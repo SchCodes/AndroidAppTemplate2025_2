@@ -119,42 +119,6 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:gravity="end"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/refreshButton"
-                        style="@style/Widget.LotoAnalise.SecondaryButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Atualizar"
-                        android:textAllCaps="false" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/updateDataButton"
-                        style="@style/Widget.LotoAnalise.Button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="Atualizar base (admin)"
-                        android:textAllCaps="false"
-                        android:visibility="gone" />
-                </LinearLayout>
-
-                <com.google.android.material.progressindicator.CircularProgressIndicator
-                    android:id="@+id/updateLoading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="8dp"
-                    android:visibility="gone"
-                    app:indicatorColor="@android:color/white"
-                    app:indicatorSize="32dp" />
-
                 <TextView
                     android:id="@+id/updateStatusText"
                     android:layout_width="match_parent"

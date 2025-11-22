@@ -89,7 +89,6 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        binding.refreshButton.visibility = View.GONE
         binding.useSuggestionButton.visibility = View.GONE
         binding.saveBetButton.setOnClickListener { salvarJogoDigitado() }
         binding.saveSuggestedButton.visibility = View.GONE
@@ -286,7 +285,6 @@ class HomeFragment : Fragment() {
 
     private fun mostrarLoading(isLoading: Boolean) {
         binding.heroLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
-        binding.refreshButton.isEnabled = !isLoading
         binding.saveBetButton.isEnabled = !isLoading
         binding.saveSuggestedButton.isEnabled = !isLoading
     }

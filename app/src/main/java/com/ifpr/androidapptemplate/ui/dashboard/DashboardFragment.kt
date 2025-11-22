@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,12 +18,8 @@ import com.ifpr.androidapptemplate.data.lottery.RemoteMetadata
 import com.ifpr.androidapptemplate.databinding.FragmentDashboardBinding
 import com.ifpr.androidapptemplate.ui.dashboard.adapter.DrawsAdapter
 import com.ifpr.androidapptemplate.R
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
-import java.net.HttpURLConnection
-import java.net.URL
 
 class DashboardFragment : Fragment() {
 
@@ -48,13 +43,9 @@ class DashboardFragment : Fragment() {
         binding.drawsRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.drawsRecycler.adapter = drawsAdapter
 
-        binding.refreshButton.setOnClickListener { carregarDados() }
-        binding.updateDataButton.setOnClickListener { dispararAtualizacaoAdmin() }
         binding.rangeAll.setOnClickListener { windowSize = null; updateStatsUI() }
         binding.applyCustomRange.setOnClickListener { aplicarJanelaCustom() }
         binding.customRangeInput.setText(windowSize?.toString() ?: "")
-
-        verificarAdmin()
         carregarDados()
 
         return binding.root
@@ -79,22 +70,6 @@ class DashboardFragment : Fragment() {
         binding.updateStatusText.text = "Usando ultimos $parsed concursos."
     }
 
-    private fun verificarAdmin() {
-        val user = auth.currentUser ?: run {
-            binding.updateDataButton.visibility = View.GONE
-            return
-        }
-        lifecycleScope.launch {
-            try {
-                val token = user.getIdToken(false).await()
-                val isAdmin = token.claims["admin"] == true
-                binding.updateDataButton.visibility = if (isAdmin) View.VISIBLE else View.GONE
-            } catch (_: Exception) {
-                binding.updateDataButton.visibility = View.GONE
-            }
-        }
-    }
-
     private fun carregarDados() {
         mostrarLoading(true)
         lifecycleScope.launch {
@@ -115,60 +90,6 @@ class DashboardFragment : Fragment() {
                 mostrarLoading(false)
             }
         }
-    }
-
-    private fun dispararAtualizacaoAdmin() {
-        val user = auth.currentUser ?: return
-        val endpoint = getString(R.string.admin_update_url).trim()
-        if (endpoint.isEmpty()) {
-            binding.updateStatusText.visibility = View.VISIBLE
-            binding.updateStatusText.text = "Configure a URL da função admin em admin_update_url."
-            return
-        }
-        Log.i("DashboardFragment", "ADMIN_CALL_START endpoint=$endpoint")
-        binding.updateLoading.visibility = View.VISIBLE
-        binding.updateStatusText.visibility = View.GONE
-        setAdminButtonsEnabled(false)
-        lifecycleScope.launch {
-            try {
-                val token = user.getIdToken(true).await().token ?: ""
-                Log.i("DashboardFragment", "ADMIN_TOKEN_REFRESHED uid=${user.uid.take(6)}…")
-                val result = triggerAdminUpdate(endpoint, token)
-                Log.i("DashboardFragment", "ADMIN_CALL_OK")
-                binding.updateStatusText.apply {
-                    visibility = View.VISIBLE
-                    text = result ?: "Atualização solicitada."
-                }
-            } catch (e: Exception) {
-                Log.e("DashboardFragment", "ADMIN_CALL_ERR ${e.message}", e)
-                binding.updateStatusText.apply {
-                    visibility = View.VISIBLE
-                    text = "Falha ao acionar admin: ${e.message}"
-                }
-            } finally {
-                binding.updateLoading.visibility = View.GONE
-                setAdminButtonsEnabled(true)
-            }
-        }
-    }
-
-    private suspend fun triggerAdminUpdate(urlString: String, token: String): String? = withContext(Dispatchers.IO) {
-        val url = URL(urlString)
-        val conn = (url.openConnection() as HttpURLConnection).apply {
-            requestMethod = "POST"
-            connectTimeout = 15_000
-            readTimeout = 30_000
-            doOutput = true
-            setRequestProperty("Authorization", "Bearer $token")
-            setRequestProperty("Content-Type", "application/json")
-        }
-        conn.outputStream.use { os ->
-            os.write("{}".toByteArray())
-        }
-        val code = conn.responseCode
-        val bodyStream = if (code in 200..299) conn.inputStream else (conn.errorStream ?: conn.inputStream)
-        val msg = bodyStream.bufferedReader().use { it.readText() }
-        if (code in 200..299) msg else throw Exception("HTTP $code: $msg")
     }
 
     private fun updateStatsUI() {
@@ -235,13 +156,6 @@ class DashboardFragment : Fragment() {
         oddParams.weight = oddWeight.toFloat().coerceAtLeast(0.01f)
         binding.pairBarEven.layoutParams = evenParams
         binding.pairBarOdd.layoutParams = oddParams
-    }
-
-    private fun setAdminButtonsEnabled(enabled: Boolean) {
-        binding.updateDataButton.isEnabled = enabled
-        binding.refreshButton.isEnabled = enabled
-        binding.applyCustomRange.isEnabled = enabled
-        binding.rangeAll.isEnabled = enabled
     }
 }
 

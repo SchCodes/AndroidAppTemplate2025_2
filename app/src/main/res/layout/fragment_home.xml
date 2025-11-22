@@ -36,16 +36,6 @@
             android:textColor="@color/profile_text_secondary"
             android:textSize="14sp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/refreshButton"
-            style="@style/Widget.LotoAnalise.SecondaryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="12dp"
-            android:text="Atualizar dados"
-            android:textAllCaps="false" />
-
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/heroLoading"
             android:layout_width="wrap_content"
