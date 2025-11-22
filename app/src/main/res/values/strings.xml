@@ -52,6 +52,8 @@
     <string name="item_notes_placeholder">Sem observacoes adicionais</string>
     <string name="notifications_subtitle">Fique por dentro das novidades e alertas importantes.</string>
     <string name="notifications_empty_state">Nenhuma notificacao no momento. Aproveite para explorar novos itens!</string>
+    <!-- URL da função admin de atualização de base (HTTP Cloud Function). Se vazio, o app exibe orientação. -->
+    <string name="admin_update_url" translatable="false">https://us-central1-baseforfirebase-f3545.cloudfunctions.net/update_bundle</string>
     <string name="item_address_placeholder">Endereco nao informado</string>
     <string name="item_details_placeholder">Atualize para ver mais detalhes deste item.</string>
     <string name="location_permission_denied">Permission denied. Cannot access location.</string>

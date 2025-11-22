@@ -5,7 +5,7 @@ you would run inside a Cloud Function Gen2 trigger after an Excel
 upload to Storage.
 
 Usage:
-    python tools/convert_lotofacil_excel.py \
+    python tools/excel_for_json.py \
         --input BD_full_lotoFacil.xlsx \
         --output processed/draws.json
 """
