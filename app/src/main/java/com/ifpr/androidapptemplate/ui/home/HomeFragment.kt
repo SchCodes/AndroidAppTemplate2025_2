@@ -75,7 +75,7 @@ class HomeFragment : Fragment() {
         ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) startLocationUpdates()
-        else binding.currentAddressTextView.text = getString(R.string.location_settings_disabled)
+        else withBinding { currentAddressTextView.text = getString(R.string.location_settings_disabled) }
     }
 
     companion object {
@@ -114,7 +114,7 @@ class HomeFragment : Fragment() {
 
     private fun carregarDados() {
         mostrarLoading(true)
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 syncRepo.syncIfNeeded()
                 val bundle = syncRepo.readLocalBundle()
@@ -127,7 +127,7 @@ class HomeFragment : Fragment() {
                 renderLastDraw(lastDraw)
                 renderSugestao()
                 renderSavedBets(savedBets)
-                binding.errorText.visibility = View.GONE
+                withBinding { errorText.visibility = View.GONE }
             } catch (e: Exception) {
                 showError("Erro ao carregar dados: ${e.message}")
             } finally {
@@ -175,21 +175,23 @@ class HomeFragment : Fragment() {
 
     private fun renderLastDraw(draw: LocalDraw?) {
         if (draw == null) {
-            binding.lastDrawCard.visibility = View.GONE
+            withBinding { lastDrawCard.visibility = View.GONE }
             return
         }
-        binding.lastDrawCard.visibility = View.VISIBLE
-        binding.lastDrawTitle.text = "Concurso ${draw.id}"
-        binding.lastDrawSubtitle.text = formatDateBR(draw.date)
-        preencherChips(binding.lastDrawChipGroup, draw.numbers)
+        withBinding {
+            lastDrawCard.visibility = View.VISIBLE
+            lastDrawTitle.text = "Concurso ${draw.id}"
+            lastDrawSubtitle.text = formatDateBR(draw.date)
+        }
+        safeBinding?.let { preencherChips(it.lastDrawChipGroup, draw.numbers) }
     }
 
     private fun renderSugestao() {
         if (suggestedBet.isEmpty()) {
-            binding.suggestionText.text = getString(R.string.home_no_suggestion)
+            withBinding { suggestionText.text = getString(R.string.home_no_suggestion) }
             return
         }
-        binding.suggestionText.text = suggestedBet.joinToString(", ") { it.toString().padStart(2, '0') }
+        withBinding { suggestionText.text = suggestedBet.joinToString(", ") { it.toString().padStart(2, '0') } }
     }
 
     private fun renderSavedBets(bets: List<SavedBet>) {
@@ -221,15 +223,17 @@ class HomeFragment : Fragment() {
         binding.savedBetsContainer.addView(chipGroup)
     }
 
-    private fun preencherSugestao() {
+        private fun preencherSugestao() {
         if (suggestedBet.isEmpty()) return
-        binding.betInput.setText(suggestedBet.joinToString(",") { it.toString().padStart(2, '0') })
-        binding.saveStatus.text = "Sugestão preenchida. Edite se quiser e salve."
-        binding.saveStatus.visibility = View.VISIBLE
+        withBinding {
+            betInput.setText(suggestedBet.joinToString(",") { it.toString().padStart(2, '0') })
+            saveStatus.text = "Sugest?o preenchida. Edite se quiser e salve."
+            saveStatus.visibility = View.VISIBLE
+        }
     }
 
     private fun salvarJogoDigitado() {
-        val numeros = parseEntrada(binding.betInput)
+        val numeros = safeBinding?.let { parseEntrada(it.betInput) } ?: return
         if (numeros == null) {
             showErrorEntrada()
             return
@@ -237,7 +241,7 @@ class HomeFragment : Fragment() {
         salvarJogo(numeros, "usuario")
     }
 
-    private fun salvarSugestao() {
+private fun salvarSugestao() {
         if (suggestedBet.isEmpty()) {
             Toast.makeText(requireContext(), "Não há sugestão disponível.", Toast.LENGTH_SHORT).show()
             return
@@ -259,12 +263,16 @@ class HomeFragment : Fragment() {
         )
         dbRef.child(user.uid).child(betId).setValue(payload)
             .addOnSuccessListener {
-                binding.saveStatus.visibility = View.VISIBLE
-                binding.saveStatus.text = "Jogo salvo!"
+                withBinding {
+                    saveStatus.visibility = View.VISIBLE
+                    saveStatus.text = "Jogo salvo!"
+                }
             }
             .addOnFailureListener {
-                binding.saveStatus.visibility = View.VISIBLE
-                binding.saveStatus.text = "Falha ao salvar: ${it.message}"
+                withBinding {
+                    saveStatus.visibility = View.VISIBLE
+                    saveStatus.text = "Falha ao salvar: ${it.message}"
+                }
             }
     }
 
@@ -279,19 +287,25 @@ class HomeFragment : Fragment() {
     }
 
     private fun showErrorEntrada() {
-        binding.saveStatus.visibility = View.VISIBLE
-        binding.saveStatus.text = "Informe 15 números entre 1 e 25, separados por vírgula ou espaço."
+        withBinding {
+            saveStatus.visibility = View.VISIBLE
+            saveStatus.text = "Informe 15 números entre 1 e 25, separados por vírgula ou espaço."
+        }
     }
 
     private fun mostrarLoading(isLoading: Boolean) {
-        binding.heroLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
-        binding.saveBetButton.isEnabled = !isLoading
-        binding.saveSuggestedButton.isEnabled = !isLoading
+        withBinding {
+            heroLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
+            saveBetButton.isEnabled = !isLoading
+            saveSuggestedButton.isEnabled = !isLoading
+        }
     }
 
     private fun showError(msg: String) {
-        binding.errorText.visibility = View.VISIBLE
-        binding.errorText.text = msg
+        withBinding {
+            errorText.visibility = View.VISIBLE
+            errorText.text = msg
+        }
     }
 
     private fun preencherChips(group: ChipGroup, numeros: List<Int>) {
@@ -349,13 +363,13 @@ class HomeFragment : Fragment() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             val granted = grantResults.isNotEmpty() && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED
-            if (granted) getCurrentLocation() else binding.currentAddressTextView.text = getString(R.string.location_permission_denied)
+            if (granted) getCurrentLocation() else withBinding { currentAddressTextView.text = getString(R.string.location_permission_denied) }
         }
     }
 
     private fun getCurrentLocation() {
         if (!hasLocationPermission()) return
-        binding.currentAddressTextView.text = getString(R.string.loading_address)
+        withBinding { currentAddressTextView.text = getString(R.string.loading_address) }
         val settingsClient = LocationServices.getSettingsClient(requireActivity())
         settingsClient.checkLocationSettings(locationSettingsRequest)
             .addOnSuccessListener { startLocationUpdates() }
@@ -365,10 +379,10 @@ class HomeFragment : Fragment() {
                         val intent = IntentSenderRequest.Builder(exception.resolution).build()
                         locationSettingsLauncher.launch(intent)
                     } catch (_: Exception) {
-                        binding.currentAddressTextView.text = getString(R.string.location_settings_disabled)
+                        withBinding { currentAddressTextView.text = getString(R.string.location_settings_disabled) }
                     }
                 } else {
-                    binding.currentAddressTextView.text = getString(R.string.location_settings_disabled)
+                    withBinding { currentAddressTextView.text = getString(R.string.location_settings_disabled) }
                 }
             }
     }
@@ -392,14 +406,14 @@ class HomeFragment : Fragment() {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { loc -> loc?.let { displayAddress(it) } }
             .addOnFailureListener {
-                binding.currentAddressTextView.text = getString(R.string.location_unavailable)
+                withBinding { currentAddressTextView.text = getString(R.string.location_unavailable) }
             }
     }
 
     private fun displayAddress(location: Location) {
         lastKnownLocation = location
         if (!Geocoder.isPresent()) {
-            binding.currentAddressTextView.text = formatCoordinates(location)
+            withBinding { currentAddressTextView.text = formatCoordinates(location) }
             return
         }
         val geocoder = Geocoder(requireContext(), Locale("pt", "BR"))
@@ -410,11 +424,11 @@ class HomeFragment : Fragment() {
                 val resolved = first?.getAddressLine(0)
                 lastKnownLocality = first?.locality ?: first?.subAdminArea ?: first?.subLocality
                 withContext(Dispatchers.Main) {
-                    binding.currentAddressTextView.text = resolved ?: formatCoordinates(location)
+                    withBinding { currentAddressTextView.text = resolved ?: formatCoordinates(location) }
                 }
             } catch (_: Exception) {
                 withContext(Dispatchers.Main) {
-                    binding.currentAddressTextView.text = formatCoordinates(location)
+                    withBinding { currentAddressTextView.text = formatCoordinates(location) }
                 }
             }
         }
@@ -426,12 +440,14 @@ class HomeFragment : Fragment() {
     private fun buscarLotericasProximas() {
         val currentLocation = lastKnownLocation
         if (currentLocation == null) {
-            binding.currentAddressTextView.text = getString(R.string.location_unavailable)
+            withBinding { currentAddressTextView.text = getString(R.string.location_unavailable) }
             return
         }
         showLotteryLoading(true)
-        binding.lotteryEmptyStateText.visibility = View.GONE
-        binding.lotteryListContainer.removeAllViews()
+        withBinding {
+            lotteryEmptyStateText.visibility = View.GONE
+            lotteryListContainer.removeAllViews()
+        }
         val geocoder = Geocoder(requireContext(), Locale("pt", "BR"))
         val keywords = listOf(
             "Lotérica",
@@ -501,18 +517,20 @@ class HomeFragment : Fragment() {
     }
 
     private fun showLotteryLoading(isLoading: Boolean) {
-        binding.lotteryProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        binding.lotterySearchButton.isEnabled = !isLoading
+        withBinding {
+            lotteryProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            lotterySearchButton.isEnabled = !isLoading
+        }
     }
 
     private fun renderLotteryResults(lotteries: List<NearbyLottery>) {
-        val container = binding.lotteryListContainer
+        val container = safeBinding?.lotteryListContainer ?: return
         container.removeAllViews()
         if (lotteries.isEmpty()) {
-            binding.lotteryEmptyStateText.visibility = View.VISIBLE
+            withBinding { lotteryEmptyStateText.visibility = View.VISIBLE }
             return
         }
-        binding.lotteryEmptyStateText.visibility = View.GONE
+        withBinding { lotteryEmptyStateText.visibility = View.GONE }
         lotteries.take(5).forEach { lot ->
             val itemView = layoutInflater.inflate(R.layout.item_nearby_lottery, container, false)
             val nameView = itemView.findViewById<android.widget.TextView>(R.id.lotteryNameTextView)
@@ -572,3 +590,8 @@ private data class NearbyLottery(
     val longitude: Double,
     val distanceKm: Double
 )
+
+private inline fun HomeFragment.withBinding(block: FragmentHomeBinding.() -> Unit) {
+    val b = this._binding ?: return
+    b.block()
+}
