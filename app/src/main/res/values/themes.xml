@@ -19,7 +19,7 @@
         <item name="android:windowBackground">@drawable/bg_profile_gradient</item>
 
         <item name="materialButtonStyle">@style/Widget.LotoAnalise.Button</item>
-        <item name="textInputStyle">@style/Widget.LotoAnalise.TextInputLayout</item>
+        <item name="textInputStyle">@style/Widget.LotoAnalise.OutlinedTextInputLayout</item>
         <item name="android:buttonStyle">@style/Widget.LotoAnalise.Button</item>
     </style>
 
@@ -37,10 +37,21 @@
         <item name="backgroundTint">@color/profile_card_background</item>
     </style>
 
-    <style name="Widget.LotoAnalise.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
-        <item name="boxBackgroundColor">@color/caixa_gelo</item>
+    <style name="Widget.LotoAnalise.OutlinedTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/caixa_azul</item>
+        <item name="boxStrokeWidth">1.2dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="boxBackgroundColor">@android:color/white</item>
         <item name="hintTextColor">@color/caixa_oceano</item>
+        <item name="android:textColorHint">@color/caixa_oceano</item>
+    </style>
+
+    <style name="Widget.LotoAnalise.OutlinedTextInputEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textColor">@color/caixa_oceano</item>
         <item name="android:textColorHint">@color/caixa_oceano</item>
     </style>
 </resources>
