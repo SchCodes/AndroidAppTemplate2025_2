@@ -98,8 +98,10 @@ class SavedGamesFragment : Fragment() {
     }
 
     private fun toggleEmpty(isEmpty: Boolean) {
-        binding.emptyState.visibility = if (isEmpty) View.VISIBLE else View.GONE
-        binding.savedRecycler.visibility = if (isEmpty) View.GONE else View.VISIBLE
+        withBinding {
+            emptyState.visibility = if (isEmpty) View.VISIBLE else View.GONE
+            savedRecycler.visibility = if (isEmpty) View.GONE else View.VISIBLE
+        }
     }
 
     private fun saveBet(numbers: List<Int>, source: String) {
@@ -179,11 +181,18 @@ class SavedGamesFragment : Fragment() {
     }
 
     private fun updateSelectionCounter() {
-        binding.selectionCounter.text = "Selecionados: ${selectedNumbers.size}/15"
-        binding.saveBetButton.isEnabled = selectedNumbers.size == 15
-        binding.numberPickerChips.children.forEach { view ->
-            (view as? Chip)?.isChecked = selectedNumbers.contains(view.text.toString().toInt())
+        withBinding {
+            selectionCounter.text = "Selecionados: ${selectedNumbers.size}/15"
+            saveBetButton.isEnabled = selectedNumbers.size == 15
+            numberPickerChips.children.forEach { view ->
+                (view as? Chip)?.isChecked = selectedNumbers.contains(view.text.toString().toInt())
+            }
         }
+    }
+
+    private inline fun withBinding(block: FragmentSavedGamesBinding.() -> Unit) {
+        val b = _binding ?: return
+        b.block()
     }
 }
 
