@@ -55,6 +55,11 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val safeBinding get() = _binding
 
+    private inline fun withBinding(block: FragmentHomeBinding.() -> Unit) {
+        val b = _binding ?: return
+        b.block()
+    }
+
     private val auth by lazy { FirebaseAuth.getInstance() }
     private val syncRepo by lazy { LotofacilSyncRepository(requireContext()) }
     private val dbRef: DatabaseReference by lazy { FirebaseDatabase.getInstance().getReference("bets") }
@@ -223,11 +228,11 @@ class HomeFragment : Fragment() {
         binding.savedBetsContainer.addView(chipGroup)
     }
 
-        private fun preencherSugestao() {
+    private fun preencherSugestao() {
         if (suggestedBet.isEmpty()) return
         withBinding {
             betInput.setText(suggestedBet.joinToString(",") { it.toString().padStart(2, '0') })
-            saveStatus.text = "Sugest?o preenchida. Edite se quiser e salve."
+            saveStatus.text = "Sugestao preenchida. Edite se quiser e salve."
             saveStatus.visibility = View.VISIBLE
         }
     }
@@ -241,9 +246,9 @@ class HomeFragment : Fragment() {
         salvarJogo(numeros, "usuario")
     }
 
-private fun salvarSugestao() {
+    private fun salvarSugestao() {
         if (suggestedBet.isEmpty()) {
-            Toast.makeText(requireContext(), "Não há sugestão disponível.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Nao ha sugestao disponivel.", Toast.LENGTH_SHORT).show()
             return
         }
         salvarJogo(suggestedBet, "sugestao_app")
@@ -591,7 +596,3 @@ private data class NearbyLottery(
     val distanceKm: Double
 )
 
-private inline fun HomeFragment.withBinding(block: FragmentHomeBinding.() -> Unit) {
-    val b = this._binding ?: return
-    b.block()
-}
