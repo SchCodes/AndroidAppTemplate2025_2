@@ -19,7 +19,7 @@
         <item name="android:windowBackground">@drawable/bg_profile_gradient</item>
 
         <item name="materialButtonStyle">@style/Widget.LotoAnalise.Button</item>
-        <item name="textInputStyle">@style/Widget.LotoAnalise.TextInputLayout</item>
+        <item name="textInputStyle">@style/Widget.LotoAnalise.OutlinedTextInputLayout</item>
         <item name="android:buttonStyle">@style/Widget.LotoAnalise.Button</item>
     </style>
 </resources>

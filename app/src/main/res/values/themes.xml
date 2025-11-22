@@ -50,6 +50,8 @@
         <item name="android:textColorHint">@color/caixa_oceano</item>
     </style>
 
+    <style name="Widget.LotoAnalise.TextInputLayout" parent="Widget.LotoAnalise.OutlinedTextInputLayout" />
+
     <style name="Widget.LotoAnalise.OutlinedTextInputEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
         <item name="android:textColor">@color/caixa_oceano</item>
         <item name="android:textColorHint">@color/caixa_oceano</item>
