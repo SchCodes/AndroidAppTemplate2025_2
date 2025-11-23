@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.color.MaterialColors
 import com.ifpr.androidapptemplate.R
 
 class SavedGamesListAdapter(
@@ -73,16 +74,15 @@ class SavedGamesListAdapter(
 
         private fun renderChips(numbers: List<Int>) {
             numbersChips.removeAllViews()
-            val res = itemView.resources
             numbers.forEach { n ->
                 val chip = Chip(itemView.context, null, com.google.android.material.R.style.Widget_MaterialComponents_Chip_Filter).apply {
                     text = n.toString().padStart(2, '0')
                     isCheckable = false
                     isClickable = false
-                    setTextColor(res.getColor(R.color.caixa_oceano, null))
                     setChipBackgroundColorResource(R.color.caixa_chip_bg)
                     setChipStrokeColorResource(R.color.caixa_azul)
-                    chipStrokeWidth = res.getDimension(R.dimen.chip_stroke_width)
+                    chipStrokeWidth = itemView.resources.getDimension(R.dimen.chip_stroke_width)
+                    setTextColor(MaterialColors.getColor(context, com.google.android.material.R.attr.colorOnSurface, 0))
                 }
                 numbersChips.addView(chip)
             }

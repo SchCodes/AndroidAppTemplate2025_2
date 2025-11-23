@@ -6,7 +6,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -14,8 +13,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.ifpr.androidapptemplate.R
 import com.ifpr.androidapptemplate.baseclasses.Usuario
+import com.ifpr.androidapptemplate.theme.ThemeAwareActivity
 
-class CadastroUsuarioActivity : AppCompatActivity() {
+class CadastroUsuarioActivity : ThemeAwareActivity() {
     private lateinit var textCadastroUsuarioTitle: TextView
     private lateinit var registerNameEditText: EditText
     private lateinit var registerEmailEditText: EditText

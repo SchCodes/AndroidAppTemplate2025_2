@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_profile_gradient"
+    android:background="?attr/profileBackgroundDrawable"
     android:clipToPadding="false"
     android:fillViewport="true"
     android:paddingStart="24dp"
@@ -87,7 +87,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
                         android:maxLines="1"
-                        android:textColor="@android:color/black" />
+                        android:textColor="?attr/colorOnSurface" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -108,7 +108,7 @@
                         android:enabled="false"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:textColor="@android:color/black" />
+                        android:textColor="?attr/colorOnSurface" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -128,7 +128,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPostalAddress"
                         android:maxLines="2"
-                        android:textColor="@android:color/black" />
+                        android:textColor="?attr/colorOnSurface" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -148,7 +148,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="phone"
                         android:maxLines="1"
-                        android:textColor="@android:color/black" />
+                        android:textColor="?attr/colorOnSurface" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
@@ -185,6 +185,95 @@
                     app:layout_constraintTop_toBottomOf="@id/updateProfileButton" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/adminThemeCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/profile_card_background"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="6dp"
+            app:cardUseCompatPadding="true"
+            app:strokeColor="@color/profile_card_stroke"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="20dp">
+
+                <TextView
+                    android:id="@+id/themeAdminTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/theme_admin_title"
+                    android:textColor="@color/caixa_azul"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/themeAdminSubtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/theme_admin_subtitle"
+                    android:textColor="@color/profile_text_secondary"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/themeToggleGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/classicThemeButton"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:checkable="true"
+                        android:text="@string/theme_option_classic" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/neonThemeButton"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checkable="true"
+                        android:text="@string/theme_option_neon" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                <TextView
+                    android:id="@+id/themeStatusTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textColor="@color/profile_text_secondary"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/applyThemeButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/theme_save_action"
+                    android:textAllCaps="true"
+                    app:backgroundTint="@color/caixa_laranja"
+                    app:cornerRadius="12dp"
+                    app:iconTint="@android:color/white" />
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>

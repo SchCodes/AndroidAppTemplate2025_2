@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -19,6 +20,8 @@ import com.google.firebase.database.ValueEventListener
 import com.ifpr.androidapptemplate.R
 import com.ifpr.androidapptemplate.baseclasses.Usuario
 import com.ifpr.androidapptemplate.databinding.FragmentPerfilUsuarioBinding
+import com.ifpr.androidapptemplate.theme.AppThemeOption
+import com.ifpr.androidapptemplate.theme.ThemeManager
 
 class PerfilUsuarioFragment : Fragment() {
 
@@ -28,6 +31,7 @@ class PerfilUsuarioFragment : Fragment() {
     private var usersReference: DatabaseReference? = null
     private lateinit var auth: FirebaseAuth
     private var userListener: ValueEventListener? = null
+    private var selectedTheme: AppThemeOption = AppThemeOption.CLASSIC
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +64,7 @@ class PerfilUsuarioFragment : Fragment() {
             binding.registerEmailEditText.setText(it.email)
 
             recuperarDadosUsuario(it.uid)
+            checarPermissaoAdmin(it)
         }
 
         binding.updateProfileButton.setOnClickListener { updateUser() }
@@ -189,5 +194,75 @@ class PerfilUsuarioFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+    }
+
+    private fun checarPermissaoAdmin(user: FirebaseUser) {
+        user.getIdToken(true)
+            .addOnSuccessListener { result ->
+                val isAdmin = result.claims["admin"] == true
+                binding.adminThemeCard.isVisible = isAdmin
+                if (isAdmin) {
+                    prepararControlesDeTema()
+                }
+            }
+            .addOnFailureListener { error ->
+                Log.e("PerfilUsuario", "Falha ao verificar privilegios de admin", error)
+                binding.adminThemeCard.isVisible = false
+            }
+    }
+
+    private fun prepararControlesDeTema() {
+        selectedTheme = ThemeManager.getSavedTheme(requireContext())
+        atualizarSelecaoDeTema(selectedTheme)
+        atualizarStatusDeTema(selectedTheme)
+
+        ThemeManager.fetchRemoteThemeOnce(requireContext()) { remoteTheme ->
+            selectedTheme = remoteTheme
+            atualizarSelecaoDeTema(remoteTheme)
+            atualizarStatusDeTema(remoteTheme)
+        }
+
+        binding.themeToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (!isChecked) return@addOnButtonCheckedListener
+            selectedTheme = when (checkedId) {
+                R.id.neonThemeButton -> AppThemeOption.NEON
+                else -> AppThemeOption.CLASSIC
+            }
+            atualizarStatusDeTema(selectedTheme)
+        }
+
+        binding.applyThemeButton.setOnClickListener {
+            ThemeManager.updateRemoteTheme(requireContext(), selectedTheme) { success ->
+                if (success) {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.theme_update_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    requireActivity().recreate()
+                } else {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.theme_update_failure),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
+    private fun atualizarSelecaoDeTema(themeOption: AppThemeOption) {
+        when (themeOption) {
+            AppThemeOption.CLASSIC -> binding.themeToggleGroup.check(R.id.classicThemeButton)
+            AppThemeOption.NEON -> binding.themeToggleGroup.check(R.id.neonThemeButton)
+        }
+    }
+
+    private fun atualizarStatusDeTema(themeOption: AppThemeOption) {
+        val themeLabel = when (themeOption) {
+            AppThemeOption.CLASSIC -> getString(R.string.theme_option_classic)
+            AppThemeOption.NEON -> getString(R.string.theme_option_neon)
+        }
+        binding.themeStatusTextView.text = getString(R.string.theme_current_label, themeLabel)
     }
 }

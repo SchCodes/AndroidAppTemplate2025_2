@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:textColor="@android:color/black"
+            android:textColor="?attr/colorOnSurface"
             android:textStyle="bold"
             android:text="Lotérica" />
 
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:textColor="@android:color/black"
+            android:textColor="?attr/colorOnSurface"
             android:text="Endereço" />
 
         <TextView

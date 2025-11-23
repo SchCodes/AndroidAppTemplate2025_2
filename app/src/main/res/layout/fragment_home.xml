@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lotofácil"
-            android:textColor="@android:color/white"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="28sp"
             android:textStyle="bold" />
 
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:visibility="gone"
-            android:textColor="@color/profile_text_secondary"
+            android:textColor="?attr/colorMutedText"
             android:textSize="14sp" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textColor="@android:color/white"
+            android:textColor="?attr/colorOnSurface"
             android:visibility="gone"
             tools:text="Erro ao carregar dados" />
 
@@ -60,10 +60,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            app:cardBackgroundColor="@android:color/white"
+            app:cardBackgroundColor="@color/profile_card_background"
             app:cardCornerRadius="20dp"
             app:cardElevation="6dp"
-            app:strokeColor="@color/caixa_turquesa"
+            app:strokeColor="@color/profile_card_stroke"
             app:strokeWidth="1dp">
 
             <LinearLayout
@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Lotéricas próximas"
-                    android:textColor="@color/caixa_azul"
+                    android:textColor="?attr/colorSecondary"
                     android:textStyle="bold"
                     android:textSize="16sp" />
 
@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="@string/address_not_found"
-                    android:textColor="@color/caixa_oceano"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="14sp" />
 
                 <com.google.android.material.button.MaterialButton
@@ -113,7 +113,7 @@
                     android:layout_marginTop="8dp"
                     android:text="@string/lottery_empty_state"
                     android:textAlignment="center"
-                    android:textColor="@color/profile_text_secondary"
+                    android:textColor="?attr/colorMutedText"
                     android:visibility="gone" />
 
                 <LinearLayout
@@ -130,10 +130,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@android:color/white"
+            app:cardBackgroundColor="@color/profile_card_background"
             app:cardCornerRadius="20dp"
             app:cardElevation="6dp"
-            app:strokeColor="@color/caixa_turquesa"
+            app:strokeColor="@color/profile_card_stroke"
             app:strokeWidth="1dp">
 
             <LinearLayout
@@ -146,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Último sorteio"
-                    android:textColor="@color/caixa_azul"
+                    android:textColor="?attr/colorSecondary"
                     android:textStyle="bold"
                     android:textSize="16sp" />
 
@@ -155,7 +155,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:textColor="@color/caixa_oceano"
+                    android:textColor="?attr/colorOnSurface"
                     android:textStyle="bold"
                     android:textSize="22sp"
                     tools:text="Concurso 3348" />
@@ -165,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:textColor="@color/profile_text_secondary"
+                    android:textColor="?attr/colorMutedText"
                     android:textSize="14sp"
                     tools:text="2025-03-21" />
 
@@ -184,10 +184,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            app:cardBackgroundColor="@android:color/white"
+            app:cardBackgroundColor="@color/profile_card_background"
             app:cardCornerRadius="20dp"
             app:cardElevation="6dp"
-            app:strokeColor="@color/caixa_turquesa"
+            app:strokeColor="@color/profile_card_stroke"
             app:strokeWidth="1dp"
             android:visibility="gone">
 
@@ -201,7 +201,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Jogos salvos"
-                    android:textColor="@color/caixa_azul"
+                    android:textColor="?attr/colorSecondary"
                     android:textStyle="bold"
                     android:textSize="16sp" />
 
@@ -220,10 +220,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:visibility="gone"
-            app:cardBackgroundColor="@android:color/white"
+            app:cardBackgroundColor="@color/profile_card_background"
             app:cardCornerRadius="20dp"
             app:cardElevation="6dp"
-            app:strokeColor="@color/caixa_azul"
+            app:strokeColor="@color/profile_card_stroke"
             app:strokeWidth="1dp">
 
             <LinearLayout
@@ -236,7 +236,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Monte e salve seu jogo"
-                    android:textColor="@color/caixa_azul"
+                    android:textColor="?attr/colorSecondary"
                     android:textStyle="bold"
                     android:textSize="16sp" />
 
@@ -245,7 +245,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Digite 15 números (1 a 25), separados por vírgula ou espaço."
-                    android:textColor="@color/profile_text_secondary"
+                    android:textColor="?attr/colorMutedText"
                     android:textSize="14sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -260,7 +260,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Ex: 01,02,03,..."
                         android:inputType="number|text"
-                        android:textColor="@color/caixa_oceano" />
+                        android:textColor="?attr/colorOnSurface" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -269,7 +269,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="Sugestão do app: --"
-                    android:textColor="@color/caixa_oceano"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="14sp" />
 
                 <LinearLayout
@@ -311,7 +311,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="@color/caixa_oceano"
+                    android:textColor="?attr/colorSecondary"
                     android:visibility="gone"
                     tools:text="Jogo salvo!" />
             </LinearLayout>

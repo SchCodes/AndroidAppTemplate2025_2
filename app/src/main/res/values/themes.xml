@@ -1,59 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.AndroidAppTemplate" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/caixa_azul</item>
-        <item name="colorPrimaryVariant">@color/caixa_oceano</item>
+    <style name="Theme.AndroidAppTemplate.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorOnPrimary">@color/white</item>
-
-        <item name="colorSecondary">@color/caixa_laranja</item>
-        <item name="colorSecondaryVariant">@color/caixa_turquesa</item>
         <item name="colorOnSecondary">@color/white</item>
-
-        <item name="colorSurface">@color/profile_card_background</item>
-        <item name="colorOnSurface">@color/caixa_oceano</item>
-        <item name="android:colorBackground">@color/profile_card_background</item>
-
-        <item name="android:statusBarColor">@color/caixa_oceano</item>
-        <item name="android:navigationBarColor">@color/caixa_oceano</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowBackground">@drawable/bg_profile_gradient</item>
-
         <item name="materialButtonStyle">@style/Widget.LotoAnalise.Button</item>
         <item name="textInputStyle">@style/Widget.LotoAnalise.OutlinedTextInputLayout</item>
         <item name="android:buttonStyle">@style/Widget.LotoAnalise.Button</item>
     </style>
 
+    <style name="Theme.AndroidAppTemplate" parent="Theme.AndroidAppTemplate.Base">
+        <item name="colorPrimary">@color/classic_primary</item>
+        <item name="colorPrimaryVariant">@color/classic_primary_variant</item>
+        <item name="colorSecondary">@color/classic_secondary</item>
+        <item name="colorSecondaryVariant">@color/classic_secondary_variant</item>
+        <item name="colorSurface">@color/classic_surface</item>
+        <item name="colorOnSurface">@color/classic_on_surface</item>
+        <item name="colorMutedText">@color/classic_muted_text</item>
+        <item name="colorChipBackground">@color/classic_chip_bg</item>
+
+        <item name="android:colorBackground">@color/classic_surface</item>
+        <item name="android:statusBarColor">@color/classic_primary_variant</item>
+        <item name="android:navigationBarColor">@color/classic_primary_variant</item>
+        <item name="android:windowBackground">@drawable/bg_profile_gradient</item>
+        <item name="profileBackgroundDrawable">@drawable/bg_profile_gradient</item>
+    </style>
+
+    <style name="Theme.AndroidAppTemplate.Neon" parent="Theme.AndroidAppTemplate.Base">
+        <item name="colorPrimary">@color/neon_primary</item>
+        <item name="colorPrimaryVariant">@color/neon_primary_variant</item>
+        <item name="colorSecondary">@color/neon_secondary</item>
+        <item name="colorSecondaryVariant">@color/neon_secondary_variant</item>
+        <item name="colorSurface">@color/neon_surface</item>
+        <item name="colorOnSurface">@color/neon_on_surface</item>
+        <item name="colorMutedText">@color/neon_muted_text</item>
+        <item name="colorChipBackground">@color/neon_chip_bg</item>
+
+        <item name="android:colorBackground">@color/neon_surface</item>
+        <item name="android:statusBarColor">@color/neon_primary_variant</item>
+        <item name="android:navigationBarColor">@color/neon_primary_variant</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowBackground">@drawable/bg_profile_gradient_neon</item>
+        <item name="profileBackgroundDrawable">@drawable/bg_profile_gradient_neon</item>
+    </style>
+
     <style name="Widget.LotoAnalise.Button" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">@color/caixa_laranja</item>
+        <item name="backgroundTint">?attr/colorSecondary</item>
         <item name="cornerRadius">16dp</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
     </style>
 
     <style name="Widget.LotoAnalise.SecondaryButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@color/caixa_oceano</item>
-        <item name="strokeColor">@color/caixa_oceano</item>
-        <item name="backgroundTint">@color/profile_card_background</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="strokeColor">?attr/colorPrimary</item>
+        <item name="backgroundTint">?attr/colorSurface</item>
     </style>
 
     <style name="Widget.LotoAnalise.OutlinedTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">@color/caixa_azul</item>
+        <item name="boxStrokeColor">?attr/colorPrimary</item>
         <item name="boxStrokeWidth">1.2dp</item>
         <item name="boxStrokeWidthFocused">2dp</item>
         <item name="boxCornerRadiusTopStart">12dp</item>
         <item name="boxCornerRadiusTopEnd">12dp</item>
         <item name="boxCornerRadiusBottomStart">12dp</item>
         <item name="boxCornerRadiusBottomEnd">12dp</item>
-        <item name="boxBackgroundColor">@android:color/white</item>
-        <item name="hintTextColor">@color/caixa_oceano</item>
-        <item name="android:textColorHint">@color/caixa_oceano</item>
+        <item name="boxBackgroundColor">?attr/colorSurface</item>
+        <item name="hintTextColor">?attr/colorPrimary</item>
+        <item name="android:textColorHint">?attr/colorPrimary</item>
     </style>
 
     <style name="Widget.LotoAnalise.TextInputLayout" parent="Widget.LotoAnalise.OutlinedTextInputLayout" />
 
     <style name="Widget.LotoAnalise.OutlinedTextInputEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
-        <item name="android:textColor">@color/caixa_oceano</item>
-        <item name="android:textColorHint">@color/caixa_oceano</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textColorHint">?attr/colorMutedText</item>
     </style>
 </resources>

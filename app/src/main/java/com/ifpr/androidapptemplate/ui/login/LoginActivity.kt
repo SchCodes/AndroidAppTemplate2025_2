@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -20,9 +19,10 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.android.material.button.MaterialButton
 import com.ifpr.androidapptemplate.MainActivity
 import com.ifpr.androidapptemplate.R
+import com.ifpr.androidapptemplate.theme.ThemeAwareActivity
 import com.ifpr.androidapptemplate.ui.usuario.CadastroUsuarioActivity
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : ThemeAwareActivity() {
 
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText

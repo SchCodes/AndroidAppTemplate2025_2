@@ -17,6 +17,14 @@
     <string name="profile_save_action">Atualizar dados</string>
     <string name="profile_logout_action">Sair da conta</string>
     <string name="content_description_profile_photo">Foto do usuario</string>
+    <string name="theme_admin_title">Tema do aplicativo</string>
+    <string name="theme_admin_subtitle">Apenas administradores podem escolher o tema que sera aplicado para todos.</string>
+    <string name="theme_option_classic">Classico</string>
+    <string name="theme_option_neon">Neon azul + verde/laranja</string>
+    <string name="theme_save_action">Aplicar tema para todos</string>
+    <string name="theme_current_label">Tema atual: %1$s</string>
+    <string name="theme_update_success">Tema atualizado para todos os usuarios.</string>
+    <string name="theme_update_failure">Nao foi possivel atualizar o tema agora.</string>
     <string name="login_title">Bem-vindo de volta</string>
     <string name="login_subtitle">Acesse sua conta para continuar.</string>
     <string name="login_password_hint">Senha</string>

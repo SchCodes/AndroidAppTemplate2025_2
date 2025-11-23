@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.color.MaterialColors
 import android.widget.LinearLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.ifpr.androidapptemplate.data.lottery.LocalBundle
@@ -132,16 +133,15 @@ class DashboardFragment : Fragment() {
     private fun renderChips(group: ChipGroup, numbers: List<Int>) {
         group.removeAllViews()
         if (numbers.isEmpty()) return
-        val res = resources
         numbers.forEach { num ->
             val chip = Chip(requireContext(), null, com.google.android.material.R.style.Widget_MaterialComponents_Chip_Filter).apply {
                 text = num.toString().padStart(2, '0')
                 isCheckable = false
                 isClickable = false
-                setTextColor(res.getColor(R.color.caixa_oceano, null))
                 setChipBackgroundColorResource(R.color.caixa_chip_bg)
                 setChipStrokeColorResource(R.color.caixa_azul)
-                chipStrokeWidth = res.getDimension(R.dimen.chip_stroke_width)
+                chipStrokeWidth = resources.getDimension(R.dimen.chip_stroke_width)
+                setTextColor(MaterialColors.getColor(context, com.google.android.material.R.attr.colorOnSurface, 0))
             }
             group.addView(chip)
         }

@@ -7,15 +7,15 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ifpr.androidapptemplate.databinding.ActivityMainBinding
+import com.ifpr.androidapptemplate.theme.ThemeAwareActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ThemeAwareActivity() {
 
     private lateinit var binding: ActivityMainBinding
 

@@ -8,20 +8,29 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Paleta Loterias CAIXA -->
-    <color name="caixa_azul">#005CA9</color>
-    <color name="caixa_oceano">#004B8B</color>
-    <color name="caixa_laranja">#F39200</color>
-    <color name="caixa_turquesa">#54BBAB</color>
-    <color name="caixa_gelo">#D0E0E3</color>
-    <color name="caixa_chip_bg">#E7F1FA</color>
+    <!-- Paleta padrão (tema clássico) -->
+    <color name="classic_primary">#005CA9</color>
+    <color name="classic_primary_variant">#004B8B</color>
+    <color name="classic_secondary">#F39200</color>
+    <color name="classic_secondary_variant">#54BBAB</color>
+    <color name="classic_surface">#FFFFFFFF</color>
+    <color name="classic_on_surface">#1D3557</color>
+    <color name="classic_muted_text">#D0E0E3</color>
+    <color name="classic_chip_bg">#E7F1FA</color>
+    <color name="classic_gradient_start">#004B8B</color>
+    <color name="classic_gradient_center">#005CA9</color>
+    <color name="classic_gradient_end">#54BBAB</color>
 
-    <!-- Aplicações específicas da tela de perfil -->
-    <color name="profile_gradient_start">#004B8B</color>
-    <color name="profile_gradient_center">#005CA9</color>
-    <color name="profile_gradient_end">#54BBAB</color>
-    <color name="profile_avatar_stroke">#FFFFFFFF</color>
-    <color name="profile_card_background">#FFFFFFFF</color>
-    <color name="profile_card_stroke">#54BBAB</color>
-    <color name="profile_text_secondary">#D0E0E3</color>
+    <!-- Paleta neon -->
+    <color name="neon_primary">#0CEBFF</color>
+    <color name="neon_primary_variant">#0A1B2E</color>
+    <color name="neon_secondary">#FF9F1C</color>
+    <color name="neon_secondary_variant">#39F3B3</color>
+    <color name="neon_surface">#06111D</color>
+    <color name="neon_on_surface">#E6F7FF</color>
+    <color name="neon_muted_text">#6CC8E9</color>
+    <color name="neon_chip_bg">#0F2436</color>
+    <color name="neon_gradient_start">#051125</color>
+    <color name="neon_gradient_center">#0BC9FF</color>
+    <color name="neon_gradient_end">#39F3B3</color>
 </resources>

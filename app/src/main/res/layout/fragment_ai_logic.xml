@@ -118,8 +118,8 @@
                             android:minWidth="0dp"
                             android:text="Limpar"
                             android:textAllCaps="false"
-                            android:textColor="@color/caixa_oceano"
-                            android:backgroundTint="@color/caixa_gelo" />
+                            android:textColor="?attr/colorOnSurface"
+                            android:backgroundTint="@color/caixa_chip_bg" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -169,6 +169,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="@color/caixa_gelo"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textColorHint="?attr/colorMutedText"
                     android:gravity="top"
                     android:hint="Descreva sua pergunta para a IA"
                     android:inputType="textMultiLine"

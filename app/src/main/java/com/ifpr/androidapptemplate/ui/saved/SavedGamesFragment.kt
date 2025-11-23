@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.content.res.ColorStateList
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
+import com.google.android.material.color.MaterialColors
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -142,17 +144,34 @@ class SavedGamesFragment : Fragment() {
     private fun buildNumberPicker() {
         val group = binding.numberPickerChips
         group.removeAllViews()
-        val res = resources
+        val onSurface = MaterialColors.getColor(requireContext(), com.google.android.material.R.attr.colorOnSurface, 0)
+        val onSecondary = MaterialColors.getColor(requireContext(), com.google.android.material.R.attr.colorOnSecondary, 0)
+        val chipSurface = MaterialColors.getColor(requireContext(), R.attr.colorChipBackground, 0)
+        val chipChecked = MaterialColors.getColor(requireContext(), com.google.android.material.R.attr.colorSecondary, 0)
+        val strokeColor = MaterialColors.getColor(requireContext(), com.google.android.material.R.attr.colorPrimary, 0)
+        val bgStateList = ColorStateList(
+            arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf()),
+            intArrayOf(chipChecked, chipSurface)
+        )
+        val textStateList = ColorStateList(
+            arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf()),
+            intArrayOf(onSecondary, onSurface)
+        )
+        val strokeStateList = ColorStateList(
+            arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf()),
+            intArrayOf(chipChecked, strokeColor)
+        )
         for (n in 1..25) {
             val label = n.toString().padStart(2, '0')
             val chip = Chip(requireContext(), null, com.google.android.material.R.style.Widget_MaterialComponents_Chip_Choice).apply {
                 text = label
                 isCheckable = true
                 isClickable = true
-                setTextColor(res.getColor(R.color.caixa_oceano, null))
-                setChipBackgroundColorResource(R.color.caixa_chip_bg)
-                setChipStrokeColorResource(R.color.caixa_azul)
-                chipStrokeWidth = res.getDimension(R.dimen.chip_stroke_width)
+                isCheckedIconVisible = false
+                setTextColor(textStateList)
+                chipBackgroundColor = bgStateList
+                chipStrokeColor = strokeStateList
+                chipStrokeWidth = resources.getDimension(R.dimen.chip_stroke_width)
                 setOnCheckedChangeListener { button, isChecked ->
                     if (isChecked) {
                         if (selectedNumbers.size >= 15) {

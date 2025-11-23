@@ -29,6 +29,7 @@ import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.Priority
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -222,6 +223,7 @@ class HomeFragment : Fragment() {
                 setChipBackgroundColorResource(R.color.caixa_chip_bg)
                 setChipStrokeColorResource(R.color.caixa_azul)
                 chipStrokeWidth = resources.getDimension(R.dimen.chip_stroke_width)
+                setTextColor(MaterialColors.getColor(context, com.google.android.material.R.attr.colorOnSurface, 0))
             }
             chipGroup.addView(chip)
         }
@@ -322,6 +324,8 @@ class HomeFragment : Fragment() {
                 isClickable = false
                 setChipStrokeColorResource(R.color.caixa_azul)
                 chipStrokeWidth = resources.getDimension(R.dimen.chip_stroke_width)
+                setChipBackgroundColorResource(R.color.caixa_chip_bg)
+                setTextColor(MaterialColors.getColor(context, com.google.android.material.R.attr.colorOnSurface, 0))
             }
             group.addView(chip)
         }
