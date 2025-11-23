@@ -8,7 +8,9 @@ import android.view.MenuItem
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
+import androidx.navigation.navOptions
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -43,6 +45,13 @@ class MainActivity : ThemeAwareActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        navView.setOnItemSelectedListener { menuItem ->
+            if (navController.currentDestination?.id == R.id.navigation_notifications) {
+                navController.popBackStack(R.id.navigation_notifications, true)
+            }
+            NavigationUI.onNavDestinationSelected(menuItem, navController)
+        }
+
         requestNotificationPermissionIfNeeded()
     }
 
@@ -59,8 +68,16 @@ class MainActivity : ThemeAwareActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_notifications -> {
-                findNavController(R.id.nav_host_fragment_activity_main)
-                    .navigate(R.id.navigation_notifications)
+                val navController = findNavController(R.id.nav_host_fragment_activity_main)
+                if (navController.currentDestination?.id == R.id.navigation_notifications) {
+                    navController.popBackStack()
+                } else {
+                    navController.navigate(
+                        R.id.navigation_notifications,
+                        null,
+                        navOptions { launchSingleTop = true }
+                    )
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
