@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lotofácil"
-            android:textColor="?attr/colorOnSurface"
+            android:textColor="@color/caixa_turquesa"
             android:textSize="28sp"
             android:textStyle="bold" />
 

@@ -20,6 +20,7 @@
     <color name="classic_gradient_start">#004B8B</color>
     <color name="classic_gradient_center">#005CA9</color>
     <color name="classic_gradient_end">#54BBAB</color>
+    <color name="launcher_icon_background">#005CA9</color>
 
     <!-- Paleta neon -->
     <color name="neon_primary">#0CEBFF</color>

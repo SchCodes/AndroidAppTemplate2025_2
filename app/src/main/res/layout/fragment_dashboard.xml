@@ -74,14 +74,16 @@
                     android:textSize="14sp" />
 
                             <com.google.android.material.textfield.TextInputLayout
-                                style="@style/Widget.LotoAnalise.OutlinedTextInputLayout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:hint="Últimos N concursos">
+                                android:hint="Últimos N concursos"
+                                app:boxBackgroundMode="outline"
+                                app:boxBackgroundColor="@android:color/white"
+                                app:boxStrokeColor="@color/caixa_azul">
 
                                 <com.google.android.material.textfield.TextInputEditText
-                                    style="@style/Widget.LotoAnalise.OutlinedTextInputEditText"
                                     android:id="@+id/customRangeInput"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
