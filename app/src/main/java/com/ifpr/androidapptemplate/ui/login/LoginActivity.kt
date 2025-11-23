@@ -64,7 +64,15 @@ class LoginActivity : ThemeAwareActivity() {
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
-            signIn(email, password)
+            if (email.isBlank() || password.isBlank()) {
+                Toast.makeText(
+                    this,
+                    "Informe email e senha para continuar.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+            signIn(email.trim(), password)
         }
 
         // Configuration do Google Sign-In
@@ -89,8 +97,11 @@ class LoginActivity : ThemeAwareActivity() {
                     updateUI(firebaseAuth.currentUser)
                 } else {
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
-                    Toast.makeText(baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseContext,
+                        "Email ou senha incorretos.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     updateUI(null)
                 }
             }
