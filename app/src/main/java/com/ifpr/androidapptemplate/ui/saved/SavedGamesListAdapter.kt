@@ -14,7 +14,7 @@ import com.ifpr.androidapptemplate.R
 class SavedGamesListAdapter(
     private val onDelete: (String) -> Unit,
     private val onSave: (List<Int>) -> Unit,
-    private val onCalculate: (SuggestionParams) -> Unit
+    private val onCalculate: (SuggestionParams) -> Unit // mantido para compatibilidade, botão removido
 ) : RecyclerView.Adapter<SavedGamesListAdapter.VH>() {
 
     private val items = mutableListOf<SavedBet>()
@@ -47,7 +47,6 @@ class SavedGamesListAdapter(
         private val numbersChips: ChipGroup = itemView.findViewById(R.id.savedNumbersChips)
         private val metaText: TextView = itemView.findViewById(R.id.savedMeta)
         private val deleteButton: Button = itemView.findViewById(R.id.deleteBetButton)
-        private val calcButton: Button = itemView.findViewById(R.id.calcBetButton)
         private val saveCalcButton: Button = itemView.findViewById(R.id.saveCalcButton)
 
         fun bind(
@@ -65,7 +64,6 @@ class SavedGamesListAdapter(
             }
 
             deleteButton.setOnClickListener { onDelete(bet.id) }
-            calcButton.setOnClickListener { onCalculate(SuggestionParams()) }
             saveCalcButton.visibility = if (suggested.isNotEmpty()) View.VISIBLE else View.GONE
             saveCalcButton.setOnClickListener {
                 if (suggested.size == 15) onSave(suggested)

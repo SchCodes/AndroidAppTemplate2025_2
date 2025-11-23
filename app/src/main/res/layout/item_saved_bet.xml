@@ -52,14 +52,6 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/calcBetButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Calcular"
-                android:textAllCaps="false" />
-
-            <Button
                 android:id="@+id/saveCalcButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
