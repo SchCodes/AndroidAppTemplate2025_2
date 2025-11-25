@@ -72,7 +72,7 @@ class AiLogicFragment : Fragment() {
         if (adapter.itemCount == 0) {
             adapter.addMessage(
                 AiMessage(
-                    text = "Oi! Posso ajudar com ideias de combinacoes, validacao de apostas e analises usando texto e imagens.",
+                    text = "Oi! Posso ajudar com ideias de combinações, validação de apostas e análises usando texto e imagens.",
                     fromUser = false
                 )
             )
@@ -146,19 +146,26 @@ class AiLogicFragment : Fragment() {
 
             selectedBitmap = bitmap
             Glide.with(this).load(bitmap).into(binding.selectedImagePreview)
-            binding.helperText.text =
-                "Imagem anexada. Vamos usar como contexto junto do proximo prompt."
+            binding.helperText.apply {
+                text = "Imagem anexada. Vamos usar como contexto junto do proximo prompt."
+                visibility = View.VISIBLE
+            }
         } catch (e: Exception) {
             clearSelectedImage()
-            binding.helperText.text = "Nao foi possivel carregar a imagem."
+            binding.helperText.apply {
+                text = "Nao foi possivel carregar a imagem."
+                visibility = View.VISIBLE
+            }
         }
     }
 
     private fun clearSelectedImage() {
         selectedBitmap = null
         binding.selectedImagePreview.setImageResource(android.R.drawable.gallery_thumb)
-        binding.helperText.text =
-            "Modelo: Gemini 2.0 Flash - Mantemos o historico da conversa e usamos imagem quando anexada."
+        binding.helperText.apply {
+            text = ""
+            visibility = View.GONE
+        }
     }
 
     private fun setLoading(isLoading: Boolean) {

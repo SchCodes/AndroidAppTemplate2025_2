@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Converse com o Gemini para tirar dúvidas de análise e apostas. O histórico não é mantido entre sessões."
+            android:text="Tire dúvidas de análises e apostas. O histórico não é mantido entre sessões."
             android:textColor="@color/profile_text_secondary"
             android:textSize="14sp" />
 
@@ -121,6 +121,16 @@
                             android:textColor="?attr/colorOnSurface"
                             android:backgroundTint="@color/caixa_chip_bg" />
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/helper_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:visibility="gone"
+                        android:textColor="@color/caixa_oceano"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -202,15 +212,6 @@
                         android:textColor="@android:color/white"
                         android:backgroundTint="@color/caixa_azul" />
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/helper_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="Modelo: Gemini 2.0 Flash - Uso apenas o contexto dessa sessão. Anexar imagem é opcional."
-                    android:textColor="@color/caixa_oceano"
-                    android:textSize="12sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

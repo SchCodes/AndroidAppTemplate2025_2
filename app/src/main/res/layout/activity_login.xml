@@ -141,17 +141,13 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnGoogleSignIn"
-                style="@style/Widget.LotoAnalise.SecondaryButton"
+                style="@style/Widget.LotoAnalise.GoogleButton"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginBottom="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:backgroundTint="@android:color/white"
-                android:text="Entrar com Google"
-                android:textAllCaps="false"
-                android:textColor="@color/caixa_azul"
-                app:cornerRadius="32dp" />
+                android:text="Entrar com Google" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,7 +15,7 @@
     <color name="classic_secondary_variant">#54BBAB</color>
     <color name="classic_surface">#FFFFFFFF</color>
     <color name="classic_on_surface">#1D3557</color>
-    <color name="classic_muted_text">#D0E0E3</color>
+    <color name="classic_muted_text">#6CC8E9</color>
     <color name="classic_chip_bg">#E7F1FA</color>
     <color name="classic_gradient_start">#004B8B</color>
     <color name="classic_gradient_center">#005CA9</color>
@@ -34,4 +34,9 @@
     <color name="neon_gradient_start">#051125</color>
     <color name="neon_gradient_center">#0BC9FF</color>
     <color name="neon_gradient_end">#39F3B3</color>
+
+    <!-- Google sign-in button -->
+    <color name="google_button_text">#202124</color>
+    <color name="google_button_stroke">#DADCE0</color>
+    <color name="google_button_ripple">#1A000000</color>
 </resources>
